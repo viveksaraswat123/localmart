@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Product | LocalMart</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-sans">
+
+  <!-- ✅ Navbar (same as homepage) -->
+  <nav class="bg-black bg-opacity-70 fixed w-full top-0 shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-yellow-400">LocalMart</h1>
+      <ul class="flex space-x-6 text-gray-300">
+        <li><a href="/homepage" class="hover:text-yellow-400">Home</a></li>
+        <li><a href="/products_page" class="hover:text-yellow-400">Products</a></li>
+        <li><a href="/add-product" class="text-yellow-400 font-semibold">Add Product</a></li>
+        <li><a href="/login" class="hover:text-yellow-400">Login</a></li>
+        <li><a href="/register" class="hover:text-yellow-400">Register</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ✅ Main Content -->
+  <main class="pt-24 flex justify-center px-4">
+    <div class="bg-gray-900 bg-opacity-70 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-lg border border-gray-700">
+      <h2 class="text-3xl font-bold text-center text-yellow-400 mb-6">Add New Product</h2>
+
+      <form id="productForm" enctype="multipart/form-data" class="space-y-5">
+
+        <div>
+          <label class="block text-gray-300 mb-1">Product Name:</label>
+          <input type="text" name="name" required class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-gray-300 mb-1">Description:</label>
+          <textarea name="description" required rows="3" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-yellow-400 focus:outline-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-gray-300 mb-1">Price:</label>
+          <input type="number" step="0.01" name="price" required class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-gray-300 mb-1">Quantity:</label>
+          <input type="number" name="quantity" required class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-gray-300 mb-1">Expiry Date:</label>
+          <input type="date" name="expiry_date" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-gray-300 mb-1">Seller ID:</label>
+          <input type="number" name="seller_id" required class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-gray-300 mb-1">Upload Image:</label>
+          <input type="file" name="image" accept="image/*" class="w-full p-2 rounded-md bg-gray-800 text-gray-400 border border-gray-700 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+        </div>
+
+        <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded-md transition-all">
+          Add Product
+        </button>
+      </form>
+
+      <p id="message" class="text-center mt-4 text-green-400"></p>
+    </div>
+  </main>
+
+  <!-- ✅ Footer -->
+  <footer class="bg-black text-gray-500 py-6 text-center border-t border-gray-800 mt-12">
+    <p>&copy; 2025 LocalMart. All Rights Reserved.</p>
+  </footer>
+
+  <script src="/static/add_products.js"></script>
+</body>
+</html>

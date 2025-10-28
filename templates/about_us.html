@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - LocalMart</title>
+  <link rel="icon" href="static/logo.png" />
+  <style>
+    /* Import consistent font */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
+      color: #f1f1f1;
+      overflow-x: hidden;
+    }
+
+    /* Container (glass style) */
+    .container {
+      max-width: 1000px;
+      margin: 80px auto;
+      background: rgba(25, 25, 25, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 25px rgba(250, 204, 21, 0.1);
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Headings */
+    h1 {
+      text-align: center;
+      color: #facc15;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
+      animation: glowText 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowText {
+      0% { text-shadow: 0 0 10px #facc15, 0 0 20px #facc15; }
+      100% { text-shadow: 0 0 20px #facc15, 0 0 40px #facc15; }
+    }
+
+    h2 {
+      color: #facc15;
+      font-size: 1.6rem;
+      margin-top: 25px;
+      border-left: 4px solid #facc15;
+      padding-left: 10px;
+      text-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+    }
+
+    p {
+      line-height: 1.8;
+      color: #cfcfcf;
+      font-size: 1.05rem;
+      margin-top: 10px;
+    }
+
+    ul {
+      margin-top: 10px;
+      padding-left: 20px;
+      color: #dcdcdc;
+      list-style-type: none;
+    }
+
+    li {
+      margin: 6px 0;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    li::before {
+      content: "•";
+      color: #facc15;
+      margin-right: 8px;
+    }
+
+    .highlight {
+      color: #facc15;
+      font-weight: 600;
+    }
+
+    /* Button */
+    .back-btn {
+      display: inline-block;
+      margin: 35px auto 0;
+      background: #facc15;
+      color: #111;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 20px #facc15;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #aaa;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Section animation (same as homepage) */
+    section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 25px;
+        margin: 40px 15px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>About LocalMart</h1>
+
+    <section id="mission">
+      <h2>Our Mission</h2>
+      <p>
+        <span class="highlight">LocalMart</span> is built with a simple vision — to bridge the gap between local sellers, wholesalers, and buyers through a digital marketplace that empowers communities.
+        We strive to make local shopping <strong>smart, fast, and sustainable</strong> by enabling small businesses to grow with technology.
+      </p>
+    </section>
+
+    <section id="how-it-works">
+      <h2>How LocalMart Works</h2>
+      <p>
+        LocalMart connects <span class="highlight">sellers, vendors, professionals, and customers</span> on one easy-to-use platform:
+      </p>
+      <ul>
+        <li>Sellers and vendors register their stores and list products with images, prices, and expiry dates.</li>
+        <li>Customers explore items, place orders, and get home delivery from nearby stores.</li>
+        <li>The system automatically manages inventory, billing, and expiry tracking.</li>
+        <li>Professionals (like plumbers, electricians, carpenters) can list services and accept nearby bookings.</li>
+      </ul>
+    </section>
+
+    <section id="features">
+      <h2>Key Features</h2>
+      <ul>
+        <li><strong>Multi-User Login:</strong> Dedicated logins for sellers, customers, and vendors.</li>
+        <li><strong>Smart Recommendations:</strong> Suggests trending or seasonal items based on sales and time.</li>
+        <li><strong>Product Expiry Alerts:</strong> Notifies sellers when items are nearing expiry.</li>
+        <li><strong>Integrated Billing System:</strong> Handles debit, credit, and stock automatically.</li>
+        <li><strong>Vendor Connection:</strong> Sellers can reorder products from trusted wholesalers.</li>
+        <li><strong>Service Providers Hub:</strong> Local professionals can offer affordable services nearby.</li>
+        <li><strong>Delivery Management:</strong> Buyers get timely home delivery options.</li>
+        <li><strong>Interactive Dashboard:</strong> Clean, intuitive interface for all users.</li>
+        <li><strong>Local Economy Focus:</strong> Promotes local businesses over large e-commerce platforms.</li>
+      </ul>
+    </section>
+
+    <section id="vision">
+      <h2>Our Vision</h2>
+      <p>
+        We believe the future of commerce lies in empowering <span class="highlight">local communities</span>.
+        LocalMart is designed to preserve the charm of local markets while giving them the speed and power of digital transformation.
+      </p>
+    </section>
+
+    <div style="text-align:center;">
+      <a href="/homepage" class="back-btn">← Back to Home</a>
+    </div>
+
+    <footer>
+      © 2025 LocalMart | Empowering Local Businesses, Digitally.
+    </footer>
+  </div>
+
+  <script>
+    // Fade-in effect on scroll
+    const sections = document.querySelectorAll("section");
+    const reveal = () => {
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top < triggerBottom) sec.classList.add("visible");
+      });
+    };
+    window.addEventListener("scroll", reveal);
+    reveal();
+  </script>
+</body>
+</html>

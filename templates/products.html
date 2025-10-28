@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products | LocalMart</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-sans">
+
+  <!-- ✅ Navbar (consistent across pages) -->
+  <nav class="bg-black bg-opacity-70 fixed w-full top-0 shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-yellow-400">LocalMart</h1>
+      <ul class="flex space-x-6 text-gray-300">
+        <li><a href="/homepage" class="hover:text-yellow-400">Home</a></li>
+        <li><a href="/products_page" class="text-yellow-400 font-semibold">Products</a></li>
+        <li><a href="/add-product" class="hover:text-yellow-400">Add Product</a></li>
+        <li><a href="/login" class="hover:text-yellow-400">Login</a></li>
+        <li><a href="/register" class="hover:text-yellow-400">Register</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ✅ Header Section -->
+  <header class="pt-28 pb-8 text-center">
+    <h1 class="text-4xl font-bold text-yellow-400 mb-4">Explore Products</h1>
+    <div class="flex justify-center">
+      <input 
+        type="text" 
+        id="searchBar" 
+        placeholder="Search products..." 
+        class="w-80 p-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+      />
+    </div>
+  </header>
+
+  <!-- ✅ Product Grid -->
+  <main class="max-w-7xl mx-auto px-6 pb-16">
+    <div id="productGrid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <!-- Dynamic product cards will be inserted here -->
+    </div>
+  </main>
+
+  <!-- ✅ Footer -->
+  <footer class="bg-black text-gray-500 py-6 text-center border-t border-gray-800">
+    <p>&copy; 2025 LocalMart. All Rights Reserved.</p>
+  </footer>
+
+  <script src="/static/products.js"></script>
+</body>
+</html>

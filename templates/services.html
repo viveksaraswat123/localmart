@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LocalMart - Services</title>
+  <link rel="stylesheet" href="/static/services.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">LocalMart</div>
+    <ul>
+      <li><a href="/homepage">Home</a></li>
+      <li><a href="/services" class="active">Services</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Our <span>Services</span></h1>
+    <p>Empowering local shops, vendors, and customers — all in one platform.</p>
+  </section>
+
+  <!--Services Section -->
+  <section id="services">
+    <div class="service-card">
+      <i class="fa-solid fa-store"></i>
+      <h3>Online Store Setup</h3>
+      <p>We help local shopkeepers set up their digital store effortlessly and start selling online.</p>
+    </div>
+    <div class="service-card">
+      <i class="fa-solid fa-truck-fast"></i>
+      <h3>Delivery Assistance</h3>
+      <p>Get reliable and quick delivery services to make shopping easier for your customers.</p>
+    </div>
+    <div class="service-card">
+      <i class="fa-solid fa-users"></i>
+      <h3>Vendor Connections</h3>
+      <p>Connect with nearby wholesalers and vendors to keep your shop fully stocked.</p>
+    </div>
+    <div class="service-card">
+      <i class="fa-solid fa-user-gear"></i>
+      <h3>Professional Services</h3>
+      <p>Hire nearby carpenters, electricians, or plumbers through our local service section.</p>
+    </div>
+  </section>
+
+  <!--CTA Section -->
+  <section class="cta">
+    <h2>Ready to Grow Your Local Business?</h2>
+    <p>Join LocalMart and take your shop online today!</p>
+    <button onclick="window.location.href='/register'">Get Started</button>
+  </section>
+
+  <!--Footer -->
+  <footer>
+    <p>© 2025 LocalMart | All Rights Reserved</p>
+  </footer>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script>
+    // Fade-in animation for sections
+    const sections = document.querySelectorAll("section");
+    const reveal = () => {
+      sections.forEach(section => {
+        const top = section.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) section.classList.add("visible");
+      });
+    };
+    window.addEventListener("scroll", reveal);
+    reveal();
+  </script>
+</body>
+</html>

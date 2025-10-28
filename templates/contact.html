@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - LocalMart</title>
+  <link rel="icon" href="static/logo.png" />
+  <style>
+    /* Font and base */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
+      color: #f1f1f1;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 80px auto;
+      background: rgba(25, 25, 25, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 25px rgba(250, 204, 21, 0.1);
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      text-align: center;
+      color: #facc15;
+      font-size: 2.5rem;
+      text-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
+      animation: glowText 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowText {
+      0% { text-shadow: 0 0 10px #facc15, 0 0 20px #facc15; }
+      100% { text-shadow: 0 0 20px #facc15, 0 0 40px #facc15; }
+    }
+
+    p.intro {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #dcdcdc;
+      margin-top: 10px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    input, textarea {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 15px;
+      color: #fff;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      resize: none;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #aaa;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #facc15;
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+      outline: none;
+    }
+
+    button {
+      background: #facc15;
+      color: #111;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    button:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 20px #facc15;
+    }
+
+    /* Contact Info Section */
+    .info {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .info h2 {
+      color: #facc15;
+      margin-bottom: 10px;
+    }
+
+    .info p {
+      color: #cfcfcf;
+      line-height: 1.7;
+    }
+
+    /* Back Button */
+    .back-btn {
+      display: inline-block;
+      margin: 35px auto 0;
+      background: #facc15;
+      color: #111;
+      padding: 12px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 20px #facc15;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #aaa;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Fade-in on scroll (same as homepage) */
+    section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 25px;
+        margin: 40px 15px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p class="intro">
+      Have questions, feedback, or partnership inquiries?  
+      We'd love to hear from you. Our team at <span style="color:#facc15;font-weight:600;">LocalMart</span> is always ready to help.
+    </p>
+
+    <section id="contact-form">
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+    <section class="info">
+      <h2>Get in Touch</h2>
+      <p>
+        📍 <strong>Address:</strong> LocalMart HQ, Ghaziabad, India<br>
+        📞 <strong>Phone:</strong> +91 98765 43210<br>
+        📧 <strong>Email:</strong> support@localmart.in
+      </p>
+    </section>
+
+    <div style="text-align:center;">
+      <a href="/homepage" class="back-btn">← Back to Home</a>
+    </div>
+
+    <footer>
+      © 2025 LocalMart | Empowering Local Businesses, Digitally.
+    </footer>
+  </div>
+
+  <script>
+    // Fade-in animation on scroll
+    const sections = document.querySelectorAll("section");
+    const reveal = () => {
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top < triggerBottom) sec.classList.add("visible");
+      });
+    };
+    window.addEventListener("scroll", reveal);
+    reveal();
+
+    // Mock form submission
+    document.getElementById("contactForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Thank you for contacting LocalMart! We’ll get back to you soon.");
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

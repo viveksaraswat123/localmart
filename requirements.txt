@@ -1,0 +1,12 @@
+django
+sqlalchemy
+pydantic
+fastapi
+uvicorn
+jinja2
+requests
+python-multipart
+alembic
+email-validator
+passlib[bcrypt]
+databases[sqlite]

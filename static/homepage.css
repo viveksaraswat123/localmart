@@ -1,0 +1,112 @@
+/* 🌐 Homepage Custom Styling for LocalMart */
+
+/* Smooth scroll for Explore button */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Navbar glow and hover effects */
+nav {
+    backdrop-filter: blur(12px);
+    background: rgba(20, 20, 20, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background 0.3s ease;
+}
+
+nav:hover {
+    background: rgba(30, 30, 30, 0.8);
+}
+
+/* Navigation links animation */
+nav ul li a {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #facc15;
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section Animation */
+.hero h1 {
+    animation: glowText 3s ease-in-out infinite alternate;
+}
+
+/* Text glowing animation */
+@keyframes glowText {
+    0% {
+        text-shadow: 0 0 10px #facc15, 0 0 20px #facc15;
+    }
+    100% {
+        text-shadow: 0 0 20px #facc15, 0 0 40px #facc15;
+    }
+}
+
+/* Button hover pulse */
+button {
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 20px #facc15;
+}
+
+/* Cards (Products Section) */
+#products div {
+    transition: all 0.4s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#products div:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(250, 204, 21, 0.2);
+}
+
+/* About section text */
+#about p {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: #cfcfcf;
+}
+
+/* Form inputs (Contact Section) */
+input, textarea {
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: #facc15;
+    box-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+}
+
+/* Footer styling */
+footer {
+    background: rgba(10, 10, 10, 0.95);
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+/* Subtle fade-in animation for scroll sections */
+section {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

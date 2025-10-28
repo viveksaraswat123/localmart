@@ -1,0 +1,281 @@
+body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #0f0f0f, #000);
+      color: #f9f9f9;
+      overflow-x: hidden;
+    }
+
+    /* 🌟 Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 60px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(20, 20, 20, 0.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: background 0.3s ease;
+    }
+
+    nav:hover {
+      background: rgba(30, 30, 30, 0.85);
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #facc15;
+      text-shadow: 0 0 12px #facc15;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 35px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: #eaeaea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    nav ul li a:hover {
+      color: #facc15;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: #facc15;
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    /* 🧍‍♂️ Profile Section */
+    .profile-container {
+      max-width: 1000px;
+      margin: 120px auto 80px;
+      padding: 40px;
+      background: rgba(20, 20, 20, 0.85);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(250, 204, 21, 0.15);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1.2s ease;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 20px;
+    }
+
+    .profile-header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #facc15;
+      box-shadow: 0 0 20px rgba(250, 204, 21, 0.3);
+      transition: transform 0.4s ease;
+    }
+
+    .profile-header img:hover {
+      transform: scale(1.05);
+    }
+
+    .profile-header h2 {
+      font-size: 1.8rem;
+      color: #facc15;
+      margin-bottom: 6px;
+    }
+
+    .profile-header p {
+      color: #b3b3b3;
+      margin: 3px 0;
+    }
+
+    .edit-btn {
+      background: #facc15;
+      color: #000;
+      padding: 8px 18px;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .edit-btn:hover {
+      background: #ffe76d;
+      box-shadow: 0 0 10px #facc15;
+    }
+
+    .profile-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 35px;
+      text-align: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .profile-stats div {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px 30px;
+      border-radius: 15px;
+      transition: all 0.4s ease;
+      min-width: 150px;
+    }
+
+    .profile-stats div:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 15px rgba(250, 204, 21, 0.25);
+    }
+
+    .profile-tabs {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 1rem;
+      margin: 0 20px;
+      cursor: pointer;
+      padding-bottom: 5px;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .tab-btn.active,
+    .tab-btn:hover {
+      color: #facc15;
+    }
+
+    .tab-btn.active::after,
+    .tab-btn:hover::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: #facc15;
+      bottom: -4px;
+      left: 0;
+    }
+
+    .tab-content {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeUp 0.6s ease;
+    }
+
+    /* ✏️ Modal for Editing */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+    }
+
+    .modal-content {
+      background: rgba(20, 20, 20, 0.9);
+      padding: 25px 35px;
+      border-radius: 15px;
+      width: 400px;
+      box-shadow: 0 0 25px rgba(250, 204, 21, 0.2);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .modal-content h3 {
+      color: #facc15;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #1b1b1b;
+      color: #fff;
+      transition: border-color 0.3s ease;
+    }
+
+    .modal-content input:focus {
+      border-color: #facc15;
+      outline: none;
+      box-shadow: 0 0 8px rgba(250, 204, 21, 0.3);
+    }
+
+    .modal-actions {
+      text-align: right;
+      margin-top: 15px;
+    }
+
+    .cancel-btn {
+      background: #333;
+      color: #ccc;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+
+    .save-btn {
+      background: #facc15;
+      color: #000;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .save-btn:hover {
+      box-shadow: 0 0 10px #facc15;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }

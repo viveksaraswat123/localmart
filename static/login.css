@@ -1,0 +1,90 @@
+/* LocalMart Login Page Theme */
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top left, #0a0a0a, #121212);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.container {
+  background: rgba(20, 20, 20, 0.8);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(250, 204, 21, 0.15);
+  text-align: center;
+  width: 380px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.container:hover {
+  box-shadow: 0 0 40px rgba(250, 204, 21, 0.3);
+}
+
+h1 {
+  color: #facc15;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px #facc15;
+}
+
+p {
+  color: #cfcfcf;
+  margin-bottom: 1.5rem;
+}
+
+input {
+  width: 90%;
+  padding: 0.8rem;
+  margin: 0.7rem 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(30, 30, 30, 0.9);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #facc15;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+}
+
+button {
+  width: 95%;
+  padding: 0.9rem;
+  background: #facc15;
+  border: none;
+  color: #000;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #facc15;
+}
+
+.switch {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.switch a {
+  color: #facc15;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.switch a:hover {
+  text-decoration: underline;
+}

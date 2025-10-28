@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LocalMart - Professional Services</title>
+  <link rel="stylesheet" href="/static/professional_services.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+
+<body>
+  <!-- 🌟 Navbar -->
+  <nav>
+    <div class="logo"> LocalMart Services</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="professional-services.html" class="active">Professionals</a></li>
+      <li><a href="profile.html">Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Find Local <span>Professionals</span></h1>
+    <p>Hire trusted electricians, carpenters, plumbers, and more near you — quickly and easily.</p>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search for plumber, electrician, etc..." />
+      <button onclick="filterServices()">Search</button>
+    </div>
+  </section>
+
+  <!-- Professionals List -->
+  <section id="professionals">
+    <div class="pro-card" data-category="electrician">
+      <i class="fa-solid fa-bolt"></i>
+      <h3>Electrician</h3>
+      <p>Expert in fixing wiring, fans, switches, and electrical installations.</p>
+      <button>Book Now</button>
+    </div>
+
+    <div class="pro-card" data-category="plumber">
+      <i class="fa-solid fa-faucet"></i>
+      <h3>Plumber</h3>
+      <p>Reliable plumbing repairs, leakage fixing, and installation services.</p>
+      <button>Book Now</button>
+    </div>
+
+    <div class="pro-card" data-category="carpenter">
+      <i class="fa-solid fa-hammer"></i>
+      <h3>Carpenter</h3>
+      <p>Furniture repair, custom wooden work, and fittings made easy.</p>
+      <button>Book Now</button>
+    </div>
+
+    <div class="pro-card" data-category="painter">
+      <i class="fa-solid fa-paint-roller"></i>
+      <h3>Painter</h3>
+      <p>Interior and exterior painting services at affordable rates.</p>
+      <button>Book Now</button>
+    </div>
+
+    <div class="pro-card" data-category="cleaning">
+      <i class="fa-solid fa-broom"></i>
+      <h3>Home Cleaning</h3>
+      <p>Professional home and office cleaning with top-quality hygiene.</p>
+      <button>Book Now</button>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Are You a Local Professional?</h2>
+    <p>Join LocalMart and get work opportunities from customers near you!</p>
+    <button onclick="window.location.href='register-professional.html'">Register as a Service Provider</button>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 LocalMart | All Rights Reserved</p>
+  </footer>
+
+  <script>
+    // Filter Functionality
+    function filterServices() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".pro-card");
+      cards.forEach(card => {
+        const category = card.dataset.category.toLowerCase();
+        if (category.includes(input) || card.querySelector("h3").innerText.toLowerCase().includes(input)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    // Fade-in animation
+    const sections = document.querySelectorAll("section");
+    const reveal = () => {
+      sections.forEach(section => {
+        const top = section.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) section.classList.add("visible");
+      });
+    };
+    window.addEventListener("scroll", reveal);
+    reveal();
+  </script>
+</body>
+</html>

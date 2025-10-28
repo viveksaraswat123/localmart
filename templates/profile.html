@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocalMart | Profile</title>
+  <link rel="stylesheet" href="/static/profile.css">
+
+ 
+</head>
+
+<body>
+  <!-- 🌟 Navbar -->
+  <nav>
+    <div class="logo">LocalMart</div>
+    <ul>
+      <li><a href="/homepage">Home</a></li>
+      <li><a href="/products_page">Products</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/orders">Orders</a></li>
+      <li><a href="/profile" class="active-link">Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- 🧍‍♂️ Profile Section -->
+  <div class="profile-container">
+    <div class="profile-header">
+      <img src="/static/images/default-profile.png" alt="Profile Picture" id="profilePic">
+      <div>
+        <h2 id="username">Vivek Saraswat</h2>
+        <p id="email">vivek@example.com</p>
+        <p id="address">Ghaziabad, India</p>
+        <button class="edit-btn" onclick="openModal()">Edit Profile</button>
+      </div>
+    </div>
+
+    <div class="profile-stats">
+      <div>
+        <h3>25</h3>
+        <p>Orders</p>
+      </div>
+      <div>
+        <h3>12</h3>
+        <p>Products Listed</p>
+      </div>
+      <div>
+        <h3>4.8⭐</h3>
+        <p>Seller Rating</p>
+      </div>
+    </div>
+
+    <div class="profile-tabs">
+      <button class="tab-btn active" onclick="openTab(event, 'overview')">Overview</button>
+      <button class="tab-btn" onclick="openTab(event, 'orders')">Orders</button>
+      <button class="tab-btn" onclick="openTab(event, 'products')">Products</button>
+    </div>
+
+    <div id="overview" class="tab-content active">
+      <p>Welcome to your LocalMart profile dashboard! Manage your account, view recent activity, and track your business growth 🚀.</p>
+    </div>
+
+    <div id="orders" class="tab-content">
+      <p>📦 Your recent orders will appear here.</p>
+    </div>
+
+    <div id="products" class="tab-content">
+      <p>🛍 Your listed products will appear here.</p>
+    </div>
+  </div>
+
+  <!-- ✏️ Edit Profile Modal -->
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <h3>Edit Profile</h3>
+      <input type="text" id="editName" placeholder="Full Name">
+      <input type="email" id="editEmail" placeholder="Email Address">
+      <input type="text" id="editAddress" placeholder="Address">
+      <div class="modal-actions">
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+        <button class="save-btn" onclick="saveProfile()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <footer style="text-align:center; padding: 25px 0; margin-top: 40px;">
+    © 2025 LocalMart | Crafted with 💛 by Team LocalMart
+  </footer>
+
+  <script>
+    // 🔁 Tab switching
+    function openTab(evt, tabName) {
+      const contents = document.querySelectorAll(".tab-content");
+      const tabs = document.querySelectorAll(".tab-btn");
+      contents.forEach(c => c.classList.remove("active"));
+      tabs.forEach(t => t.classList.remove("active"));
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+
+    // ✏️ Modal control
+    function openModal() {
+      document.getElementById("editModal").style.display = "flex";
+      document.getElementById("editName").value = document.getElementById("username").textContent;
+      document.getElementById("editEmail").value = document.getElementById("email").textContent;
+      document.getElementById("editAddress").value = document.getElementById("address").textContent;
+    }
+
+    function closeModal() {
+      document.getElementById("editModal").style.display = "none";
+    }
+
+    function saveProfile() {
+      const name = document.getElementById("editName").value;
+      const email = document.getElementById("editEmail").value;
+      const address = document.getElementById("editAddress").value;
+
+      document.getElementById("username").textContent = name;
+      document.getElementById("email").textContent = email;
+      document.getElementById("address").textContent = address;
+
+      closeModal();
+
+      // Optional: Send updated data to backend via fetch()
+      // fetch('/update_profile', { method: 'POST', body: JSON.stringify({ name, email, address }) });
+    }
+
+    // Close modal if background is clicked
+    window.onclick = function(e) {
+      const modal = document.getElementById("editModal");
+      if (e.target === modal) closeModal();
+    };
+  </script>
+</body>
+</html>
