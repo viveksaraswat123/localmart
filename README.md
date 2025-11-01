@@ -72,3 +72,9 @@ LocalMart/
 - Use PostgreSQL for production database
 
 - Deploy on Render or Railway
+ 
+
+### Current Update 
+
+- ADDED JWT AND LOGIN 
+- CREATED CONTACT AND ABOUTUS PAGE
