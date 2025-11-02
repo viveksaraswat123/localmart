@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocalMart | Edit Product</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --accent: #00adb5;
+      --dark: #0b0c10;
+      --muted: #6b7280;
+      --danger: #e63946;
+      --shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: #111827;
+    }
+
+    nav {
+      background: var(--dark);
+      color: white;
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav .logo {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .wrap {
+      max-width: 700px;
+      margin: 40px auto;
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    h2 { margin-top: 0; }
+
+    label {
+      font-weight: 500;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 6px;
+      color: var(--dark);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    .btn {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .img-preview {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #f3f4f6;
+      border: 1px solid #eee;
+    }
+
+    .image-upload {
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    .msg {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .msg.success { background: #e6faf6; color: #2a9d8f; }
+    .msg.error { background: #ffe8e8; color: #d32f2f; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">LocalMart</div>
+    <div>Seller Dashboard</div>
+  </nav>
+
+  <div class="wrap">
+    <h2>Edit Product</h2>
+    <form id="productForm" onsubmit="return false;">
+
+      <label for="name">Product Name</label>
+      <input type="text" id="name" placeholder="Enter product name" required>
+
+      <label for="description">Description</label>
+      <textarea id="description" placeholder="Enter description" required></textarea>
+
+      <label for="price">Price (₹)</label>
+      <input type="number" id="price" placeholder="Enter price" required step="0.01">
+
+      <label for="quantity">Quantity</label>
+      <input type="number" id="quantity" placeholder="Enter quantity" required>
+
+      <label for="expiry_date">Expiry Date</label>
+      <input type="date" id="expiry_date">
+
+      <div class="image-upload">
+        <img id="previewImg" class="img-preview" src="/static/images/default-product.png" alt="Product Image">
+        <input type="file" id="imageInput" accept="image/*" style="margin-top: 8px;">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-danger" id="deleteBtn">Delete</button>
+        <button class="btn btn-primary" id="saveBtn">Save Changes</button>
+      </div>
+
+      <div class="msg" id="messageBox"></div>
+    </form>
+  </div>
+
+  <script>
+    const API_BASE = '/api/products';
+    const qs = id => document.getElementById(id);
+
+    const messageBox = qs('messageBox');
+    const productId = new URLSearchParams(window.location.search).get('id');
+
+    // Load product
+    async function loadProduct() {
+      if (!productId) return;
+      try {
+        const res = await fetch(`${API_BASE}/${productId}`);
+        if (!res.ok) throw new Error('Failed to fetch product');
+        const data = await res.json();
+
+        qs('name').value = data.name;
+        qs('description').value = data.description;
+        qs('price').value = data.price;
+        qs('quantity').value = data.quantity;
+        if (data.expiry_date) qs('expiry_date').value = data.expiry_date.split('T')[0];
+        if (data.image_url) qs('previewImg').src = data.image_url;
+      } catch (err) {
+        showMessage('Error loading product', 'error');
+      }
+    }
+
+    // Show toast message
+    function showMessage(msg, type='success') {
+      messageBox.textContent = msg;
+      messageBox.className = 'msg ' + type;
+      messageBox.style.display = 'block';
+      setTimeout(() => messageBox.style.display = 'none', 4000);
+    }
+
+    // Save product
+    async function saveProduct() {
+      const payload = {
+        name: qs('name').value.trim(),
+        description: qs('description').value.trim(),
+        price: parseFloat(qs('price').value),
+        quantity: parseInt(qs('quantity').value),
+        expiry_date: qs('expiry_date').value || null
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/${productId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error('Failed to save product');
+        const data = await res.json();
+
+        // Upload image if selected
+        const imageFile = qs('imageInput').files[0];
+        if (imageFile) {
+          const formData = new FormData();
+          formData.append('image', imageFile);
+          await fetch(`${API_BASE}/${productId}/image`, { method: 'POST', body: formData });
+        }
+
+        showMessage('Product updated successfully');
+      } catch (err) {
+        showMessage('Error saving product', 'error');
+      }
+    }
+
+    // Delete product
+    async function deleteProduct() {
+      if (!confirm('Are you sure you want to delete this product?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/${productId}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete');
+        showMessage('Product deleted successfully');
+        setTimeout(() => window.location.href = '/seller-dashboard', 1500);
+      } catch (err) {
+        showMessage('Error deleting product', 'error');
+      }
+    }
+
+    // Image preview
+    qs('imageInput').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) qs('previewImg').src = URL.createObjectURL(file);
+    });
+
+    qs('saveBtn').addEventListener('click', saveProduct);
+    qs('deleteBtn').addEventListener('click', deleteProduct);
+
+    loadProduct();
+  </script>
+</body>
+</html>

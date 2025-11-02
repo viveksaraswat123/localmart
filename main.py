@@ -74,6 +74,10 @@ def homepage(request: Request):
 def homepage(request: Request):
     return templates.TemplateResponse("professional_services.html", {"request": request})
 
+@app.get("/edit_products", response_class=HTMLResponse)
+def homepage(request: Request):
+    return templates.TemplateResponse("edit_product.html", {"request": request})
+
 # ----------------- CUSTOMER APIs -----------------
 @app.post("/customers/", response_model=schemas.Customer, tags=["Customers"])
 def create_customer(customer: schemas.CustomerCreate, db: Session = Depends(get_db)):

@@ -19,7 +19,7 @@ nav:hover {
 
 /* Navigation links animation */
 nav ul li a {
-    position: relative;
+    position: relative; 
     transition: color 0.3s ease;
 }
 
