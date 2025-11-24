@@ -1,11 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sell Your Item • LocalMart</title>
+
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --primary-dark: #084298;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --border: #e3e6ea;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        header {
+            background: var(--primary);
+            padding: 16px 28px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 { margin: 0; font-size: 24px; }
+
+        .container {
+            max-width: 950px;
+            margin: 40px auto;
+            background: var(--card-bg);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        h2 { margin-top: 0; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fff;
+        }
+
+        textarea {
+            resize: none;
+            height: 120px;
+        }
+
+        .photo-upload {
+            border: 2px dashed var(--border);
+            padding: 25px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .photo-upload:hover {
+            border-color: var(--primary);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 14px 22px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn:hover { background: var(--primary-dark); }
+
+        .preview-img {
+            margin-top: 10px;
+            max-width: 120px;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            margin-top: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            border-left: 5px solid var(--primary);
+            padding-left: 10px;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Sell your item at LocalMart</h1>
+    <header>
+        <h1>LocalMart</h1>
+        <div>Sell Your Item</div>
+    </header>
+
+    <div class="container">
+        <h2>List Your Product for Sale</h2>
+        <p style="color: var(--text-light); margin-bottom: 30px;">Fill all the required details to make your product stand out.</p>
+
+        <div>
+            <h3 class="section-title">Product Information</h3>
+            <div class="grid">
+                <div>
+                    <label>Product Title *</label>
+                    <input type="text" placeholder="e.g., Fresh Apples (1kg)" />
+                </div>
+
+                <div>
+                    <label>Category *</label>
+                    <select>
+                        <option>Select category</option>
+                        <option>Groceries</option>
+                        <option>Vegetables & Fruits</option>
+                        <option>Household Items</option>
+                        <option>Electronics</option>
+                        <option>Fashion</option>
+                        <option>Beauty & Personal Care</option>
+                        <option>Stationery</option>
+                        <option>Local Services</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Price (₹) *</label>
+                    <input type="number" placeholder="Enter selling price" />
+                </div>
+
+                <div>
+                    <label>Stock Quantity *</label>
+                    <input type="number" placeholder="e.g., 10" />
+                </div>
+            </div>
+
+            <label style="margin-top: 20px;">Product Description *</label>
+            <textarea placeholder="Describe your product, features, condition, brand, etc."></textarea>
+        </div>
+
+        <h3 class="section-title">Upload Photos</h3>
+        <label>Upload at least 3 photos *</label>
+        <div class="photo-upload" onclick="document.getElementById('fileInput').click()">
+            Click to upload your images
+            <br/>
+            <small style="color: var(--text-light);">PNG, JPG, up to 5MB each</small>
+        </div>
+        <input type="file" id="fileInput" multiple accept="image/*" style="display: none;" onchange="previewImages(event)" />
+        <div id="preview"></div>
+
+        <h3 class="section-title">Seller Information</h3>
+        <div class="grid">
+            <div>
+                <label>Your Name *</label>
+                <input type="text" placeholder="e.g., Rajesh Kumar" />
+            </div>
+            <div>
+                <label>Contact Number *</label>
+                <input type="text" placeholder="e.g., 9876543210" />
+            </div>
+        </div>
+
+        <label style="margin-top: 20px;">Your Shop / Location *</label>
+        <input type="text" placeholder="e.g., Near Sector 5 Market, Ghaziabad" />
+
+        <div style="margin-top: 35px; text-align: right;">
+            <button class="btn">Publish Listing</button>
+        </div>
+    </div>
+
+    <script>
+        function previewImages(event) {
+            const files = event.target.files;
+            const preview = document.getElementById("preview");
+            preview.innerHTML = "";
+            Array.from(files).forEach(file => {
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                img.className = "preview-img";
+                preview.appendChild(img);
+            });
+        }
+    </script>
 </body>
 </html>
