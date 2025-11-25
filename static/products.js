@@ -1,9 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("productGrid");
   const searchBar = document.getElementById("searchBar");
-  let allProducts = []; // store all fetched products
+  let allProducts = [];
 
-  // Load products from API
+  // --- Role-based Add Product button logic ---
+  const addProductLink = document.querySelector('a[href="/add-product"]');
+
+  function getRoleFromToken() {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const payload = token.split(".")[1];
+      const decoded = JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
+
+      const rawRole = decoded.role || "";
+      return rawRole.toLowerCase();   // ✔ normalize role
+    } catch (e) {
+      console.error("JWT read error:", e);
+      return null;
+    }
+  }
+
+  const userRole = getRoleFromToken();
+
+  // Hide Add Product for NON-sellers
+  if (addProductLink) {
+    if (userRole !== "seller") {
+      addProductLink.style.display = "none";
+    }
+  }
+
+  // Load products
   async function loadProducts() {
     try {
       const res = await fetch("http://127.0.0.1:8000/products/");
@@ -14,10 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Display products dynamically
+  // Display products in grid
   function displayProducts(products) {
     grid.innerHTML = "";
-
     if (!products.length) {
       grid.innerHTML = `<p class="text-gray-400 text-center w-full">No products found.</p>`;
       return;
@@ -50,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Filter products by search input
   searchBar.addEventListener("input", (e) => {
     const term = e.target.value.toLowerCase();
     const filtered = allProducts.filter(
@@ -61,6 +86,5 @@ document.addEventListener("DOMContentLoaded", () => {
     displayProducts(filtered);
   });
 
-  // Initial load
   loadProducts();
 });

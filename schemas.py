@@ -2,44 +2,49 @@ from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import date
 
-# CUSTOMERS 
-class CustomerBase(BaseModel):
+class UserBase(BaseModel):
     name: str
     email: str
+
+class UserCreate(UserBase):
+    password: str
+    role: str  # "customer" / "seller" / "admin"
+
+class User(UserBase):
+    id: int
+    role: str
+    model_config = ConfigDict(from_attributes=True)
+
+
+class CustomerProfileBase(BaseModel):
+    name: str
     address: str
 
-class CustomerCreate(CustomerBase):
+class CustomerProfileCreate(CustomerProfileBase):
     pass
 
-# For partial updates — all optional fields
-class CustomerUpdate(BaseModel):
-    name: Optional[str] = None
-    email: Optional[str] = None
-    address: Optional[str] = None
-
-class Customer(CustomerBase):
+class CustomerProfile(CustomerProfileBase):
     id: int
+    user_id: int
     model_config = ConfigDict(from_attributes=True)
 
-# SELLERS 
-class SellerBase(BaseModel):
-    name: str
+
+
+
+class SellerProfileBase(BaseModel):
     shop_name: str
-    email: str
 
-class SellerCreate(SellerBase):
+class SellerProfileCreate(SellerProfileBase):
     pass
 
-class SellerUpdate(BaseModel):
-    name: Optional[str] = None
-    shop_name: Optional[str] = None
-    email: Optional[str] = None
-
-class Seller(SellerBase):
+class SellerProfile(SellerProfileBase):
     id: int
+    user_id: int
     model_config = ConfigDict(from_attributes=True)
 
-# ----------------- PRODUCTS -----------------
+
+
+#product
 class ProductBase(BaseModel):
     name: str
     description: str
@@ -48,13 +53,14 @@ class ProductBase(BaseModel):
     expiry_date: Optional[date] = None
     image_url: Optional[str] = None
 
-class ProductCreate(BaseModel):
-    name: str
-    description: str
-    price: float
-    quantity: int
-    expiry_date: Optional[date] = None
-    seller_id: int
+
+class ProductCreate(ProductBase):
+    """
+    seller_id NOT taken from request body.
+    It will come from JWT (current_user.id).
+    """
+    pass
+
 
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
@@ -64,12 +70,32 @@ class ProductUpdate(BaseModel):
     expiry_date: Optional[date] = None
     image_url: Optional[str] = None
 
+
 class Product(ProductBase):
     id: int
-    seller: Optional[Seller] = None
+    seller_id: int
     model_config = ConfigDict(from_attributes=True)
 
-# ----------------- SERVICES -----------------
+
+class OrderBase(BaseModel):
+    product_id: int
+    quantity: int
+
+class OrderCreate(OrderBase):
+    
+    pass
+
+class OrderUpdate(BaseModel):
+    quantity: Optional[int] = None
+    status: Optional[str] = None
+
+class Order(OrderBase):
+    id: int
+    user_id: int
+    total_price: float
+    status: str
+    model_config = ConfigDict(from_attributes=True)
+
 class ServiceBase(BaseModel):
     type: str
     name: str
@@ -87,23 +113,4 @@ class ServiceUpdate(BaseModel):
 
 class Service(ServiceBase):
     id: int
-    model_config = ConfigDict(from_attributes=True)
-
-# ----------------- ORDERS -----------------
-class OrderBase(BaseModel):
-    customer_id: int
-    product_id: int
-    quantity: int
-
-class OrderCreate(OrderBase):
-    pass
-
-class OrderUpdate(BaseModel):
-    quantity: Optional[int] = None
-    status: Optional[str] = None
-
-class Order(OrderBase):
-    id: int
-    total_price: float
-    status: str
     model_config = ConfigDict(from_attributes=True)

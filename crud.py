@@ -1,195 +1,164 @@
 from sqlalchemy.orm import Session
-from models import Customer, Seller, Product, Service, Order
 import models, schemas
-from schemas import CustomerCreate, CustomerUpdate, SellerCreate, SellerUpdate, ProductCreate, ProductUpdate, ServiceCreate, ServiceUpdate, OrderCreate, OrderUpdate
 
-# ----------------- CUSTOMERS -----------------
-def create_customer(db: Session, customer: CustomerCreate):
-    db_customer = Customer(**customer.dict())
-    db.add(db_customer)
+# USER CRUD
+def get_user_by_email(db: Session, email: str):
+    return db.query(models.User).filter(models.User.email == email).first()
+
+
+def get_user_by_id(db: Session, user_id: int):
+    return db.query(models.User).filter(models.User.id == user_id).first()
+
+
+
+#CUSTOMER PROFILE CRUD
+def get_customer_profile(db: Session, user_id: int):
+    return db.query(models.CustomerProfile).filter(models.CustomerProfile.user_id == user_id).first()
+
+
+def update_customer_profile(db: Session, user_id: int, profile_in: schemas.CustomerProfileCreate):
+    profile = get_customer_profile(db, user_id)
+
+    if not profile:
+        profile = models.CustomerProfile(
+            user_id=user_id,
+            address=profile_in.address
+        )
+        db.add(profile)
+    else:
+        profile.address = profile_in.address
+
     db.commit()
-    db.refresh(db_customer)
-    return db_customer
+    db.refresh(profile)
+    return profile
 
-def get_customers(db: Session):
-    return db.query(Customer).all()
 
-def get_customer_by_id(db: Session, id: int):
-    customer = db.query(Customer).filter(Customer.id == id).first()
-    if not customer:
-        raise ValueError("Customer not found")
-    return customer
+#seller crud
+def get_seller_profile(db: Session, user_id: int):
+    return db.query(models.SellerProfile).filter(models.SellerProfile.user_id == user_id).first()
 
-def update_customer(db: Session, id: int, customer: CustomerUpdate):
-    db_customer = db.query(Customer).filter(Customer.id == id).first()
-    if not db_customer:
-        raise ValueError("Customer not found")
-    for key, value in customer.dict(exclude_unset=True).items():
-        setattr(db_customer, key, value)
+
+def update_seller_profile(db: Session, user_id: int, profile_in: schemas.SellerProfileCreate):
+    profile = get_seller_profile(db, user_id)
+
+    if not profile:
+        profile = models.SellerProfile(
+            user_id=user_id,
+            shop_name=profile_in.shop_name
+        )
+        db.add(profile)
+    else:
+        profile.shop_name = profile_in.shop_name
+
     db.commit()
-    db.refresh(db_customer)
-    return db_customer
+    db.refresh(profile)
+    return profile
 
-def delete_customer(db: Session, id: int):
-    db_customer = db.query(Customer).filter(Customer.id == id).first()
-    if not db_customer:
-        raise ValueError("Customer not found")
-    db.delete(db_customer)
+#product crud
+def create_product(db: Session, product: models.Product):
+    db.add(product)
     db.commit()
-
-# ----------------- SELLERS -----------------
-def create_seller(db: Session, seller: SellerCreate):
-    db_seller = Seller(**seller.dict())
-    db.add(db_seller)
-    db.commit()
-    db.refresh(db_seller)
-    return db_seller
-
-def get_sellers(db: Session):
-    return db.query(Seller).all()
-
-def get_seller_by_id(db: Session, id: int):
-    seller = db.query(Seller).filter(Seller.id == id).first()
-    if not seller:
-        raise ValueError("Seller not found")
-    return seller
-
-def update_seller(db: Session, id: int, seller: SellerUpdate):
-    db_seller = db.query(Seller).filter(Seller.id == id).first()
-    if not db_seller:
-        raise ValueError("Seller not found")
-    for key, value in seller.dict(exclude_unset=True).items():
-        setattr(db_seller, key, value)
-    db.commit()
-    db.refresh(db_seller)
-    return db_seller
-
-def delete_seller(db: Session, id: int):
-    db_seller = db.query(Seller).filter(Seller.id == id).first()
-    if not db_seller:
-        raise ValueError("Seller not found")
-    db.delete(db_seller)
-    db.commit()
-
-# ----------------- PRODUCTS -----------------
-def create_product(db: Session, product: ProductCreate):
-    db_product = Product(
-        name=product.name,
-        description=product.description,
-        price=product.price,
-        quantity=product.quantity,
-        expiry_date=product.expiry_date,
-        seller_id=product.seller_id,
-        image_url=None
-    )
-    db.add(db_product)
-    db.commit()
-    db.refresh(db_product)
-    return db_product
-
-def get_products(db: Session):
-    return db.query(Product).all()
-
-def get_product_by_id(db: Session, id: int):
-    product = db.query(Product).filter(Product.id == id).first()
-    if not product:
-        raise ValueError("Product not found")
+    db.refresh(product)
     return product
 
-def get_products_by_seller(db: Session, seller_id: int):
-    return db.query(Product).filter(Product.seller_id == seller_id).all()
 
-def update_product(db: Session, id: int, product: ProductUpdate):
-    db_product = db.query(Product).filter(Product.id == id).first()
-    if not db_product:
-        raise ValueError("Product not found")
-    for key, value in product.dict(exclude_unset=True).items():
+def get_products(db: Session):
+    return db.query(models.Product).all()
+
+
+def get_product_by_id(db: Session, id: int):
+    return db.query(models.Product).filter(models.Product.id == id).first()
+
+
+def get_products_by_seller(db: Session, seller_id: int):
+    return db.query(models.Product).filter(models.Product.seller_id == seller_id).all()
+
+
+def update_product(db: Session, db_product: models.Product, update_data: schemas.ProductUpdate):
+    for key, value in update_data.dict(exclude_unset=True).items():
         setattr(db_product, key, value)
+
     db.commit()
     db.refresh(db_product)
     return db_product
 
-def delete_product(db: Session, id: int):
-    db_product = db.query(Product).filter(Product.id == id).first()
-    if not db_product:
-        raise ValueError("Product not found")
-    db.delete(db_product)
+
+def delete_product(db: Session, product: models.Product):
+    db.delete(product)
     db.commit()
 
-# ----------------- SERVICES -----------------
-def create_service(db: Session, service: ServiceCreate):
-    db_service = Service(**service.dict())
-    db.add(db_service)
+
+#SERVICE CRUD
+def create_service(db: Session, service_in: schemas.ServiceCreate):
+    service = models.Service(
+        type=service_in.type,
+        name=service_in.name,
+        cost=service_in.cost,
+        location=service_in.location
+    )
+    db.add(service)
     db.commit()
-    db.refresh(db_service)
-    return db_service
-
-def get_services(db: Session):
-    return db.query(Service).all()
-
-def get_service_by_id(db: Session, id: int):
-    service = db.query(Service).filter(Service.id == id).first()
-    if not service:
-        raise ValueError("Service not found")
+    db.refresh(service)
     return service
 
-def update_service(db: Session, id: int, service: ServiceUpdate):
-    db_service = db.query(Service).filter(Service.id == id).first()
-    if not db_service:
-        raise ValueError("Service not found")
-    for key, value in service.dict(exclude_unset=True).items():
+
+def get_services(db: Session):
+    return db.query(models.Service).all()
+
+
+def get_service_by_id(db: Session, id: int):
+    return db.query(models.Service).filter(models.Service.id == id).first()
+
+
+def update_service(db: Session, db_service: models.Service, update: schemas.ServiceUpdate):
+    for key, value in update.dict(exclude_unset=True).items():
         setattr(db_service, key, value)
+
     db.commit()
     db.refresh(db_service)
     return db_service
 
-def delete_service(db: Session, id: int):
-    db_service = db.query(Service).filter(Service.id == id).first()
-    if not db_service:
-        raise ValueError("Service not found")
-    db.delete(db_service)
+
+def delete_service(db: Session, service: models.Service):
+    db.delete(service)
     db.commit()
 
-# ----------------- ORDERS -----------------
-def create_order(db: Session, order: OrderCreate):
-    product = db.query(Product).filter(Product.id == order.product_id).first()
-    if not product or product.quantity < order.quantity:
-        raise ValueError("Product not available or insufficient stock")
-    total_price = product.price * order.quantity
-    db_order = Order(**order.dict(), total_price=total_price)
-    db.add(db_order)
-    product.quantity -= order.quantity  # update stock
+
+
+#ORDER CRUD
+def create_order(db: Session, order: models.Order):
+    db.add(order)
     db.commit()
-    db.refresh(db_order)
-    return db_order
+    db.refresh(order)
+    return order
+
 
 def get_orders(db: Session):
-    return db.query(Order).all()
+    return db.query(models.Order).all()
 
-def get_orders_by_customer(db: Session, customer_id: int):
-    return db.query(Order).filter(Order.customer_id == customer_id).all()
+
+def get_orders_by_user(db: Session, user_id: int):
+    return db.query(models.Order).filter(models.Order.user_id == user_id).all()
+
 
 def get_orders_by_seller(db: Session, seller_id: int):
     return (
-        db.query(Order)
-        .join(Product)
-        .filter(Product.seller_id == seller_id)
+        db.query(models.Order)
+        .join(models.Product, models.Order.product_id == models.Product.id)
+        .filter(models.Product.seller_id == seller_id)
         .all()
     )
 
-def update_order(db: Session, id: int, order: OrderUpdate):
-    db_order = db.query(Order).filter(Order.id == id).first()
-    if not db_order:
-        raise ValueError("Order not found")
-    for key, value in order.dict(exclude_unset=True).items():
+
+def update_order(db: Session, db_order: models.Order, update: schemas.OrderUpdate):
+    for key, value in update.dict(exclude_unset=True).items():
         setattr(db_order, key, value)
+
     db.commit()
     db.refresh(db_order)
     return db_order
 
-def delete_order(db: Session, id: int):
-    db_order = db.query(Order).filter(Order.id == id).first()
-    if not db_order:
-        raise ValueError("Order not found")
+
+def delete_order(db: Session, db_order: models.Order):
     db.delete(db_order)
     db.commit()

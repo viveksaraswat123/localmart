@@ -3,12 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LocalMart - Services</title>
-  <link rel="stylesheet" href="/static/services.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <title>LocalMart - Services That Empower Local Businesses</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Premium Black-Gold CSS -->
+  <link rel="stylesheet" href="static/services.css">
 </head>
+
 <body>
-  <!-- Navbar -->
+
+  <!-- NAVBAR -->
   <nav>
     <div class="logo">LocalMart</div>
     <ul>
@@ -19,60 +27,116 @@
     </ul>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- HERO -->
   <section class="hero">
-    <h1>Our <span>Services</span></h1>
-    <p>Empowering local shops, vendors, and customers — all in one platform.</p>
+    <h1>
+      Powerful <span>Services</span> for Local Businesses
+    </h1>
+    <p>
+      From digital storefronts to delivery and vendor networks - LocalMart provides
+      end-to-end tools to help small shops grow, compete, and thrive.
+    </p>
   </section>
 
-  <!--Services Section -->
+  <!-- SERVICES GRID -->
   <section id="services">
-    <div class="service-card">
+
+    <!-- Card 1 -->
+    <div class="service-card" tabindex="0">
       <i class="fa-solid fa-store"></i>
-      <h3>Online Store Setup</h3>
-      <p>We help local shopkeepers set up their digital store effortlessly and start selling online.</p>
+      <h3>Digital Storefront Creation</h3>
+      <p>
+        Transform your physical shop into a fully functional online store.  
+        No coding, no complications — just a fast and simple setup.
+      </p>
+      <p><strong>Includes:</strong> Store customization, product catalog, secure payments.</p>
     </div>
-    <div class="service-card">
-      <i class="fa-solid fa-truck-fast"></i>
-      <h3>Delivery Assistance</h3>
-      <p>Get reliable and quick delivery services to make shopping easier for your customers.</p>
+
+    <!-- Card 2 -->
+    <div class="service-card" tabindex="0">
+      <i class="fa-solid fa-truck"></i>
+      <h3>Integrated Delivery Network</h3>
+      <p>
+        Deliver products faster and more reliably with our logistics partners.
+        Track orders in real-time and reduce delivery delays.
+      </p>
+      <p><strong>Features:</strong> Live tracking, verified delivery agents, cost-effective routes.</p>
     </div>
-    <div class="service-card">
-      <i class="fa-solid fa-users"></i>
-      <h3>Vendor Connections</h3>
-      <p>Connect with nearby wholesalers and vendors to keep your shop fully stocked.</p>
+
+    <!-- Card 3 -->
+    <div class="service-card" tabindex="0">
+      <i class="fa-solid fa-handshake"></i>
+      <h3>Wholesaler & Vendor Marketplace</h3>
+      <p>
+        Access a curated network of wholesalers and suppliers for every category.
+        Get better pricing, bulk deals, and reliable inventory support.
+      </p>
+      <p><strong>Benefits:</strong> Quality sourcing, competitive rates, easy vendor management.</p>
     </div>
-    <div class="service-card">
-      <i class="fa-solid fa-user-gear"></i>
-      <h3>Professional Services</h3>
-      <p>Hire nearby carpenters, electricians, or plumbers through our local service section.</p>
+
+    <!-- Card 4 -->
+    <div class="service-card" tabindex="0">
+      <i class="fa-solid fa-screwdriver-wrench"></i>
+      <h3>Professional On-Demand Services</h3>
+      <p>
+        Need a carpenter, electrician, mechanic, or technician?  
+        Book reliable professionals instantly for business or home needs.
+      </p>
+      <p><strong>Includes:</strong> Verified experts, transparent pricing, fast service.</p>
     </div>
+
+    <!-- Card 5 -->
+    <div class="service-card" tabindex="0">
+      <i class="fa-solid fa-bullhorn"></i>
+      <h3>Smart Promotions & Reach</h3>
+      <p>
+        Promote your store to nearby customers with targeted in-app visibility,
+        festive campaigns, and AI-based recommendations.
+      </p>
+      <p><strong>Tools:</strong> Smart ads, location-based reach, seasonal boosts.</p>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="service-card" tabindex="0">
+      <i class="fa-solid fa-chart-line"></i>
+      <h3>Business Insights & Analytics</h3>
+      <p>
+        Track sales, inventory, customer behavior, and performance growth with
+        simple, real-time dashboards.
+      </p>
+      <p><strong>Insights:</strong> Sales trends, top products, customer patterns.</p>
+    </div>
+
   </section>
 
-  <!--CTA Section -->
+  <!-- CTA -->
   <section class="cta">
-    <h2>Ready to Grow Your Local Business?</h2>
-    <p>Join LocalMart and take your shop online today!</p>
-    <button onclick="window.location.href='/register'">Get Started</button>
+    <h2>Grow Your Business with LocalMart</h2>
+    <p>
+      Join thousands of local shops using our platform to increase sales,
+      manage operations, and reach new customers — instantly.
+    </p>
+
+    <button onclick="window.location.href='/register'">
+      Start Your Digital Journey
+    </button>
   </section>
 
-  <!--Footer -->
+  <!-- FOOTER -->
   <footer>
-    <p>© 2025 LocalMart | All Rights Reserved</p>
+    <p>© 2025 LocalMart — Empowering Local Commerce</p>
   </footer>
 
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <!-- BACK TO TOP BUTTON -->
+  <button class="back-to-top" onclick="window.scrollTo(0,0)">▲</button>
+
+  <!-- JS -->
   <script>
-    // Fade-in animation for sections
-    const sections = document.querySelectorAll("section");
-    const reveal = () => {
-      sections.forEach(section => {
-        const top = section.getBoundingClientRect().top;
-        if (top < window.innerHeight - 100) section.classList.add("visible");
-      });
+    window.onscroll = () => {
+      const btn = document.querySelector('.back-to-top');
+      btn.style.display = window.scrollY > 150 ? "grid" : "none";
     };
-    window.addEventListener("scroll", reveal);
-    reveal();
   </script>
+
 </body>
 </html>

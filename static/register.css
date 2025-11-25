@@ -86,3 +86,38 @@ button:hover {
 .switch a:hover {
   text-decoration: underline;
 }
+
+/* -------- ROLE DROPDOWN -------- */
+
+select#role {
+  width: 95%;
+  padding: 0.9rem;
+  margin: 0.7rem 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(30, 30, 30, 0.9);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23facc15' d='M4 6l4 4 4-4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+select#role:hover {
+  border-color: #facc15;
+  box-shadow: 0 0 15px rgba(250, 204, 21, 0.25);
+}
+
+select#role:focus {
+  border-color: #facc15;
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.35);
+}
+
+select#role option {
+  background: #121212;
+  color: #fff;
+}

@@ -1,15 +1,25 @@
 const API_URL = "http://127.0.0.1:8000/products/";
 
-document.getElementById("productForm").addEventListener("submit", async function (e) 
-{
+document.getElementById("productForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const form = e.target;
     const formData = new FormData(form);
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        alert("⚠ Login first as SELLER to add products!");
+        window.location.href = "/login";
+        return;
+    }
+
     try {
         const response = await fetch(API_URL, {
             method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token       // 🔥 REQUIRED
+            },
             body: formData
         });
 

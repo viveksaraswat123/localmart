@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+
+  fastapi:
+    build: .
+    container_name: localmart_fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app        # live reload when code changes
+      - ./uploads:/app/uploads   # persist uploaded files
+      - ./localmart.db:/app/localmart.db  # persist sqlite database
+    restart: always

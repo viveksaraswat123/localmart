@@ -10,3 +10,4 @@ alembic
 email-validator
 passlib[bcrypt]
 databases[sqlite]
+passlib[bcrypt]
