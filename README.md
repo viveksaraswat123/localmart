@@ -1,39 +1,60 @@
-# 🛍️ LocalMart — A Local Marketplace Platform
+# 🛍️ LocalMart — A Smart Local Marketplace Platform
 
-LocalMart is a FastAPI-based web application that bridges the gap between **local shopkeepers and customers**.  
-It enables sellers to list products and services online, while customers can easily browse, order items, and even hire local professionals (like plumbers, electricians, or carpenters).
+**LocalMart** is a FastAPI-based local marketplace web application designed to digitally connect **local shopkeepers, service providers, and customers** on a single platform.  
+It empowers small businesses to go online while enabling customers to easily browse products, place orders, and book nearby professionals such as plumbers, electricians, and carpenters.
+
+> 🎯 **Objective:** Strengthen the local economy by providing a simple, scalable, and secure digital marketplace for local vendors and customers.
 
 ---
 
 ## 🚀 Features
 
-### 🧑‍🤝‍🧑 Users
-- **Customer Registration & Login**
-- **Seller/Vendor Registration & Login**
+### 🧑‍🤝‍🧑 User Management
+- Customer Registration & Login  
+- Seller / Vendor Registration & Login  
+- Secure authentication using **JWT**  
+- Role-based access (Customer & Seller)
 
-### 🛒 Products
-- Add, edit, and delete products
-- View available stock and expiry dates
-- Product recommendations based on season/festival
-- Billing system with credit/debit management
+---
 
-### 🧰 Services
-- Book local professionals (electricians, plumbers, carpenters, etc.)
-- Search services by type and location
+### 🛒 Product Management
+- Add, update, and delete products  
+- View available stock in real time  
+- Track product expiry dates  
+- Product recommendations based on **season, time, and festivals**  
+- Integrated billing system with credit/debit management  
 
-### 🚚 Delivery
-- Order delivery tracking and scheduling
+---
+
+### 🧰 Service Management
+- Book local professionals (electricians, plumbers, carpenters, etc.)  
+- Search services by **type and location**  
+- Easy booking and scheduling interface  
+
+---
+
+### 🚚 Delivery Management
+- Order placement and delivery scheduling  
+- Delivery tracking for customers  
+- Flexible delivery options based on requirements  
+
+---
+
+### 📄 Static Pages
+- **About Us** page explaining platform vision  
+- **Contact Us** page for user support and queries  
 
 ---
 
 ## 🏗️ Tech Stack
 
 | Component | Technology |
-|------------|-------------|
+|---------|------------|
 | Backend Framework | **FastAPI** |
-| Database | **SQLite / SQLAlchemy ORM** |
-| Frontend | **HTML, CSS, JS, Jinja2 Templates** |
-| API Schema | **Pydantic Models** |
+| Database | **SQLite (Development)** / SQLAlchemy ORM |
+| Authentication | **JWT (JSON Web Tokens)** |
+| Frontend | **HTML, CSS, JavaScript, Jinja2 Templates** |
+| API Schema & Validation | **Pydantic** |
 | Deployment Ready | ✅ Render / Railway / Heroku compatible |
 
 ---
@@ -42,39 +63,63 @@ It enables sellers to list products and services online, while customers can eas
 
 LocalMart/
 │
-├── main.py # Entry point (FastAPI app)
-├── crud.py # Database operations
-├── models.py # SQLAlchemy models (DB structure)
-├── schemas.py # Pydantic schemas (data validation)
-├── database.py # Database connection setup
+├── main.py # FastAPI application entry point
+├── database.py # Database connection & session management
+├── models.py # SQLAlchemy ORM models
+├── schemas.py # Pydantic schemas (request/response validation)
+├── crud.py # Database CRUD operations
 │
-├── templates/ # HTML templates (Frontend UI)
+├── templates/ # Frontend HTML templates
 │ ├── index.html
 │ ├── products.html
 │ ├── services.html
+│ ├── about.html
+│ ├── contact.html
 │ └── ...
 │
-├── static/ # CSS, JS, images
-│ ├── style.css
-│ └── script.js
+├── static/ # Static assets
+│ ├── css/
+│ │ └── style.css
+│ ├── js/
+│ │ └── script.js
+│ └── images/
 │
 └── README.md # Project documentation
 
 
-### Future Enhancements
+---
 
-- Add authentication with JWT
+## 🔐 Authentication
+- JWT-based authentication implemented  
+- Secure login & protected routes  
+- Ready for role-based authorization expansion  
 
-- Add search and filter functionality for products
+---
 
-- Integrate online payment gateway
+## 📈 Future Enhancements
+- Advanced product search and filtering  
+- Online payment gateway integration  
+- Migration to **PostgreSQL** for production  
+- Admin dashboard for monitoring users, orders, and services  
+- Notification system (Email / SMS)  
+- Cloud deployment with CI/CD pipeline  
 
-- Use PostgreSQL for production database
+---
 
-- Deploy on Render or Railway
- 
+## 🆕 Current Updates
+- ✅ JWT-based authentication added  
+- ✅ Login & registration implemented  
+- ✅ About Us and Contact Us pages created  
+- ✅ Improved project structure and documentation  
 
-### Current Update 
+---
 
-- ADDED JWT AND LOGIN 
-- CREATED CONTACT AND ABOUTUS PAGE
+## 💡 Why LocalMart?
+- Built with **FastAPI** for high performance  
+- Clean, modular, and scalable architecture  
+- Suitable for academic projects, startups, and real-world deployment  
+- Ideal for learning **backend development, APIs, authentication, and ORM design**
+
+---
+
+⭐ *If you find this project useful, consider giving it a star on GitHub!*
