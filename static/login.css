@@ -1,88 +1,96 @@
-/* LocalMart Login Page Theme */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 
 body {
-  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  height: 100vh;
   background: radial-gradient(circle at top left, #0a0a0a, #121212);
-  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
 }
 
 .container {
-  background: rgba(20, 20, 20, 0.8);
-  padding: 2.5rem;
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(250, 204, 21, 0.15);
-  text-align: center;
   width: 380px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s ease;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  text-align: center;
+  position: relative;
 }
 
-.container:hover {
-  box-shadow: 0 0 40px rgba(250, 204, 21, 0.3);
-}
+/* -------- TEXT -------- */
 
 h1 {
-  color: #facc15;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 10px #facc15;
+  font-size: 1.5rem;
+  color: #111;
+  margin-bottom: 0.3rem;
 }
 
 p {
-  color: #cfcfcf;
+  font-size: 0.9rem;
+  color: #666;
   margin-bottom: 1.5rem;
 }
 
+/* -------- INPUTS -------- */
+
 input {
-  width: 90%;
-  padding: 0.8rem;
-  margin: 0.7rem 0;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(30, 30, 30, 0.9);
-  color: #fff;
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease;
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
+  font-size: 0.9rem;
+  color: #111;
 }
 
 input:focus {
+  outline: none;
   border-color: #facc15;
-  box-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
 }
 
+/* Fix Chrome autofill */
+input:-webkit-autofill {
+  -webkit-text-fill-color: #111;
+  -webkit-box-shadow: 0 0 0 1000px #fff inset;
+}
+
+/* -------- BUTTON -------- */
+
 button {
-  width: 95%;
-  padding: 0.9rem;
-  background: #facc15;
+  width: 100%;
+  padding: 0.8rem;
+  background: #2c5364; /* LocalMart accent */
+  color: #fff;
   border: none;
-  color: #000;
-  font-weight: 600;
-  font-size: 1rem;
   border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  margin-top: 0.4rem;
 }
 
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #facc15;
+  opacity: 0.95;
 }
+
+/* -------- SWITCH LINK -------- */
 
 .switch {
   margin-top: 1rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  color: #555;
 }
 
 .switch a {
-  color: #facc15;
+  color: #2c5364;
+  font-weight: 600;
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
 .switch a:hover {

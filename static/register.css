@@ -1,123 +1,120 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-body {
+* {
+  box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at top right, #0a0a0a, #121212);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+}
+
+body {
   margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top right, #0a0a0a, #121212);
 }
 
-.container {
-  background: rgba(25, 25, 25, 0.85);
-  padding: 2.5rem;
-  border-radius: 20px;
+/* -------- BACKDROP -------- */
+
+.overlay {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* -------- CARD -------- */
+
+.card {
+  background: #ffffff;
+  width: 380px;
+  padding: 2rem;
+  border-radius: 18px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
   text-align: center;
-  box-shadow: 0 0 25px rgba(250, 204, 21, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  width: 400px;
-  transition: box-shadow 0.3s ease;
 }
 
-.container:hover {
-  box-shadow: 0 0 40px rgba(250, 204, 21, 0.3);
+/* -------- CLOSE BUTTON -------- */
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #f2f2f2;
+  cursor: pointer;
+  font-size: 18px;
 }
+
+.close-btn:hover {
+  background: #facc15;
+}
+
+/* -------- TEXT -------- */
 
 h1 {
-  color: #facc15;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 10px #facc15;
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 1.5rem;
+  color: #111;
 }
 
 p {
-  color: #cfcfcf;
-  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.4rem;
 }
 
-input {
-  width: 90%;
-  padding: 0.8rem;
-  margin: 0.7rem 0;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(30, 30, 30, 0.9);
-  color: #fff;
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease;
-}
+/* -------- INPUTS -------- */
 
-input:focus {
-  border-color: #facc15;
-  box-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
-}
-
-button {
-  width: 95%;
-  padding: 0.9rem;
-  background: #facc15;
-  border: none;
-  color: #000;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #facc15;
-}
-
-.switch {
-  margin-top: 1rem;
+input, select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
   font-size: 0.9rem;
 }
 
-.switch a {
-  color: #facc15;
-  text-decoration: none;
-}
-
-.switch a:hover {
-  text-decoration: underline;
-}
-
-/* -------- ROLE DROPDOWN -------- */
-
-select#role {
-  width: 95%;
-  padding: 0.9rem;
-  margin: 0.7rem 0;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(30, 30, 30, 0.9);
-  color: #fff;
-  font-size: 1rem;
+input:focus, select:focus {
   outline: none;
-  transition: all 0.3s ease;
-  appearance: none;
-  cursor: pointer;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23facc15' d='M4 6l4 4 4-4z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-}
-
-select#role:hover {
   border-color: #facc15;
-  box-shadow: 0 0 15px rgba(250, 204, 21, 0.25);
 }
 
-select#role:focus {
-  border-color: #facc15;
-  box-shadow: 0 0 20px rgba(250, 204, 21, 0.35);
+/* Fix Chrome autofill */
+input:-webkit-autofill {
+  -webkit-text-fill-color: #111;
+  -webkit-box-shadow: 0 0 0 1000px #fff inset;
 }
 
-select#role option {
-  background: #121212;
+/* -------- BUTTON -------- */
+
+.primary-btn {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.8rem;
+  background: #2c5364;
   color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  opacity: 0.95;
+}
+
+/* -------- SWITCH -------- */
+
+.switch {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+.switch a {
+  color: #2c5364;
+  font-weight: 600;
+  text-decoration: none;
 }

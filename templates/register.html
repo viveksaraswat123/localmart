@@ -7,80 +7,43 @@
   <link rel="stylesheet" href="/static/register.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="form-box">
+
+  <div class="overlay">
+    <div class="card">
+
+      <button class="close-btn" onclick="goHome()">✕</button>
+
       <h1>Create Account</h1>
       <p>Join LocalMart and start your journey</p>
 
       <form id="registerForm">
-        <input type="text" id="name" placeholder="Full Name" required />
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+        <input type="text" placeholder="Full Name" required />
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <input type="password" placeholder="Confirm Password" required />
 
-        <!-- ROLE DROPDOWN -->
-        <select id="role" required>
+        <select required>
           <option value="" disabled selected>Select Role</option>
-          <option value="customer">Customer</option>
-          <option value="seller">Seller</option>
-          <option value="admin">Admin</option>
+          <option>Customer</option>
+          <option>Seller</option>
+          <option>Admin</option>
         </select>
 
-        <button type="submit">Register</button>
+        <button type="submit" class="primary-btn">Register</button>
       </form>
 
       <p class="switch">
         Already have an account? <a href="/login">Login</a>
       </p>
+
     </div>
   </div>
 
   <script>
-    document.getElementById("registerForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const confirm = document.getElementById("confirmPassword").value;
-      const role = document.getElementById("role").value;
-
-      if (password !== confirm) {
-        alert("Passwords do not match!");
-        return;
-      }
-
-      const payload = {
-        name: name,
-        email: email,
-        password: password,
-        role: role
-      };
-
-      try {
-        const res = await fetch("http://127.0.0.1:8000/auth/register", {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json" 
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          alert(data.detail || "Registration failed!");
-          return;
-        }
-
-        alert("Registration successful!");
-        window.location.href = "/login";
-
-      } catch (err) {
-        console.error(err);
-        alert("Something went wrong. Try again.");
-      }
-    });
+    function goHome() {
+      window.location.href = "/homepage";
+    }
   </script>
+
 </body>
 </html>
