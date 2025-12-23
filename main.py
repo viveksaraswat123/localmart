@@ -25,6 +25,10 @@ import schemas
 import hashlib
 import hmac
 import base64
+import os
+
+DISABLE_DB = os.getenv("DISABLE_DB", "false").lower() == "true"
+
 
 
 
@@ -50,12 +54,9 @@ app.add_middleware(
 )
 
 # AUTH / JWT CONFIG
-
-# --- SECURITY WARNING ---
-# In production, move secrets to a .env file and use pydantic.BaseSettings or python-dotenv
-SECRET_KEY = "afajkcahc545a46a4a6sfsaf44faf6saf475saf475af4a"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-later")
+ALGORITHM = os.environ.get("ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", 60))
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
@@ -122,11 +123,7 @@ def role_required(allowed_roles: list[str]):
     return wrapper
 
 #FRONTEND ROUTES
-@app.get("/")
-def root():
-    return {"message": "Welcome to LocalMart API!"}
-
-@app.get("/homepage", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 def homepage(request: Request):
     return templates.TemplateResponse("homepage.html", {"request": request})
 
@@ -147,7 +144,7 @@ def contact_page(request: Request):
     return templates.TemplateResponse("contact.html", {"request": request})
 
 
-# --- ADMIN TEMPLATE ROUTES (for sidebar navigation) ---
+# ADMIN TEMPLATE ROUTES
 @app.get("/admin/dashboard", response_class=HTMLResponse)
 def admin_dashboard_page(request: Request):
     return templates.TemplateResponse("admin_dashboard.html", {"request": request})
@@ -159,22 +156,18 @@ def admin_users_page(request: Request):
 
 @app.get("/admin/sellers", response_class=HTMLResponse)
 def admin_sellers_page(request: Request):
-    # You should create 'admin_sellers.html' in templates/
     return templates.TemplateResponse("admin_sellers.html", {"request": request})
 
 @app.get("/admin/products", response_class=HTMLResponse)
 def admin_products_page(request: Request):
-    # You should create 'admin_products.html' in templates/
     return templates.TemplateResponse("admin_products.html", {"request": request})
 
 @app.get("/admin/orders", response_class=HTMLResponse)
 def admin_orders_page(request: Request):
-    # You should create 'admin_orders.html' in templates/
     return templates.TemplateResponse("admin_orders.html", {"request": request})
 
 @app.get("/admin/services", response_class=HTMLResponse)
 def admin_services_page(request: Request):
-    # You should create 'admin_services.html' in templates/
     return templates.TemplateResponse("admin_services.html", {"request": request})
 
 
@@ -213,24 +206,22 @@ def edit_products_page(request: Request):
     return templates.TemplateResponse("edit_product.html", {"request": request})
 
 
-#                  AUTH / USER APIs
+# AUTH / USER APIs
 @app.post("/auth/register", response_model=schemas.User, tags=["Auth"])
 def register(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
-    # Check if email already exists
+    # Checks if email already exists
     existing = db.query(models.User).filter(models.User.email == user_in.email).first()
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
 
     hashed_password = hash_password(user_in.password)
 
-    # ---------- FIXED ----------
     user = models.User(
         name=user_in.name,
         email=user_in.email,
         password=hashed_password,
-        role=user_in.role.lower(),   # normalize input
+        role=user_in.role.lower(),  
     )
-    # ----------------------------
 
     db.add(user)
     db.commit()
@@ -240,7 +231,7 @@ def register(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
     if user.role == "customer":
         customer_profile = models.CustomerProfile(
             name=user_in.name,  # REQUIRED FIELD
-            address="",         # default
+            address="",         
             user_id=user.id
         )
         db.add(customer_profile)
@@ -272,14 +263,12 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-
-
 @app.get("/users/me", response_model=schemas.User, tags=["Users"])
 def read_me(current_user: models.User = Depends(get_current_user)):
     return current_user
 
 
-#CUSTOMER PROFILE (ONLY FOR role='customer')
+#FOR role='customer'
 
 @app.get(
     "/customer/profile",
@@ -329,7 +318,7 @@ def update_customer_profile(
     return profile
 
 
-# SELLER PROFILE (ONLY FOR role='seller') 
+# FOR role='seller' 
 
 @app.get(
     "/seller/profile",
@@ -654,7 +643,6 @@ def update_order_status(
     if order_update.status is not None:
         order.status = order_update.status
     if order_update.quantity is not None:
-        # Optional: update quantity logic if you want
         order.quantity = order_update.quantity
 
     db.commit()
