@@ -1,115 +1,154 @@
-// ---------------- AUTH CHECK ------------------
-
 function parseJwt(token) {
   try {
-    const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
-    return JSON.parse(atob(base64));
+    const payload = token.split(".")[1];
+    return JSON.parse(atob(payload));
   } catch {
     return null;
   }
 }
 
 const token = localStorage.getItem("token");
-
-// Not logged in?
-if (!token) window.location.href = "/login";
-
-// Check role
-const userData = parseJwt(token);
-if (!userData || userData.role !== "seller") {
-  alert("Access denied! Seller account required.");
-  window.location.href = "/homepage";
+if (!token) {
+  window.location.href = "/login";
+  return;
 }
 
-// ---------------- LOAD PRODUCTS ------------------
+const userData = parseJwt(token);
+if (!userData || String(userData.role).trim().toLowerCase() !== "seller") {
+  alert("Access denied! Seller account required.");
+  window.location.href = "/homepage";
+  return;
+}
+
+async function safeJson(res){
+  try{ return await res.json(); } catch{ return []; }
+}
 
 async function loadProducts() {
-  const res = await fetch("/products/mine", {
-    headers: { Authorization: "Bearer " + token }
-  });
-
-  const data = await res.json();
   const container = document.getElementById("productList");
-  container.innerHTML = "";
+  if (!container) return;
 
-  data.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "card";
+  container.innerHTML = "<p>Loading products…</p>";
 
-    const img = p.image_url
-      ? `http://127.0.0.1:8000${p.image_url}`
-      : "/static/no-image.png";
+  try {
+    const res = await fetch("/products/mine", {
+      headers: { Authorization: "Bearer " + token }
+    });
 
-    card.innerHTML = `
-      <img src="${img}" class="w-full h-40 object-cover rounded-lg mb-3" />
-      <h3 class="text-xl font-semibold text-yellow-400">${p.name}</h3>
-      <p class="text-gray-400 text-sm mb-2">${p.description}</p>
-      <p class="font-bold text-yellow-300 mb-3">₹${p.price}</p>
+    if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+      return;
+    }
 
-      <div class="flex justify-between mt-3">
-        <button onclick="editProduct(${p.id})"
-          class="px-4 py-2 bg-blue-500 rounded-lg hover:bg-blue-600">Edit</button>
+    const json = await safeJson(res);
+    const products = Array.isArray(json) ? json : json.data || [];
 
-        <button onclick="deleteProduct(${p.id})"
-          class="px-4 py-2 bg-red-500 rounded-lg hover:bg-red-600">Delete</button>
-      </div>
-    `;
+    container.innerHTML = "";
+    if (!products.length) {
+      container.innerHTML = "<p>No products listed yet.</p>";
+      return;
+    }
 
-    container.appendChild(card);
-  });
+    products.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const img = p.image_url || "/static/no-image.png";
+
+      card.innerHTML = `
+        <img src="${img}" class="w-full h-40 object-cover rounded-lg mb-3" />
+        <h3 class="text-xl font-semibold">${escapeHtml(p.name)}</h3>
+        <p class="text-sm mb-2">${escapeHtml(p.description)}</p>
+        <p class="font-bold mb-3">₹${p.price ?? ''}</p>
+
+        <div class="flex justify-between mt-3">
+          <button onclick="editProduct('${p.id}')" class="btn btn-edit">Edit</button>
+          <button onclick="deleteProduct('${p.id}')" class="btn btn-delete">Delete</button>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch {
+    container.innerHTML = "<p>Failed to load products</p>";
+  }
+}
+
+async function loadOrders() {
+  const container = document.getElementById("orderList");
+  if (!container) return;
+
+  container.innerHTML = "<p>Loading orders…</p>";
+
+  try {
+    const res = await fetch("/orders/seller/my", {
+      headers: { Authorization: "Bearer " + token }
+    });
+
+    if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+      return;
+    }
+
+    const json = await safeJson(res);
+    const orders = Array.isArray(json) ? json : json.data || [];
+
+    container.innerHTML = "";
+    if (!orders.length) {
+      container.innerHTML = "<p>No recent orders.</p>";
+      return;
+    }
+
+    orders.slice(-6).reverse().forEach(o => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const status = String(o.status || '').toLowerCase();
+
+      card.innerHTML = `
+        <h3 class="text-xl font-bold text-yellow-400">Order #${escapeHtml(o.id)}</h3>
+        <p>Product ID: ${escapeHtml(o.product_id)}</p>
+        <p>Quantity: ${escapeHtml(o.quantity)}</p>
+        <p>Total: ₹${escapeHtml(o.total_price)}</p>
+        <p>Status: <span class="badge ${status}">${escapeHtml(o.status)}</span></p>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch {
+    container.innerHTML = "<p>Failed to load orders</p>";
+  }
 }
 
 function editProduct(id) {
   window.location.href = `/edit_products?id=${id}`;
 }
 
-// Delete product
 async function deleteProduct(id) {
-  if (!confirm("Are you sure you want to delete this product?")) return;
-
+  if (!confirm("Are you sure you want to delete?")) return;
   await fetch(`/products/${id}`, {
     method: "DELETE",
     headers: { Authorization: "Bearer " + token }
   });
-
   loadProducts();
 }
 
-// ---------------- LOAD ORDERS ------------------
-
-async function loadOrders() {
-  const res = await fetch("/orders/seller/my", {
-    headers: { Authorization: "Bearer " + token }
-  });
-
-  const data = await res.json();
-  const container = document.getElementById("orderList");
-  container.innerHTML = "";
-
-  data.forEach(o => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <h3 class="text-xl font-bold text-yellow-400">Order #${o.id}</h3>
-      <p class="text-gray-300 mt-1">Product ID: ${o.product_id}</p>
-      <p class="text-gray-300">Quantity: ${o.quantity}</p>
-      <p class="text-gray-300">Total: ₹${o.total_price}</p>
-      <p class="text-gray-400 text-sm mt-2">Status: <b class="text-yellow-300">${o.status}</b></p>
-    `;
-
-    container.appendChild(card);
-  });
+function escapeHtml(s){
+  if(s === null || s === undefined) return "";
+  return String(s)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
 }
 
-// ---------------- LOGOUT ------------------
-
-function logout() {
-  localStorage.removeItem("token");
-  window.location.href = "/login";
-}
-
-// ---------------- INIT ------------------
-
-loadProducts();
-loadOrders();
+// Init after DOM ready
+document.addEventListener("DOMContentLoaded", ()=>{
+  loadProducts();
+  loadOrders();
+});

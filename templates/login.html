@@ -59,11 +59,11 @@
 
         // Redirect by role
         if (userRole === "admin") {
-          window.location.href = "/admin_dashboard";
+          window.location.href = "/admin/dashboard";
         } else if (userRole === "seller") {
-          window.location.href = "/seller_dashboard";
+          window.location.href = "/seller/dashboard";
         } else {
-          window.location.href = "/homepage";
+          window.location.href = "/";
         }
 
       } catch (err) {

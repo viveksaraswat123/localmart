@@ -4,30 +4,51 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LocalMart | Admin Dashboard</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="/static/admin.css" />
+
+  <!-- Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
+
+  <!-- Sidebar -->
   <div class="sidebar">
     <h2 class="logo">LocalMart<br><span>Admin</span></h2>
 
     <ul class="menu">
-      <li><a href="/admin/dashboard" class="active"><span>Dashboard</span></a></li>
-      <li><a href="/admin/users"><span>Users</span></a></li>
-      <li><a href="/admin/sellers"><span>Sellers</span></a></li>
-      <li><a href="/admin/products"><span>Products</span></a></li>
-      <li><a href="/admin/orders"><span>Orders</span></a></li>
-      <li><a href="/admin/services"><span>Services</span></a></li>
+      <li><a href="/admin/dashboard" class="active"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></li>
+      <li><a href="/admin/users"><i data-lucide="users"></i><span>Users</span></a></li>
+      <li><a href="/admin/sellers"><i data-lucide="store"></i><span>Sellers</span></a></li>
+      <li><a href="/admin/products"><i data-lucide="package"></i><span>Products</span></a></li>
+      <li><a href="/admin/orders"><i data-lucide="shopping-bag"></i><span>Orders</span></a></li>
+      <li><a href="/admin/services"><i data-lucide="briefcase"></i><span>Services</span></a></li>
     </ul>
 
-    <button class="logout-btn" id="logoutBtn">Logout</button>
+    <button class="logout-btn" id="logoutBtn">
+      <i data-lucide="log-out"></i> Logout
+    </button>
+    <button class="logout-btn" id="homepageBtn">
+      <i data-lucide="log-out"></i> Homepage
+    </button>
   </div>
 
+  <!-- Main Content -->
   <div class="main-content">
+
+    <!-- Topbar -->
     <div class="topbar">
       <h1>Admin Dashboard</h1>
+
+      <div class="admin-profile">
+        <span class="admin-name">Vivek Saraswat</span>
+        <div class="avatar"></div>
+      </div>
     </div>
 
+    <!-- Dashboard Cards -->
     <div class="cards">
       <div class="card">
         <h3>Total Users</h3>
@@ -50,23 +71,31 @@
       </div>
     </div>
 
+    <!-- Recent Orders Section -->
     <h2 class="section-title">Recent Orders</h2>
 
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>User</th>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="ordersTable">
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTable"></tbody>
+      </table>
+    </div>
+
   </div>
 
+  <!-- JS -->
   <script src="/static/admin.js"></script>
+
+  <!-- Initialize Icons -->
+  <script>lucide.createIcons();</script>
+
 </body>
 </html>

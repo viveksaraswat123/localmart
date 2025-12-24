@@ -205,6 +205,11 @@ def professional_services_page(request: Request):
 def edit_products_page(request: Request):
     return templates.TemplateResponse("edit_product.html", {"request": request})
 
+#seller dashboard
+@app.get("/seller/dashboard", response_class=HTMLResponse)
+def seller_dashboard_page(request: Request):
+    return templates.TemplateResponse("seller_dashboard.html", {"request": request})
+
 
 # AUTH / USER APIs
 @app.post("/auth/register", response_model=schemas.User, tags=["Auth"])

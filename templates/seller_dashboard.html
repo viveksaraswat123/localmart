@@ -5,9 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Seller Dashboard | LocalMart</title>
 
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
     body {
       background: #0b0b0b;
       color: white;
@@ -15,47 +21,85 @@
     }
 
     .card {
-      background: #111111;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 15px;
-      padding: 18px;
-      transition: 0.3s ease;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      transition: 0.25s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
 
     .card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 12px rgba(250, 204, 21, 0.28);
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 0 14px rgba(250,204,21,0.22);
     }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .btn-edit { background:#2563eb; color:white; }
+    .btn-delete { background:#dc2626; color:white; }
   </style>
 </head>
 
 <body class="min-h-screen">
 
   <!-- NAVBAR -->
-  <nav class="flex justify-between items-center px-8 py-4 bg-gray-900 border-b border-gray-800">
-    <h1 class="text-2xl font-bold text-yellow-400">LocalMart Seller</h1>
+  <nav class="flex justify-between items-center px-8 py-4 bg-gray-900 border-b border-gray-800 shadow-lg">
+    <h1 class="text-2xl font-bold text-yellow-400 flex items-center gap-2">
+      <i data-lucide="store"></i> LocalMart Seller
+    </h1>
 
-    <div class="space-x-6">
-      <a href="/homepage" class="hover:text-yellow-400">Home</a>
-      <a href="/add-product" class="px-4 py-2 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-500" id="addProductBtn">
-        + Add Product
+    <div class="flex items-center gap-4">
+      <a href="/" class="hover:text-yellow-400 flex items-center gap-1">
+        <i data-lucide="home"></i> <span>Home</span>
       </a>
-      <button onclick="logout()" class="px-4 py-2 bg-red-500 rounded-lg hover:bg-red-600">Logout</button>
+
+      <a href="/add-product" class="btn bg-yellow-400 text-black hover:bg-yellow-500" id="addProductBtn">
+        <i data-lucide="plus-circle"></i> Add Product
+      </a>
+
+      <button onclick="logout()" class="btn btn-delete">
+        <i data-lucide="log-out"></i> Logout
+      </button>
     </div>
   </nav>
 
-  <!-- CONTENT -->
-  <div class="max-w-6xl mx-auto mt-10">
+  <!-- PAGE CONTENT -->
+  <div class="max-w-6xl mx-auto mt-10 px-4">
 
-    <h2 class="text-3xl font-bold text-yellow-400 mb-4">My Products</h2>
-    <div id="productList" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"></div>
+    <!-- Products -->
+    <section>
+      <h2 class="text-3xl font-bold text-yellow-400 mb-5 flex items-center gap-2">
+        <i data-lucide="package"></i> My Products
+      </h2>
+      <div id="productList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-16"></div>
+    </section>
 
-    <h2 class="text-3xl font-bold text-yellow-400 mb-4">Orders for My Products</h2>
-    <div id="orderList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    <!-- Orders -->
+    <section>
+      <h2 class="text-3xl font-bold text-yellow-400 mb-5 flex items-center gap-2">
+        <i data-lucide="shopping-bag"></i> My Orders
+      </h2>
+      <div id="orderList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </section>
 
   </div>
 
+  <!-- JS File -->
   <script src="/static/seller_dashboard.js"></script>
+
+  <!-- Load icons -->
+  <script>lucide.createIcons();</script>
 
 </body>
 </html>
