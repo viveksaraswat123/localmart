@@ -1,172 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LocalMart - Your Neighbour Mart</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/scrollreveal"></script>
-</head>
-<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-sans">
-
+  </head>
+  <body
+    class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-sans"
+  >
     <!-- Navigation -->
-    <!-- Navigation -->
-<nav class="fixed top-0 w-full z-50 bg-opacity-30 backdrop-blur-lg bg-gray-800 shadow-md">
-  <div class="flex items-center justify-between px-6 py-4">
-    <!-- Logo -->
-    <div class="text-2xl font-extrabold text-yellow-400 tracking-widest">
-      <a href="/">LocalMart</a>
-    </div>
-
-    <!-- Desktop Menu -->
-    <ul class="hidden md:flex space-x-8 items-center">
-      <li><a href="/" class="hover:text-yellow-400 transition">Home</a></li>
-      <li><a href="/products_page/" class="hover:text-yellow-400 transition">Products</a></li>
-      <li><a href="/services" class="hover:text-yellow-400 transition">Services</a></li>
-      <li><a href="/about_us" class="hover:text-yellow-400 transition">About Us</a></li>
-      <li><a href="/contact" class="hover:text-yellow-400 transition">Contact</a></li>
-
-      <li id="login-btn">
-        <a href="/login"
-           class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">
-          Login
-        </a>
-      </li>
-
-      <li id="profile-btn" style="display:none;">
-        <a href="/profile" class="hover:text-yellow-400 transition">Profile</a>
-      </li>
-
-      <li id="admin-btn" style="display:none;">
-        <a href="/admin/dashboard" class="hover:text-yellow-400 transition">Admin</a>
-      </li>
-
-      <li id="logout-btn" style="display:none;">
-        <button onclick="logout()" class="hover:text-yellow-400 transition">Logout</button>
-      </li>
-    </ul>
-
-    <!-- Mobile Menu Button -->
-    <button id="menu-btn" class="md:hidden text-yellow-400 focus:outline-none">
-      <!-- Hamburger Icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
-           viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Mobile Dropdown Menu -->
-  <div id="mobile-menu" class="hidden md:hidden px-6 pb-6">
-    <ul class="flex flex-col space-y-4 text-center">
-      <li><a href="/" class="hover:text-yellow-400 transition">Home</a></li>
-      <li><a href="/products_page/" class="hover:text-yellow-400 transition">Products</a></li>
-      <li><a href="/services" class="hover:text-yellow-400 transition">Services</a></li>
-      <li><a href="/about_us" class="hover:text-yellow-400 transition">About Us</a></li>
-      <li><a href="/contact" class="hover:text-yellow-400 transition">Contact</a></li>
-
-      <li id="login-btn-mobile">
-        <a href="/login"
-           class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">
-          Login
-        </a>
-      </li>
-
-      <li id="profile-btn-mobile" style="display:none;">
-        <a href="/profile" class="hover:text-yellow-400 transition">Profile</a>
-      </li>
-
-      <li id="admin-btn-mobile" style="display:none;">
-        <a href="/admin/dashboard" class="hover:text-yellow-400 transition">Admin</a>
-      </li>
-
-      <li id="logout-btn-mobile" style="display:none;">
-        <button onclick="logout()" class="hover:text-yellow-400 transition">
-          Logout
-        </button>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<!-- Mobile Menu Toggle Script -->
-<script>
-  const menuBtn = document.getElementById("menu-btn");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  menuBtn.addEventListener("click", () => {
-    mobileMenu.classList.toggle("hidden");
-  });
-</script>
-
+    <nav
+      class="flex items-center justify-between px-8 py-4 bg-opacity-30 backdrop-blur-lg bg-gray-800 fixed w-full z-10 shadow-md"
+    >
+      <div class="text-2xl font-extrabold text-yellow-400 tracking-widest">
+        <a href="/">LocalMart</a>
+      </div>
+      <ul class="flex space-x-8">
+        <li><a href="/" class="hover:text-yellow-400 transition">Home</a></li>
+        <li>
+          <a href="/products_page/" class="hover:text-yellow-400 transition"
+            >Products</a
+          >
+        </li>
+        <li>
+          <a href="/services" class="hover:text-yellow-400 transition"
+            >Services</a
+          >
+        </li>
+        <li>
+          <a href="/about_us" class="hover:text-yellow-400 transition"
+            >About Us</a
+          >
+        </li>
+        <li>
+          <a href="/contact" class="hover:text-yellow-400 transition"
+            >Contact</a
+          >
+        </li>
+        <li id="login-btn">
+          <a
+            href="/login"
+            class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition"
+          >
+            Login
+          </a>
+        </li>
+        <li id="profile-btn" style="display: none">
+          <a href="/profile" class="hover:text-yellow-400 transition"
+            >Profile</a
+          >
+        </li>
+        <li id="admin-btn" style="display: none">
+          <a href="/admin/dashboard" class="hover:text-yellow-400 transition"
+            >Admin</a
+          >
+        </li>
+        <li id="logout-btn" style="display: none">
+          <button onclick="logout()" class="hover:text-yellow-400 transition">
+            Logout
+          </button>
+        </li>
+      </ul>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="h-screen flex flex-col justify-center items-center text-center px-8" id="home">
-        <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-yellow-400 drop-shadow-lg animate-fade-in">
-      Empowering Local Business. Connecting Communities.
-    </h1>
-    <p class="text-lg md:text-xl text-gray-300 max-w-2xl leading-relaxed mb-8">
-      LocalMart brings your neighbourhood online, buy essentials, post pre-owned items, and hire trusted local professionals - all from one platform.
-    </p>
-    <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})"
-      class="bg-yellow-400 text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition transform hover:scale-105 shadow-lg">
-      Explore Now
-    </button>
+    <section
+      class="h-screen flex flex-col justify-center items-center text-center px-8"
+      id="home"
+    >
+      <h1
+        class="text-5xl md:text-6xl font-extrabold mb-6 text-yellow-400 drop-shadow-lg animate-fade-in"
+      >
+        Empowering Local Business. Connecting Communities.
+      </h1>
+      <p
+        class="text-lg md:text-xl text-gray-300 max-w-2xl leading-relaxed mb-8"
+      >
+        LocalMart brings your neighbourhood online, buy essentials, post
+        pre-owned items, and hire trusted local professionals - all from one
+        platform.
+      </p>
+      <button
+        onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})"
+        class="bg-yellow-400 text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition transform hover:scale-105 shadow-lg"
+      >
+        Explore Now
+      </button>
     </section>
 
     <!-- Products Section -->
     <section id="products" class="py-20 bg-gray-900 text-center">
-        <h2 class="text-4xl font-bold text-yellow-400 mb-8">Our Popular Categories</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 px-10">
-            <div class="bg-gray-800 p-6 rounded-2xl shadow-lg hover:scale-105 transform transition">
-                <img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png" alt="Groceries" class="w-20 mx-auto mb-4">
-                <h3 class="text-xl font-semibold mb-2">Groceries</h3>
-                <p class="text-gray-400">Buy daily essentials from nearby stores with just a click.</p>
-            </div>
-            <div class="bg-gray-800 p-6 rounded-2xl shadow-lg hover:scale-105 transform transition">
-                <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" alt="Services" class="w-20 mx-auto mb-4">
-                <h3 class="text-xl font-semibold mb-2">Professional Services</h3>
-                <p class="text-gray-400">Hire trusted carpenters, electricians, or plumbers instantly.</p>
-            </div>
-            <div class="bg-gray-800 p-6 rounded-2xl shadow-lg hover:scale-105 transform transition">
-                <img src="https://cdn-icons-png.flaticon.com/512/1042/1042339.png" alt="Old Items" class="w-20 mx-auto mb-4">
-                <h3 class="text-xl font-semibold mb-2">Old Items</h3>
-                <p class="text-gray-400">Post and sell pre-owned items easily in your locality.</p>
-            </div>
+      <h2 class="text-4xl font-bold text-yellow-400 mb-8">
+        Our Popular Categories
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 px-10">
+        <div
+          class="bg-gray-800 p-6 rounded-2xl shadow-lg hover:scale-105 transform transition"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png"
+            alt="Groceries"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="text-xl font-semibold mb-2">Groceries</h3>
+          <p class="text-gray-400">
+            Buy daily essentials from nearby stores with just a click.
+          </p>
         </div>
+        <div
+          class="bg-gray-800 p-6 rounded-2xl shadow-lg hover:scale-105 transform transition"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png"
+            alt="Services"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="text-xl font-semibold mb-2">Professional Services</h3>
+          <p class="text-gray-400">
+            Hire trusted carpenters, electricians, or plumbers instantly.
+          </p>
+        </div>
+        <div
+          class="bg-gray-800 p-6 rounded-2xl shadow-lg hover:scale-105 transform transition"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/1042/1042339.png"
+            alt="Old Items"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="text-xl font-semibold mb-2">Old Items</h3>
+          <p class="text-gray-400">
+            Post and sell pre-owned items easily in your locality.
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- About Section -->
     <section id="about" class="py-20 bg-black text-center">
-        <h2 class="text-4xl font-bold text-yellow-400 mb-6">About LocalMart</h2>
-        <p class="max-w-3xl mx-auto text-gray-400 text-lg leading-relaxed">
-            LocalMart is built to empower small shopkeepers and connect communities. 
-            We make buying, selling, and hiring local services simple, fast, and secure.
-        </p>
+      <h2 class="text-4xl font-bold text-yellow-400 mb-6">About LocalMart</h2>
+      <p class="max-w-3xl mx-auto text-gray-400 text-lg leading-relaxed">
+        LocalMart is built to empower small shopkeepers and connect communities.
+        We make buying, selling, and hiring local services simple, fast, and
+        secure.
+      </p>
     </section>
 
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-gray-900 text-center">
-        <h2 class="text-4xl font-bold text-yellow-400 mb-8">Contact Us</h2>
-        <form class="max-w-md mx-auto space-y-4">
-            <input type="text" placeholder="Your Name" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white">
-            <input type="email" placeholder="Your Email" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white">
-            <textarea placeholder="Your Message" rows="4" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white"></textarea>
-            <button type="submit" class="bg-yellow-400 text-black font-semibold px-6 py-3 rounded-full hover:bg-yellow-500 transition">Send Message</button>
-        </form>
+      <h2 class="text-4xl font-bold text-yellow-400 mb-8">Contact Us</h2>
+      <form class="max-w-md mx-auto space-y-4">
+        <input
+          type="text"
+          placeholder="Your Name"
+          class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white"
+        />
+        <input
+          type="email"
+          placeholder="Your Email"
+          class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white"
+        />
+        <textarea
+          placeholder="Your Message"
+          rows="4"
+          class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white"
+        ></textarea>
+        <button
+          type="submit"
+          class="bg-yellow-400 text-black font-semibold px-6 py-3 rounded-full hover:bg-yellow-500 transition"
+        >
+          Send Message
+        </button>
+      </form>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black text-gray-500 py-6 text-center border-t border-gray-800">
-        <p>&copy; 2025 LocalMart. All Rights Reserved.</p>
+    <footer
+      class="bg-black text-gray-500 py-6 text-center border-t border-gray-800"
+    >
+      <p>&copy; 2025 LocalMart. All Rights Reserved.</p>
     </footer>
 
     <!-- Scroll Animations -->
     <script>
-        ScrollReveal().reveal('.hero h1, .hero p, .hero button', { delay: 200, duration: 800, origin: 'bottom', distance: '40px' });
-        ScrollReveal().reveal('#products div', { interval: 200, duration: 800, origin: 'bottom', distance: '40px' });
+      ScrollReveal().reveal(".hero h1, .hero p, .hero button", {
+        delay: 200,
+        duration: 800,
+        origin: "bottom",
+        distance: "40px",
+      });
+      ScrollReveal().reveal("#products div", {
+        interval: 200,
+        duration: 800,
+        origin: "bottom",
+        distance: "40px",
+      });
     </script>
     <script src="/static/homepage.js"></script>
-</body>
+  </body>
 </html>

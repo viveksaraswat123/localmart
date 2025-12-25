@@ -7,94 +7,59 @@
 </head>
 <body>
     <!-- Navigation -->
-<nav class="fixed top-0 w-full z-50 bg-opacity-30 backdrop-blur-lg bg-gray-800 shadow-md">
-  <div class="flex items-center justify-between px-6 py-4">
-    <!-- Logo -->
-    <div class="text-2xl font-extrabold text-yellow-400 tracking-widest">
-      <a href="/">LocalMart</a>
-    </div>
-
-    <!-- Desktop Menu -->
-    <ul class="hidden md:flex space-x-8 items-center">
-      <li><a href="/" class="hover:text-yellow-400 transition">Home</a></li>
-      <li><a href="/products_page/" class="hover:text-yellow-400 transition">Products</a></li>
-      <li><a href="/services" class="hover:text-yellow-400 transition">Services</a></li>
-      <li><a href="/about_us" class="hover:text-yellow-400 transition">About Us</a></li>
-      <li><a href="/contact" class="hover:text-yellow-400 transition">Contact</a></li>
-
-      <li id="login-btn">
-        <a href="/login"
-           class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">
-          Login
-        </a>
-      </li>
-
-      <li id="profile-btn" style="display:none;">
-        <a href="/profile" class="hover:text-yellow-400 transition">Profile</a>
-      </li>
-
-      <li id="admin-btn" style="display:none;">
-        <a href="/admin/dashboard" class="hover:text-yellow-400 transition">Admin</a>
-      </li>
-
-      <li id="logout-btn" style="display:none;">
-        <button onclick="logout()" class="hover:text-yellow-400 transition">Logout</button>
-      </li>
-    </ul>
-
-    <!-- Mobile Menu Button -->
-    <button id="menu-btn" class="md:hidden text-yellow-400 focus:outline-none">
-      <!-- Hamburger Icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
-           viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Mobile Dropdown Menu -->
-  <div id="mobile-menu" class="hidden md:hidden px-6 pb-6">
-    <ul class="flex flex-col space-y-4 text-center">
-      <li><a href="/" class="hover:text-yellow-400 transition">Home</a></li>
-      <li><a href="/products_page/" class="hover:text-yellow-400 transition">Products</a></li>
-      <li><a href="/services" class="hover:text-yellow-400 transition">Services</a></li>
-      <li><a href="/about_us" class="hover:text-yellow-400 transition">About Us</a></li>
-      <li><a href="/contact" class="hover:text-yellow-400 transition">Contact</a></li>
-
-      <li id="login-btn-mobile">
-        <a href="/login"
-           class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">
-          Login
-        </a>
-      </li>
-
-      <li id="profile-btn-mobile" style="display:none;">
-        <a href="/profile" class="hover:text-yellow-400 transition">Profile</a>
-      </li>
-
-      <li id="admin-btn-mobile" style="display:none;">
-        <a href="/admin/dashboard" class="hover:text-yellow-400 transition">Admin</a>
-      </li>
-
-      <li id="logout-btn-mobile" style="display:none;">
-        <button onclick="logout()" class="hover:text-yellow-400 transition">
-          Logout
-        </button>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<!-- Mobile Menu Toggle Script -->
-<script>
-  const menuBtn = document.getElementById("menu-btn");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  menuBtn.addEventListener("click", () => {
-    mobileMenu.classList.toggle("hidden");
-  });
-</script>
+ <nav
+      class="flex items-center justify-between px-8 py-4 bg-opacity-30 backdrop-blur-lg bg-gray-800 fixed w-full z-10 shadow-md"
+    >
+      <div class="text-2xl font-extrabold text-yellow-400 tracking-widest">
+        <a href="/">LocalMart</a>
+      </div>
+      <ul class="flex space-x-8">
+        <li><a href="/" class="hover:text-yellow-400 transition">Home</a></li>
+        <li>
+          <a href="/products_page/" class="hover:text-yellow-400 transition"
+            >Products</a
+          >
+        </li>
+        <li>
+          <a href="/services" class="hover:text-yellow-400 transition"
+            >Services</a
+          >
+        </li>
+        <li>
+          <a href="/about_us" class="hover:text-yellow-400 transition"
+            >About Us</a
+          >
+        </li>
+        <li>
+          <a href="/contact" class="hover:text-yellow-400 transition"
+            >Contact</a
+          >
+        </li>
+        <li id="login-btn">
+          <a
+            href="/login"
+            class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition"
+          >
+            Login
+          </a>
+        </li>
+        <li id="profile-btn" style="display: none">
+          <a href="/profile" class="hover:text-yellow-400 transition"
+            >Profile</a
+          >
+        </li>
+        <li id="admin-btn" style="display: none">
+          <a href="/admin/dashboard" class="hover:text-yellow-400 transition"
+            >Admin</a
+          >
+        </li>
+        <li id="logout-btn" style="display: none">
+          <button onclick="logout()" class="hover:text-yellow-400 transition">
+            Logout
+          </button>
+        </li>
+      </ul>
+    </nav>
 
     <h1> role basedd access</h1>
 </body>
