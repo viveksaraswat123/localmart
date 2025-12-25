@@ -201,3 +201,166 @@ section.visible {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* =============================== */
+/* RESPONSIVE – TABLET (≤ 1024px) */
+/* =============================== */
+@media (max-width: 1024px) {
+  nav {
+    padding: 0.9rem 2rem;
+  }
+
+  .hero h1 {
+    font-size: 2.6rem;
+  }
+
+  #professionals {
+    padding: 2.5rem;
+  }
+
+  .cta {
+    margin: 3rem 2rem;
+  }
+}
+
+/* =============================== */
+/* RESPONSIVE – TABLET (≤ 768px) */
+/* =============================== */
+@media (max-width: 768px) {
+  nav {
+    padding: 0.8rem 1.5rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  nav ul {
+    gap: 1.4rem;
+  }
+
+  nav ul li a {
+    font-size: 0.9rem;
+  }
+
+  .hero {
+    padding: 5rem 1.5rem 3rem;
+  }
+
+  .hero h1 {
+    font-size: 2.3rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .search-bar input {
+    width: 70%;
+    font-size: 0.95rem;
+  }
+
+  .pro-card i {
+    font-size: 2.2rem;
+  }
+
+  .pro-card {
+    padding: 1.7rem;
+  }
+
+  .cta h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* =============================== */
+/* RESPONSIVE – MOBILE (≤ 480px) */
+/* =============================== */
+@media (max-width: 480px) {
+  nav {
+    padding: 0.7rem 1rem;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+  }
+
+  nav ul {
+    gap: 1rem;
+  }
+
+  nav ul li a {
+    font-size: 0.85rem;
+  }
+
+  .hero {
+    padding: 4.2rem 1rem 2.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .search-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .search-bar input {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .search-bar button {
+    width: 100%;
+    margin-left: 0;
+    padding: 0.65rem;
+    font-size: 0.9rem;
+  }
+
+  #professionals {
+    padding: 2rem 1.2rem;
+    gap: 1.6rem;
+  }
+
+  .pro-card {
+    padding: 1.5rem;
+  }
+
+  .pro-card i {
+    font-size: 2rem;
+  }
+
+  .pro-card h3 {
+    font-size: 1rem;
+  }
+
+  .pro-card button {
+    padding: 0.6rem 1.4rem;
+    font-size: 0.85rem;
+  }
+
+  .cta {
+    padding: 2.2rem 1.2rem;
+    margin: 3rem 1rem;
+  }
+
+  .cta h2 {
+    font-size: 1.6rem;
+  }
+
+  .cta button {
+    padding: 0.7rem 1.6rem;
+    font-size: 0.9rem;
+  }
+
+  footer {
+    font-size: 0.85rem;
+  }
+}

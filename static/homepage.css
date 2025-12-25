@@ -110,3 +110,81 @@ section.visible {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* =============================== */
+/* RESPONSIVE – TABLET (≤ 1024px) */
+/* =============================== */
+@media (max-width: 1024px) {
+    #about p {
+        font-size: 1.05rem;
+        line-height: 1.7;
+    }
+
+    footer {
+        font-size: 0.88rem;
+    }
+}
+
+/* =============================== */
+/* RESPONSIVE – TABLET (≤ 768px) */
+/* =============================== */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.3rem;
+    }
+
+    button:hover {
+        /* reduce aggressive hover on touch devices */
+        transform: scale(1.04);
+        box-shadow: 0 0 14px #facc15;
+    }
+
+    #products div:hover {
+        transform: translateY(-5px) scale(1.03);
+    }
+
+    #about p {
+        font-size: 1rem;
+        line-height: 1.65;
+    }
+
+    footer {
+        font-size: 0.85rem;
+    }
+}
+
+/* =============================== */
+/* RESPONSIVE – MOBILE (≤ 480px) */
+/* =============================== */
+@media (max-width: 480px) {
+    nav ul li a {
+        font-size: 0.85rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    #about p {
+        font-size: 0.9rem;
+        line-height: 1.55;
+    }
+
+    input,
+    textarea {
+        font-size: 0.85rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+
+    footer {
+        font-size: 0.8rem;
+        letter-spacing: 0.3px;
+    }
+
+    section {
+        transform: translateY(25px);
+    }
+}

@@ -185,6 +185,7 @@ body{
   font-size:1.8rem;
   font-weight:700;
   background:linear-gradient(90deg,var(--accent),var(--accent-strong));
+  background-clip:text;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
@@ -263,7 +264,7 @@ body{
 ::-webkit-scrollbar-thumb{background:rgba(250,204,21,0.2);border-radius:10px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(250,204,21,0.35)}
 
-/* Responsive */
+/* Existing Responsive */
 @media (max-width:1000px){
   .sidebar{width:72px;padding:18px}
   .logo span{display:none}
@@ -274,4 +275,92 @@ body{
   .sidebar{width:100%;height:auto;position:relative;flex-direction:row;padding:14px}
   .main-content{margin-left:0;width:100%;padding:18px}
   .cards{flex-direction:column}
+}
+
+/* ================================================= */
+/* ADDITIONAL RESPONSIVE ENHANCEMENTS (SAFE) */
+/* ================================================= */
+
+/* Small Tablets (≤ 600px) */
+@media (max-width:600px){
+  .topbar{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  .topbar h1{
+    font-size:1.4rem;
+  }
+
+  .admin-profile{
+    padding:6px 10px;
+  }
+
+  .admin-profile .admin-name{
+    font-size:0.85rem;
+  }
+}
+
+/* Mobile Phones (≤ 480px) */
+@media (max-width:480px){
+  body{
+    font-size:14px;
+  }
+
+  .sidebar{
+    gap:10px;
+  }
+
+  .menu a{
+    padding:10px;
+    gap:10px;
+  }
+
+  .logout-btn{
+    font-size:0.9rem;
+    padding:10px;
+  }
+
+  .card{
+    padding:16px;
+  }
+
+  .card h3{
+    font-size:0.9rem;
+  }
+
+  .card p{
+    font-size:1.4rem;
+  }
+
+  .section-title{
+    font-size:1.05rem;
+  }
+
+  .data-table thead th,
+  .data-table tbody td{
+    padding:10px;
+    font-size:0.85rem;
+  }
+
+  .badge{
+    font-size:0.72rem;
+    padding:4px 10px;
+  }
+}
+
+/* Extra Small Phones (≤ 360px) */
+@media (max-width:360px){
+  .topbar h1{
+    font-size:1.25rem;
+  }
+
+  .card p{
+    font-size:1.25rem;
+  }
+
+  .admin-profile{
+    gap:8px;
+  }
 }

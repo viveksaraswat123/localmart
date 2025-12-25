@@ -96,3 +96,72 @@ button:hover {
 .switch a:hover {
   text-decoration: underline;
 }
+
+/* =============================== */
+/* RESPONSIVE – TABLET (≤ 768px) */
+/* =============================== */
+@media (max-width: 768px) {
+  .container {
+    width: 340px;
+    padding: 1.8rem;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+  }
+
+  input {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  button {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* =============================== */
+/* RESPONSIVE – MOBILE (≤ 480px) */
+/* =============================== */
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 320px;
+    padding: 1.6rem;
+    border-radius: 14px;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  p {
+    font-size: 0.82rem;
+    margin-bottom: 1.2rem;
+  }
+
+  input {
+    padding: 0.65rem;
+    font-size: 0.82rem;
+    border-radius: 7px;
+  }
+
+  button {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+
+  .switch {
+    font-size: 0.8rem;
+  }
+}

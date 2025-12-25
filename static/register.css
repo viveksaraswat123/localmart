@@ -118,3 +118,88 @@ input:-webkit-autofill {
   font-weight: 600;
   text-decoration: none;
 }
+
+/* =============================== */
+/* RESPONSIVE – TABLET (≤ 768px) */
+/* =============================== */
+@media (max-width: 768px) {
+  .card {
+    width: 340px;
+    padding: 1.8rem;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+  }
+
+  input,
+  select {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  .primary-btn {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .close-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+}
+
+/* =============================== */
+/* RESPONSIVE – MOBILE (≤ 480px) */
+/* =============================== */
+@media (max-width: 480px) {
+  .overlay {
+    padding: 1rem;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 320px;
+    padding: 1.6rem;
+    border-radius: 14px;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  p {
+    font-size: 0.82rem;
+    margin-bottom: 1.2rem;
+  }
+
+  input,
+  select {
+    padding: 0.65rem;
+    font-size: 0.82rem;
+    border-radius: 7px;
+  }
+
+  .primary-btn {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+
+  .switch {
+    font-size: 0.8rem;
+  }
+
+  .close-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+    top: 10px;
+    right: 10px;
+  }
+}
