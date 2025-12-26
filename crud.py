@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 import models, schemas
+from fastapi import HTTPException
 
 # USER CRUD
 def get_user_by_email(db: Session, email: str):
@@ -74,9 +75,13 @@ def get_products_by_seller(db: Session, seller_id: int):
     return db.query(models.Product).filter(models.Product.seller_id == seller_id).all()
 
 
-def update_product(db: Session, db_product: models.Product, update_data: schemas.ProductUpdate):
-    for key, value in update_data.dict(exclude_unset=True).items():
+def update_product(db: Session, db_product: models.Product, update: schemas.ProductUpdate):
+    for key, value in update.dict(exclude_unset=True).items():
         setattr(db_product, key, value)
+
+    # NEW: if category becomes grocery, expiry must exist
+    if db_product.category and "grocery" in db_product.category.lower() and not db_product.expiry_date:
+        raise HTTPException(400, "Grocery items must have expiry date")
 
     db.commit()
     db.refresh(db_product)

@@ -372,11 +372,9 @@ def update_seller_profile(
     db.refresh(profile)
     return profile
 
-
-#PRODUCT APIs
+# PRODUCT APIs
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
-
 
 @app.post("/products/", response_model=schemas.Product, tags=["Products"])
 async def create_product(
@@ -384,31 +382,42 @@ async def create_product(
     description: str = Form(...),
     price: float = Form(...),
     quantity: int = Form(...),
+    category: str = Form(...),  
     expiry_date: Optional[date] = Form(None),
-    image: UploadFile = File(...),
+    image: List[UploadFile] = File(...),  # Multi image upload
     current_user: models.User = Depends(role_required(["seller", "admin"])),
     db: Session = Depends(get_db),
 ):
-    # Only images
-    allowed_types = ["image/jpeg", "image/png", "image/webp"]
-    if image.content_type not in allowed_types:
-        raise HTTPException(status_code=400, detail="Only JPG, PNG, and WEBP allowed")
+    if len(image) < 3:
+        raise HTTPException(400, "Minimum 3 images required")
 
-    # Save uploaded image
-    image_filename = f"{int(datetime.utcnow().timestamp())}_{image.filename}"
-    image_path = os.path.join(UPLOAD_DIR, image_filename)
-    with open(image_path, "wb") as buffer:
-        buffer.write(await image.read())
-    image_url = f"/uploads/{image_filename}"
+    # Save first image as thumbnail
+    thumb = image[0]
+    allowed_types = ["image/jpeg", "image/png", "image/webp"]
+    if thumb.content_type not in allowed_types:
+        raise HTTPException(400, "Only JPG/PNG/WebP allowed")
+
+    filename = f"{int(datetime.utcnow().timestamp())}_{thumb.filename}"
+    path = os.path.join(UPLOAD_DIR, filename)
+
+    with open(path, "wb") as f:
+        f.write(await thumb.read())
+
+    image_url = f"/uploads/{filename}"
+
+    # Expiry required only for Grocery
+    if "grocery" in category.lower() and not expiry_date:
+        raise HTTPException(400, "Expiry date is required for grocery items")
 
     product = models.Product(
         name=name,
         description=description,
         price=price,
         quantity=quantity,
+        category=category,
         expiry_date=expiry_date,
         image_url=image_url,
-        seller_id=current_user.id,  # <- seller taken from JWT
+        seller_id=current_user.id,  # AUTO SET FROM JWT
     )
 
     db.add(product)
@@ -449,9 +458,8 @@ def update_product(
     if not product:
         raise HTTPException(404, "Product not found")
 
-    # Only owner seller OR admin can update
     if current_user.role != "admin" and product.seller_id != current_user.id:
-        raise HTTPException(403, "You are not allowed to edit this product")
+        raise HTTPException(403, "Not authorized to edit this product")
 
     if product_in.name is not None:
         product.name = product_in.name
@@ -461,10 +469,18 @@ def update_product(
         product.price = product_in.price
     if product_in.quantity is not None:
         product.quantity = product_in.quantity
+
+    # NEW: category update
+    if product_in.category is not None:
+        product.category = product_in.category
+
+    # NEW: expiry update
     if product_in.expiry_date is not None:
         product.expiry_date = product_in.expiry_date
-    if product_in.image_url is not None:
-        product.image_url = product_in.image_url
+
+    # If category is Grocery, expiry must exist
+    if "grocery" in product.category.lower() and not product.expiry_date:
+        raise HTTPException(400, "Grocery items must have expiry date")
 
     db.commit()
     db.refresh(product)
@@ -482,7 +498,7 @@ def delete_product(
         raise HTTPException(404, "Product not found")
 
     if current_user.role != "admin" and product.seller_id != current_user.id:
-        raise HTTPException(403, "You are not allowed to delete this product")
+        raise HTTPException(403, "Not authorized to delete this product")
 
     db.delete(product)
     db.commit()

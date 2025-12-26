@@ -50,6 +50,7 @@ class ProductBase(BaseModel):
     description: str
     price: float
     quantity: int
+    category: str  
     expiry_date: Optional[date] = None
     image_url: Optional[str] = None
 
@@ -63,6 +64,7 @@ class ProductCreate(ProductBase):
 
 
 class ProductUpdate(BaseModel):
+    category: Optional[str] = None  # NEW
     name: Optional[str] = None
     description: Optional[str] = None
     price: Optional[float] = None

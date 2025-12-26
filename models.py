@@ -49,13 +49,16 @@ class Product(Base):
     description = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     quantity = Column(Integer, nullable=False)
+
+    category = Column(String, nullable=False)  # <-- ADD THIS
     expiry_date = Column(Date, nullable=True)
     image_url = Column(String, nullable=True)
 
     seller_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
-    seller = relationship("User", back_populates="products")  # Seller = User with role="seller"
+    seller = relationship("User", back_populates="products")
     orders = relationship("Order", back_populates="product")
+
 
 
 class Order(Base):
