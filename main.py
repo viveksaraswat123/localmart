@@ -376,15 +376,15 @@ def update_seller_profile(
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-@app.post("/products/", response_model=schemas.Product, tags=["Products"])
+@app.post("/products/", response_model=List[schemas.Product], tags=["Products"])
 async def create_product(
     name: str = Form(...),
     description: str = Form(...),
     price: float = Form(...),
     quantity: int = Form(...),
-    category: str = Form(...),  
+    category: str = Form(...), 
     expiry_date: Optional[date] = Form(None),
-    image: List[UploadFile] = File(...),  # Multi image upload
+    image: List[UploadFile] = File(...),
     current_user: models.User = Depends(role_required(["seller", "admin"])),
     db: Session = Depends(get_db),
 ):
@@ -405,9 +405,9 @@ async def create_product(
 
     image_url = f"/uploads/{filename}"
 
-    # Expiry required only for Grocery
+    # Expiry required only if Grocery
     if "grocery" in category.lower() and not expiry_date:
-        raise HTTPException(400, "Expiry date is required for grocery items")
+        raise HTTPException(400, "Expiry date required for Grocery items")
 
     product = models.Product(
         name=name,
@@ -417,13 +417,13 @@ async def create_product(
         category=category,
         expiry_date=expiry_date,
         image_url=image_url,
-        seller_id=current_user.id,  # AUTO SET FROM JWT
+        seller_id=current_user.id,
     )
 
     db.add(product)
     db.commit()
     db.refresh(product)
-    return product
+    return [product]
 
 
 @app.get("/products/", response_model=List[schemas.Product], tags=["Products"])

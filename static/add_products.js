@@ -1,48 +1,61 @@
-const API_URL = "http://127.0.0.0.1:8000/products/";
+const API_URL = "http://127.0.0.1:8000/products/";
 
-document.getElementById("productForm").addEventListener("submit", async function (e) {
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("productForm");
+  const category = form.querySelector("select[name='category']");
+  const expiryWrapper = document.getElementById("expiryWrapper");
+  const fileInput = document.getElementById("fileInput");
+  const previewBox = document.getElementById("preview");
+  const msgBox = document.getElementById("message");
+
+  expiryWrapper.style.display = "none";
+
+  category.addEventListener("change", () => {
+    expiryWrapper.style.display = category.value.toLowerCase().includes("grocery") ? "block" : "none";
+  });
+
+  fileInput.addEventListener("change", () => {
+    previewBox.innerHTML = "";
+    Array.from(fileInput.files).forEach(file => {
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(file);
+      img.className = "w-28 h-28 object-cover rounded-lg border border-[#444]";
+      previewBox.appendChild(img);
+    });
+  });
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    const form = e.target;
     const token = localStorage.getItem("token");
-
-    if (!token) {
-        alert("⚠ Login first as SELLER to add products!");
-        window.location.href = "/login";
-        return;
-    }
-
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    const sellerId = payload.sub;  // extracted seller ID
+    if (!token) return window.location.href = "/login";
 
     const formData = new FormData(form);
-    formData.append("seller_id", sellerId);  // auto-set seller
-    // Grocery expiry logic already handled by backend
+
+    // Append files properly (backend expects key="image")
+    if (fileInput.files.length < 3) {
+      alert("⚠ Minimum 3 images required!");
+      return;
+    }
+
+    for (let i = 0; i < fileInput.files.length; i++) {
+      formData.append("image", fileInput.files[i]);
+    }
 
     try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + token
-            },
-            body: formData
-        });
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + token },
+        body: formData
+      });
 
-        const result = await response.json();
-        const msg = document.getElementById("message");
+      const d = await res.json();
+      msgBox.style.color = res.ok ? "limegreen" : "red";
+      msgBox.innerText = res.ok ? "Item Published!" : d.detail;
+      if (res.ok) form.reset();
 
-        if (response.ok) {
-            msg.style.color = "limegreen";
-            msg.textContent = "Product published successfully!";
-            form.reset();
-        } else {
-            msg.style.color = "red";
-            msg.textContent = "Failed: " + (result.detail || "Unknown error");
-        }
-    } catch (err) {
-        console.error("Error:", err);
-        const msg = document.getElementById("message");
-        msg.style.color = "red";
-        msg.textContent = "⚠ Server error. Retry.";
+    } catch {
+      msgBox.style.color = "red";
+      msgBox.innerText = "⚠ Server error. Retry.";
     }
+  });
 });
