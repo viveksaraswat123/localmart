@@ -1,0 +1,49 @@
+/* ===============================
+   LOCALMART FOOTER
+   =============================== */
+
+.footer {
+  background: rgba(10, 10, 10, 0.95);
+  color: #9ca3af; /* soft gray */
+  text-align: center;
+  padding: 1.5rem 1rem;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+
+  backdrop-filter: blur(6px);
+}
+
+/* Hover glow (subtle premium effect) */
+.footer p {
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.footer p:hover {
+  color: #facc15;
+  text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
+}
+
+/* ===============================
+   RESPONSIVE – TABLET (≤ 768px)
+   =============================== */
+
+@media (max-width: 768px) {
+  .footer {
+    font-size: 0.85rem;
+    padding: 1.3rem 1rem;
+  }
+}
+
+/* ===============================
+   RESPONSIVE – MOBILE (≤ 480px)
+   =============================== */
+
+@media (max-width: 480px) {
+  .footer {
+    font-size: 0.8rem;
+    padding: 1.1rem 0.8rem;
+    letter-spacing: 0.3px;
+  }
+}

@@ -1,0 +1,422 @@
+/* 🌐 LocalMart Services Page – Ultra Premium Black & Gold */
+/* ===============================
+   REACT SAFE – SCOPED CSS
+   =============================== */
+
+.services-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.services-page {
+  font-family: "Poppins", sans-serif;
+  background: #050505;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+.services-page html {
+  scroll-behavior: smooth;
+}
+
+/* ================= NAVBAR ================= */
+
+.services-page nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 3rem;
+  background: rgba(15, 15, 15, 0.55);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(250, 204, 21, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: background 0.3s ease;
+}
+
+.services-page nav:hover {
+  background: rgba(30, 30, 30, 0.9);
+}
+
+.services-page .logo {
+  font-weight: 600;
+  color: #facc15;
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.services-page nav ul {
+  display: flex;
+  gap: 2.2rem;
+  list-style: none;
+}
+
+.services-page nav ul li a {
+  text-decoration: none;
+  color: #d7d7d7;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.services-page nav ul li a.active,
+.services-page nav ul li a:hover {
+  color: #facc15;
+}
+
+.services-page nav ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #facc15;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.services-page nav ul li a:hover::after {
+  width: 100%;
+}
+
+/* ================= HERO ================= */
+
+.services-page .hero {
+  text-align: center;
+  padding: 7rem 2rem 5rem;
+  background: radial-gradient(
+    ellipse at top,
+    rgba(250, 204, 21, 0.12),
+    transparent 60%
+  );
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.services-page .hero.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.services-page .hero h1 {
+  font-size: 3.4rem;
+  font-weight: 700;
+}
+
+.services-page .hero span {
+  color: #facc15;
+}
+
+.services-page .hero p {
+  font-size: 1.15rem;
+  color: #c1c1c1;
+  margin-top: 0.8rem;
+}
+
+/* ================= SERVICES GRID ================= */
+
+.services-page #services {
+  max-width: 1300px;
+  margin: auto;
+  padding: 5rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 3.2rem;
+}
+
+/* ================= SERVICE CARD ================= */
+
+.services-page .service-card {
+  position: relative;
+  padding: 3rem 2.2rem;
+  border-radius: 1.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(250, 204, 21, 0.22);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.55);
+  cursor: pointer;
+  transition: 0.4s ease;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.services-page .service-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.services-page .service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent,
+    rgba(250, 204, 21, 0.12),
+    transparent
+  );
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: 0.45s ease;
+}
+
+.services-page .service-card:hover::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ICON */
+.services-page .service-card i {
+  font-size: 3.4rem;
+  margin-bottom: 1rem;
+  color: #facc15;
+  transition: 0.35s ease;
+}
+
+/* TITLE */
+.services-page .service-card h3 {
+  font-size: 1.45rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+  color: #facc15;
+}
+
+.services-page .service-card p {
+  font-size: 1.05rem;
+  color: #e2e2e2;
+  line-height: 1.65rem;
+  font-weight: 300;
+}
+
+/* ================= CTA ================= */
+
+.services-page .cta {
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 950px;
+  margin: 4rem auto;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.services-page .cta.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.services-page .cta h2 {
+  font-size: 2.4rem;
+}
+
+.services-page .cta p {
+  font-size: 1.05rem;
+  margin-top: 0.6rem;
+}
+
+.services-page .cta button {
+  padding: 1rem 2.6rem;
+  font-size: 1.05rem;
+  margin-top: 1.6rem;
+  background: #facc15;
+  color: #000;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.services-page .cta button:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 20px #facc15;
+}
+
+/* ================= FOOTER ================= */
+
+.services-page footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.95rem;
+  color: #aaa;
+}
+
+/* ================= BACK TO TOP ================= */
+
+.services-page .back-to-top {
+  position: fixed;
+  bottom: 35px;
+  right: 25px;
+  padding: 0.7rem;
+  background: #facc15;
+  color: #000;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: none;
+  place-items: center;
+  z-index: 100;
+}
+
+.services-page .back-to-top.show {
+  display: grid;
+}
+
+/* ================= GLOW ================= */
+
+@keyframes glowText {
+  0% {
+    text-shadow: 0 0 10px #161614;
+  }
+  100% {
+    text-shadow: 0 0 30px #facc15;
+  }
+}
+
+/* ===============================
+   RESPONSIVE – TABLETS (≤ 1024px)
+   =============================== */
+
+@media (max-width: 1024px) {
+  .services-page .hero h1 {
+    font-size: 2.8rem;
+  }
+
+  .services-page #services {
+    gap: 2.5rem;
+  }
+
+  .services-page .service-card {
+    padding: 2.6rem 2rem;
+  }
+}
+
+/* ===============================
+   RESPONSIVE – TABLETS (≤ 768px)
+   =============================== */
+
+@media (max-width: 768px) {
+  .services-page nav {
+    padding: 0.9rem 1.5rem;
+  }
+
+  .services-page .logo {
+    font-size: 1.3rem;
+  }
+
+  .services-page nav ul {
+    gap: 1.4rem;
+  }
+
+  .services-page .hero {
+    padding: 5.5rem 1.5rem 4rem;
+  }
+
+  .services-page .hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .services-page .hero p {
+    font-size: 1rem;
+  }
+
+  .services-page .service-card i {
+    font-size: 2.6rem;
+  }
+
+  .services-page .service-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .services-page .service-card p {
+    font-size: 0.95rem;
+  }
+
+  .services-page .cta h2 {
+    font-size: 2rem;
+  }
+
+  .services-page .cta p {
+    font-size: 0.95rem;
+  }
+}
+
+/* ===============================
+   RESPONSIVE – MOBILE (≤ 480px)
+   =============================== */
+
+@media (max-width: 480px) {
+  .services-page nav {
+    padding: 0.8rem 1rem;
+  }
+
+  .services-page nav ul {
+    gap: 1rem;
+  }
+
+  .services-page nav ul li a {
+    font-size: 0.85rem;
+  }
+
+  .services-page .hero h1 {
+    font-size: 2rem;
+  }
+
+  .services-page .hero p {
+    font-size: 0.9rem;
+  }
+
+  .services-page #services {
+    padding: 3.5rem 1.2rem;
+    gap: 2rem;
+  }
+
+  .services-page .service-card {
+    padding: 2.2rem 1.6rem;
+  }
+
+  .services-page .service-card i {
+    font-size: 2.2rem;
+  }
+
+  .services-page .service-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .services-page .service-card p {
+    font-size: 0.9rem;
+    line-height: 1.45rem;
+  }
+
+  .services-page .cta {
+    padding: 3rem 1.4rem;
+  }
+
+  .services-page .cta h2 {
+    font-size: 1.7rem;
+  }
+
+  .services-page .cta p {
+    font-size: 0.9rem;
+  }
+
+  .services-page .cta button {
+    padding: 0.8rem 2rem;
+    font-size: 0.9rem;
+  }
+
+  .services-page footer {
+    font-size: 0.85rem;
+  }
+
+  .services-page .back-to-top {
+    bottom: 18px;
+    right: 16px;
+    padding: 0.55rem;
+  }
+}

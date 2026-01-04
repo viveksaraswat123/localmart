@@ -1,0 +1,263 @@
+/* ===============================
+   PROFILE PAGE (REACT SAFE)
+   =============================== */
+
+.profile-page {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #0f0f0f, #000);
+  color: #f9f9f9;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ================= NAVBAR ================= */
+
+.profile-page nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 60px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  background: rgba(20, 20, 20, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.3s ease;
+}
+
+.profile-page nav:hover {
+  background: rgba(30, 30, 30, 0.85);
+}
+
+.profile-page .logo {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #facc15;
+  text-shadow: 0 0 12px #facc15;
+}
+
+.profile-page nav ul {
+  list-style: none;
+  display: flex;
+  gap: 35px;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-page nav ul li a {
+  color: #eaeaea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+/* ================= PROFILE SECTION ================= */
+
+.profile-page .profile-container {
+  max-width: 1000px;
+  margin: 120px auto 80px;
+  padding: 40px;
+  background: rgba(20, 20, 20, 0.85);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(250, 204, 21, 0.15);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1.2s ease;
+}
+
+.profile-page .profile-header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 20px;
+}
+
+.profile-page .profile-header img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #facc15;
+}
+
+.profile-page .profile-header h2 {
+  font-size: 1.8rem;
+  color: #facc15;
+}
+
+/* ================= STATS ================= */
+
+.profile-page .profile-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 35px;
+  text-align: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* ================= TABS ================= */
+
+.profile-page .profile-tabs {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.profile-page .tab-btn {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1rem;
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+.profile-page .tab-content {
+  display: none;
+  margin-top: 30px;
+}
+
+.profile-page .tab-content.active {
+  display: block;
+}
+
+/* ================= MODAL ================= */
+
+.profile-page .modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.profile-page .modal-content {
+  background: rgba(20, 20, 20, 0.9);
+  padding: 25px 35px;
+  border-radius: 15px;
+  width: 400px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+  .profile-page nav {
+    padding: 14px 40px;
+  }
+
+  .profile-page .profile-container {
+    margin: 110px 30px 70px;
+  }
+
+  .profile-page .profile-header h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-page nav {
+    padding: 12px 22px;
+  }
+
+  .profile-page .logo {
+    font-size: 1.4rem;
+  }
+
+  .profile-page nav ul {
+    gap: 20px;
+  }
+
+  .profile-page nav ul li a {
+    font-size: 0.9rem;
+  }
+
+  .profile-page .profile-container {
+    padding: 30px;
+  }
+
+  .profile-page .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-page .profile-header img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-page .profile-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .profile-page .tab-btn {
+    font-size: 0.95rem;
+    margin: 8px 12px;
+  }
+
+  .profile-page .modal-content {
+    width: 90%;
+    max-width: 360px;
+    padding: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-page nav {
+    padding: 10px 16px;
+  }
+
+  .profile-page .logo {
+    font-size: 1.25rem;
+  }
+
+  .profile-page nav ul {
+    gap: 14px;
+  }
+
+  .profile-page nav ul li a {
+    font-size: 0.85rem;
+  }
+
+  .profile-page .profile-container {
+    margin: 95px 14px 60px;
+    padding: 22px;
+    border-radius: 16px;
+  }
+
+  .profile-page .profile-header img {
+    width: 85px;
+    height: 85px;
+  }
+
+  .profile-page .profile-header h2 {
+    font-size: 1.35rem;
+  }
+
+  .profile-page .tab-btn {
+    font-size: 0.85rem;
+  }
+
+  .profile-page .modal-content {
+    padding: 18px;
+    border-radius: 12px;
+  }
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

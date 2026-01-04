@@ -1,0 +1,172 @@
+/* ===============================
+   LOCALMART NAVBAR – PREMIUM
+   =============================== */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* -------- NAVBAR BASE -------- */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem 3rem;
+
+  backdrop-filter: blur(12px);
+  background: rgba(20, 20, 20, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  transition: background 0.3s ease;
+}
+
+.navbar:hover {
+  background: rgba(30, 30, 30, 0.8);
+}
+
+/* -------- LOGO -------- */
+
+.navbar-logo a {
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-decoration: none;
+
+  color: #facc15;
+}
+
+/* -------- LINKS -------- */
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.navbar-links li a,
+.logout-btn {
+  position: relative;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+
+  color: #e5e5e5;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  transition: color 0.3s ease;
+}
+
+/* -------- UNDERLINE ANIMATION -------- */
+
+.navbar-links li a::after,
+.logout-btn::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+
+  width: 0%;
+  height: 2px;
+  background: #facc15;
+
+  transition: width 0.3s ease;
+}
+
+.navbar-links li a:hover::after,
+.logout-btn:hover::after {
+  width: 100%;
+}
+
+.navbar-links li a:hover,
+.logout-btn:hover {
+  color: #facc15;
+}
+
+/* -------- LOGIN BUTTON -------- */
+
+.login-btn a {
+  background: #facc15;
+  color: #000;
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-btn a:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
+}
+
+/* ===============================
+   RESPONSIVE – TABLET (≤ 1024px)
+   =============================== */
+
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 0.9rem 2rem;
+  }
+
+  .navbar-logo a {
+    font-size: 1.5rem;
+  }
+}
+
+/* ===============================
+   RESPONSIVE – TABLET (≤ 768px)
+   =============================== */
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1.5rem;
+  }
+
+  .navbar-links {
+    gap: 1.4rem;
+  }
+
+  .navbar-links li a,
+  .logout-btn {
+    font-size: 0.9rem;
+  }
+}
+
+/* ===============================
+   RESPONSIVE – MOBILE (≤ 480px)
+   =============================== */
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .navbar-logo a {
+    font-size: 1.35rem;
+  }
+
+  .navbar-links {
+    gap: 1rem;
+  }
+
+  .navbar-links li a,
+  .logout-btn {
+    font-size: 0.85rem;
+  }
+
+  .login-btn a {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+  }
+}

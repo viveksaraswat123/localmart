@@ -1,0 +1,165 @@
+/* ===============================
+   ABOUT PAGE – LOCALMART
+   =============================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+.about-page {
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
+  color: #f1f1f1;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* CONTAINER */
+
+.about-page .container {
+  max-width: 1000px;
+  margin: 100px auto;
+  background: rgba(25, 25, 25, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 25px rgba(250, 204, 21, 0.1);
+  animation: fadeIn 1.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* FADE IN */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* HEADINGS */
+
+.about-page h1 {
+  text-align: center;
+  color: #facc15;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.about-page h2 {
+  color: #facc15;
+  font-size: 1.6rem;
+  margin-top: 30px;
+  border-left: 4px solid #facc15;
+  padding-left: 10px;
+  text-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+}
+
+@keyframes glowText {
+  0% {
+    text-shadow: 0 0 10px #facc15, 0 0 20px #facc15;
+  }
+  100% {
+    text-shadow: 0 0 20px #facc15, 0 0 40px #facc15;
+  }
+}
+
+/* TEXT */
+
+.about-page p {
+  line-height: 1.8;
+  color: #cfcfcf;
+  font-size: 1.05rem;
+  margin-top: 10px;
+}
+
+.about-page ul {
+  margin-top: 12px;
+  padding-left: 20px;
+  list-style: none;
+  color: #dcdcdc;
+}
+
+.about-page li {
+  margin: 8px 0;
+  line-height: 1.7;
+  position: relative;
+}
+
+.about-page li::before {
+  content: "•";
+  color: #facc15;
+  margin-right: 8px;
+}
+
+/* HIGHLIGHT */
+
+.about-page .highlight {
+  color: #facc15;
+  font-weight: 600;
+}
+
+/* BACK BUTTON */
+
+.about-page .back-wrapper {
+  text-align: center;
+  margin-top: 35px;
+}
+
+.about-page .back-btn {
+  display: inline-block;
+  background: #facc15;
+  color: #111;
+  padding: 12px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.about-page .back-btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 20px #facc15;
+}
+
+/* FOOTER */
+
+.about-page footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #aaa;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* SCROLL REVEAL */
+
+.about-page section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.about-page section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .about-page .container {
+    padding: 30px 25px;
+    margin: 40px 15px;
+  }
+
+  .about-page h1 {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,208 @@
+/* ===============================
+   CONTACT PAGE – LOCALMART
+   =============================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+.contact-page {
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
+  color: #f1f1f1;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* CONTAINER */
+
+.contact-page .container {
+  max-width: 900px;
+  margin: 100px auto;
+  background: rgba(25, 25, 25, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 25px rgba(250, 204, 21, 0.1);
+  animation: fadeIn 1.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* FADE IN */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* HEADING */
+
+.contact-page h1 {
+  text-align: center;
+  color: #facc15;
+  font-size: 2.5rem;
+  text-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
+}
+
+@keyframes glowText {
+  0% {
+    text-shadow: 0 0 10px #facc15, 0 0 20px #facc15;
+  }
+  100% {
+    text-shadow: 0 0 20px #facc15, 0 0 40px #facc15;
+  }
+}
+
+/* INTRO */
+
+.contact-page .intro {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #dcdcdc;
+  margin: 10px 0 30px;
+  line-height: 1.6;
+}
+
+.contact-page .brand {
+  color: #facc15;
+  font-weight: 600;
+}
+
+/* FORM */
+
+.contact-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-page input,
+.contact-page textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: none;
+}
+
+.contact-page input::placeholder,
+.contact-page textarea::placeholder {
+  color: #aaa;
+}
+
+.contact-page input:focus,
+.contact-page textarea:focus {
+  border-color: #facc15;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+  outline: none;
+}
+
+/* BUTTON */
+
+.contact-page button {
+  background: #facc15;
+  color: #111;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: fit-content;
+  margin: 0 auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-page button:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 20px #facc15;
+}
+
+/* INFO */
+
+.contact-page .info {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.contact-page .info h2 {
+  color: #facc15;
+  margin-bottom: 10px;
+}
+
+.contact-page .info p {
+  color: #cfcfcf;
+  line-height: 1.7;
+}
+
+/* BACK BUTTON */
+
+.contact-page .back-wrapper {
+  text-align: center;
+  margin-top: 35px;
+}
+
+.contact-page .back-btn {
+  display: inline-block;
+  background: #facc15;
+  color: #111;
+  padding: 12px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.contact-page .back-btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 20px #facc15;
+}
+
+/* FOOTER */
+
+.contact-page footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #aaa;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* SCROLL REVEAL */
+
+.contact-page section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.contact-page section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .contact-page .container {
+    padding: 30px 25px;
+    margin: 40px 15px;
+  }
+
+  .contact-page h1 {
+    font-size: 2rem;
+  }
+}
