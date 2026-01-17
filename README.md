@@ -1,4 +1,4 @@
-# 🛍️ LocalMart — A Smart Local Marketplace Platform
+# LocalMart - A Smart Local Marketplace Platform
 
 **LocalMart** is a FastAPI-based local marketplace web application designed to digitally connect **local shopkeepers, service providers, and customers** on a single platform.  
 It empowers small businesses to go online while enabling customers to easily browse products, place orders, and book nearby professionals such as plumbers, electricians, and carpenters.
@@ -57,42 +57,66 @@ It empowers small businesses to go online while enabling customers to easily bro
 | API Schema & Validation | **Pydantic** |
 | Deployment Ready | ✅ Render / Railway / Heroku compatible |
 
----
 
 ## 📂 Project Structure
-
+```
 LocalMart/
-│
-├── main.py # FastAPI application entry point
-├── database.py # Database connection & session management
-├── models.py # SQLAlchemy ORM models
-├── schemas.py # Pydantic schemas (request/response validation)
-├── crud.py # Database CRUD operations
-│
-├── templates/ # Frontend HTML templates
-│ ├── index.html
-│ ├── products.html
-│ ├── services.html
-│ ├── about.html
-│ ├── contact.html
-│ └── ...
-│
-├── static/ # Static assets
+├── app/
+│ ├── main.py
+│ ├── core/
+│ │ ├── config.py
+│ │ └── security.py
+│ │
+│ ├── database/
+│ │ ├── session.py
+│ │ └── base.py
+│ │
+│ ├── models/
+│ │ ├── user.py
+│ │ ├── product.py
+│ │ └── service.py
+│ │
+│ ├── schemas/
+│ │ ├── user.py
+│ │ ├── product.py
+│ │ └── service.py
+│ │
+│ ├── crud/
+│ │ ├── user.py
+│ │ ├── product.py
+│ │ └── service.py
+│ │
+│ ├── api/
+│ │ └── v1/
+│ │ ├── auth.py
+│ │ ├── users.py
+│ │ ├── products.py
+│ │ └── services.py
+│ │
+│ ├── templates/
+│ │ ├── index.html
+│ │ ├── products.html
+│ │ ├── services.html
+│ │ ├── about.html
+│ │ └── contact.html
+│ │
+│ └── static/
 │ ├── css/
-│ │ └── style.css
 │ ├── js/
-│ │ └── script.js
 │ └── images/
 │
-└── README.md # Project documentation
-
+├── tests/
+├── requirements.txt
+├── .env
+└── README.md
+```
 
 ---
 
 ## 🔐 Authentication
 - JWT-based authentication implemented  
 - Secure login & protected routes  
-- Ready for role-based authorization expansion  
+- Role-based authorization implemented  
 
 ---
 
@@ -115,10 +139,16 @@ LocalMart/
 ---
 
 ## 💡 Why LocalMart?
-- Built with **FastAPI** for high performance  
-- Clean, modular, and scalable architecture  
-- Suitable for academic projects, startups, and real-world deployment  
-- Ideal for learning **backend development, APIs, authentication, and ORM design**
+## Why LocalMart?
+
+- Helps local shops and service providers go online easily  
+- Simple, fast, and secure platform built with FastAPI  
+- JWT-based authentication for safe user access  
+- Clean and modular code structure for easy maintenance  
+- Supports products, services, and delivery in one system  
+- Suitable for real-world use as well as learning projects  
+- Easy to scale and deploy for future growth  
+
 
 ---
 
