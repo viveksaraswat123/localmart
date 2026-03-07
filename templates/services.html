@@ -1,142 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services | LocalMart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <title>LocalMart - Services That Empower Local Businesses</title>
+    :root {
+      --ink: #111;
+      --ink2: #444;
+      --ink3: #888;
+      --line: #e5e5e5;
+      --bg: #fafaf8;
+      --paper: #fff;
+      --accent: #c8622a;
+    }
 
-  <!-- Icons -->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Geist', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  <!-- Premium Black-Gold CSS -->
-  <link rel="stylesheet" href="static/services.css">
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 99;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 58px;
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.25rem; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.01em;
+    }
+    .logo b { color: var(--accent); font-weight: 400; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; color: var(--ink2);
+      text-decoration: none; letter-spacing: 0.02em;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 1px; }
+    .nav-cta {
+      font-size: 0.82rem !important; color: var(--ink) !important;
+      border: 1px solid var(--ink) !important; padding: 6px 18px;
+      border-radius: 100px; transition: background 0.15s, color 0.15s !important;
+    }
+    .nav-cta:hover { background: var(--ink) !important; color: var(--bg) !important; border-bottom: none !important; }
+    .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .burger span { width: 22px; height: 1.5px; background: var(--ink); display: block; }
+    .mobile-menu {
+      display: none; position: fixed; inset: 58px 0 0 0; z-index: 98;
+      background: var(--bg); padding: 32px 5vw;
+      border-top: 1px solid var(--line); flex-direction: column;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1.05rem; color: var(--ink); text-decoration: none;
+      padding: 18px 0; border-bottom: 1px solid var(--line);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: calc(58px + 80px) 5vw 80px;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: end;
+    }
+    .hero-left {}
+    .hero-tag {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 400; line-height: 1.1; letter-spacing: -0.02em;
+      color: var(--ink);
+      opacity: 0; animation: up 0.6s 0.15s ease forwards;
+    }
+    .hero h1 i { font-style: italic; color: var(--accent); }
+    .hero-right {
+      opacity: 0; animation: up 0.6s 0.25s ease forwards;
+    }
+    .hero-right p {
+      font-size: 1rem; color: var(--ink2);
+      line-height: 1.8; font-weight: 300; margin-bottom: 32px;
+    }
+
+
+    /* ─── TICKER ─── */
+    .ticker-row {
+      overflow: hidden; border-bottom: 1px solid var(--line);
+      padding: 13px 0; white-space: nowrap; background: var(--bg);
+    }
+    .ticker-track {
+      display: inline-flex; gap: 48px;
+      animation: ticker 24s linear infinite;
+    }
+    .ticker-track span { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
+    .ticker-track span.dot { color: var(--accent); }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── SERVICES SECTION ─── */
+    .services-section { padding: 80px 5vw; }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 48px; flex-wrap: wrap; gap: 16px;
+    }
+    .tag { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink3); margin-bottom: 12px; }
+    h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 400; letter-spacing: -0.02em; line-height: 1.15;
+    }
+    .section-sub { font-size: 0.88rem; color: var(--ink3); max-width: 320px; line-height: 1.7; font-weight: 300; text-align: right; }
+
+    /* ─── SERVICES GRID ─── */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; background: var(--line); border: 1px solid var(--line);
+    }
+    .service-card {
+      background: var(--paper); padding: 36px 32px;
+      display: flex; flex-direction: column;
+      transition: background 0.18s; cursor: default;
+      position: relative; overflow: hidden;
+    }
+    .service-card:hover { background: var(--bg); }
+    .service-card:hover .card-num { color: var(--accent); }
+
+    .card-num {
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 28px;
+      transition: color 0.2s;
+    }
+
+    .service-card h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.15rem; font-weight: 400; margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .service-card p {
+      font-size: 0.84rem; color: var(--ink2);
+      line-height: 1.65; font-weight: 300; flex: 1;
+    }
+    .card-detail {
+      margin-top: 20px; padding-top: 16px;
+      border-top: 1px solid var(--line);
+      font-size: 0.76rem; color: var(--ink3); line-height: 1.6;
+    }
+    .card-detail b { color: var(--ink2); font-weight: 500; }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      background: var(--ink); color: var(--paper);
+      padding: 80px 5vw;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 40px; align-items: center;
+    }
+    .cta-left {}
+    .cta-tag { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 14px; }
+    .cta-left h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400; letter-spacing: -0.02em; line-height: 1.15;
+      color: var(--paper); margin-bottom: 14px;
+    }
+    .cta-left h2 i { font-style: italic; color: var(--accent); }
+    .cta-left p { font-size: 0.9rem; color: rgba(255,255,255,0.45); font-weight: 300; line-height: 1.75; max-width: 480px; }
+    .cta-right { flex-shrink: 0; }
+    .btn-cta {
+      display: inline-block; text-decoration: none;
+      background: var(--accent); color: var(--paper);
+      font-family: 'Geist', sans-serif; font-size: 0.88rem; font-weight: 500;
+      padding: 14px 32px; border-radius: 100px; border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .btn-cta:hover { background: #a84e20; transform: translateY(-2px); }
+
+    /* ─── PROCESS STRIP ─── */
+    .process-strip {
+      padding: 72px 5vw; background: var(--paper);
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    }
+    .process-header { margin-bottom: 48px; }
+    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .process-step { padding: 0 24px 0 0; }
+    .process-step:first-child { padding-left: 0; }
+    .p-line { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .p-circle {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; color: var(--ink2); flex-shrink: 0;
+    }
+    .p-dash { flex: 1; height: 1px; background: var(--line); }
+    .process-step:last-child .p-dash { display: none; }
+    .process-step h4 { font-size: 0.92rem; font-weight: 500; margin-bottom: 8px; }
+    .process-step p  { font-size: 0.8rem; color: var(--ink3); line-height: 1.6; font-weight: 300; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 24px 5vw; border-top: 1px solid var(--line);
+      background: var(--paper);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      font-size: 0.78rem; color: var(--ink3);
+    }
+
+    /* ─── BACK TO TOP ─── */
+    .back-top {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--ink); color: var(--paper);
+      border: none; cursor: pointer; font-size: 0.75rem;
+      display: none; place-items: center;
+      transition: background 0.2s, transform 0.2s;
+      z-index: 50;
+    }
+    .back-top:hover { background: #333; transform: translateY(-2px); }
+    .back-top.visible { display: grid; }
+
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    @keyframes up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-grid  { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .process-step:nth-child(2) .p-dash { display: none; }
+      .cta-section { grid-template-columns: 1fr; gap: 28px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .hero { grid-template-columns: 1fr; gap: 32px; padding-top: calc(58px + 56px); }
+      .section-sub { text-align: left; max-width: 100%; }
+      .section-header { flex-direction: column; align-items: flex-start; }
+      .services-grid { grid-template-columns: 1fr; }
+      .process-grid  { grid-template-columns: 1fr; gap: 28px; }
+      .process-step  { padding: 0; }
+      .p-dash        { display: none !important; }
+    }
+    @media (max-width: 480px) {
+      .hero-stats { gap: 20px; flex-wrap: wrap; }
+      .back-top   { bottom: 18px; right: 18px; }
+    }
+  </style>
 </head>
-
 <body>
 
-  <!-- NAVBAR -->
-  <nav>
-    <div class="logo">LocalMart</div>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/services" class="active">Services</a></li>
-      <li><a href="/profile">Profile</a></li>
-      <li><a href="/contact">Contact</a></li>
-    </ul>
-  </nav>
+<!-- NAV -->
+<nav>
+  <a class="logo" href="/">Local<b>Mart</b></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/products_page/">Products</a></li>
+    <li><a href="/services" class="active">Services</a></li>
+    <li><a href="/about_us">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="/register" class="nav-cta">Get started</a></li>
+  </ul>
+  <button class="burger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1>
-      Powerful <span>Services</span> for Local Businesses
-    </h1>
-    <p>
-      From digital storefronts to delivery and vendor networks - LocalMart provides
-      end-to-end tools to help small shops grow, compete, and thrive.
-    </p>
-  </section>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Home</a>
+  <a href="/products_page/">Products</a>
+  <a href="/services">Services</a>
+  <a href="/about_us">About</a>
+  <a href="/contact">Contact</a>
+  <a href="/register">Get started →</a>
+</div>
 
-  <!-- SERVICES GRID -->
-  <section id="services">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-tag">What we offer</p>
+    <h1>Services built for<br><i>local business.</i></h1>
+  </div>
+  <div class="hero-right">
+    <p>From digital storefronts to delivery networks and analytics — LocalMart gives small shops the tools to grow, compete, and thrive in their community.</p>
+  </div>
+</section>
 
-    <!-- Card 1 -->
-    <div class="service-card" tabindex="0">
-      <i class="fa-solid fa-store"></i>
+<!-- TICKER -->
+<div class="ticker-row">
+  <div class="ticker-track">
+    <span>Digital storefronts</span><span class="dot">◆</span>
+    <span>Delivery network</span><span class="dot">◆</span>
+    <span>Vendor marketplace</span><span class="dot">◆</span>
+    <span>On-demand pros</span><span class="dot">◆</span>
+    <span>Smart promotions</span><span class="dot">◆</span>
+    <span>Business analytics</span><span class="dot">◆</span>
+    <span>Digital storefronts</span><span class="dot">◆</span>
+    <span>Delivery network</span><span class="dot">◆</span>
+    <span>Vendor marketplace</span><span class="dot">◆</span>
+    <span>On-demand pros</span><span class="dot">◆</span>
+    <span>Smart promotions</span><span class="dot">◆</span>
+    <span>Business analytics</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services-section">
+  <div class="section-header reveal">
+    <div>
+      <p class="tag">What's included</p>
+      <h2>Six ways LocalMart<br>helps you grow</h2>
+    </div>
+    <p class="section-sub">Everything a local business needs, in one platform.</p>
+  </div>
+
+  <div class="services-grid reveal">
+
+    <div class="service-card">
+      <span class="card-num">01</span>
       <h3>Digital Storefront Creation</h3>
-      <p>
-        Transform your physical shop into a fully functional online store.  
-        No coding, no complications — just a fast and simple setup.
-      </p>
-      <p><strong>Includes:</strong> Store customization, product catalog, secure payments.</p>
+      <p>Transform your physical shop into a fully functional online store. No coding, no complications — just a fast, simple setup.</p>
+      <div class="card-detail"><b>Includes:</b> Store customisation, product catalogue, secure payments.</div>
     </div>
 
-    <!-- Card 2 -->
-    <div class="service-card" tabindex="0">
-      <i class="fa-solid fa-truck"></i>
+    <div class="service-card">
+      <span class="card-num">02</span>
       <h3>Integrated Delivery Network</h3>
-      <p>
-        Deliver products faster and more reliably with our logistics partners.
-        Track orders in real-time and reduce delivery delays.
-      </p>
-      <p><strong>Features:</strong> Live tracking, verified delivery agents, cost-effective routes.</p>
+      <p>Deliver products faster and more reliably with our logistics partners. Track orders in real-time and reduce delivery delays.</p>
+      <div class="card-detail"><b>Features:</b> Live tracking, verified agents, cost-effective routes.</div>
     </div>
 
-    <!-- Card 3 -->
-    <div class="service-card" tabindex="0">
-      <i class="fa-solid fa-handshake"></i>
+    <div class="service-card">
+      <span class="card-num">03</span>
       <h3>Wholesaler & Vendor Marketplace</h3>
-      <p>
-        Access a curated network of wholesalers and suppliers for every category.
-        Get better pricing, bulk deals, and reliable inventory support.
-      </p>
-      <p><strong>Benefits:</strong> Quality sourcing, competitive rates, easy vendor management.</p>
+      <p>Access a curated network of wholesalers and suppliers for every category. Get better pricing, bulk deals, and reliable inventory.</p>
+      <div class="card-detail"><b>Benefits:</b> Quality sourcing, competitive rates, easy vendor management.</div>
     </div>
 
-    <!-- Card 4 -->
-    <div class="service-card" tabindex="0">
-      <i class="fa-solid fa-screwdriver-wrench"></i>
+    <div class="service-card">
+      <span class="card-num">04</span>
       <h3>Professional On-Demand Services</h3>
-      <p>
-        Need a carpenter, electrician, mechanic, or technician?  
-        Book reliable professionals instantly for business or home needs.
-      </p>
-      <p><strong>Includes:</strong> Verified experts, transparent pricing, fast service.</p>
+      <p>Need a carpenter, electrician, or technician? Book reliable professionals instantly for business or home needs.</p>
+      <div class="card-detail"><b>Includes:</b> Verified experts, transparent pricing, fast service.</div>
     </div>
 
-    <!-- Card 5 -->
-    <div class="service-card" tabindex="0">
-      <i class="fa-solid fa-bullhorn"></i>
+    <div class="service-card">
+      <span class="card-num">05</span>
       <h3>Smart Promotions & Reach</h3>
-      <p>
-        Promote your store to nearby customers with targeted in-app visibility,
-        festive campaigns, and AI-based recommendations.
-      </p>
-      <p><strong>Tools:</strong> Smart ads, location-based reach, seasonal boosts.</p>
+      <p>Promote your store to nearby customers with targeted in-app visibility, festive campaigns, and AI-based recommendations.</p>
+      <div class="card-detail"><b>Tools:</b> Smart ads, location-based reach, seasonal boosts.</div>
     </div>
 
-    <!-- Card 6 -->
-    <div class="service-card" tabindex="0">
-      <i class="fa-solid fa-chart-line"></i>
+    <div class="service-card">
+      <span class="card-num">06</span>
       <h3>Business Insights & Analytics</h3>
-      <p>
-        Track sales, inventory, customer behavior, and performance growth with
-        simple, real-time dashboards.
-      </p>
-      <p><strong>Insights:</strong> Sales trends, top products, customer patterns.</p>
+      <p>Track sales, inventory, customer behaviour, and performance growth with simple real-time dashboards.</p>
+      <div class="card-detail"><b>Insights:</b> Sales trends, top products, customer patterns.</div>
     </div>
 
-  </section>
+  </div>
+</section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <h2>Grow Your Business with LocalMart</h2>
-    <p>
-      Join thousands of local shops using our platform to increase sales,
-      manage operations, and reach new customers — instantly.
-    </p>
+<!-- HOW IT WORKS -->
+<div class="process-strip">
+  <div class="process-header reveal">
+    <p class="tag">Getting started</p>
+    <h2>Up and running in four steps</h2>
+  </div>
+  <div class="process-grid reveal">
+    <div class="process-step">
+      <div class="p-line"><div class="p-circle">01</div><div class="p-dash"></div></div>
+      <h4>Create your account</h4>
+      <p>Sign up as a seller in under two minutes. No paperwork needed.</p>
+    </div>
+    <div class="process-step">
+      <div class="p-line"><div class="p-circle">02</div><div class="p-dash"></div></div>
+      <h4>Set up your store</h4>
+      <p>Add your products, set prices, and customise your storefront.</p>
+    </div>
+    <div class="process-step">
+      <div class="p-line"><div class="p-circle">03</div><div class="p-dash"></div></div>
+      <h4>Enable services</h4>
+      <p>Choose the tools you need — delivery, analytics, promotions, and more.</p>
+    </div>
+    <div class="process-step">
+      <div class="p-line"><div class="p-circle">04</div><div class="p-dash"></div></div>
+      <h4>Start selling</h4>
+      <p>Go live and reach customers in your locality from day one.</p>
+    </div>
+  </div>
+</div>
 
-    <button onclick="window.location.href='/register'">
-      Start Your Digital Journey
-    </button>
-  </section>
+<!-- CTA -->
+<section class="cta-section reveal">
+  <div class="cta-left">
+    <p class="cta-tag">Ready to grow?</p>
+    <h2>Grow your business<br>with <i>LocalMart.</i></h2>
+    <p>Join thousands of local shops using our platform to increase sales, manage operations, and reach new customers — instantly.</p>
+  </div>
+  <div class="cta-right">
+    <a href="/register" class="btn-cta">Start your digital journey →</a>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2025 LocalMart — Empowering Local Commerce</p>
-  </footer>
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 LocalMart. All Rights Reserved.</span>
+  <span>Made for local communities</span>
+</footer>
 
-  <!-- BACK TO TOP BUTTON -->
-  <button class="back-to-top" onclick="window.scrollTo(0,0)">▲</button>
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
-  <!-- JS -->
-  <script>
-    window.onscroll = () => {
-      const btn = document.querySelector('.back-to-top');
-      btn.style.display = window.scrollY > 150 ? "grid" : "none";
-    };
-  </script>
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  document.querySelectorAll('#mobileMenu a').forEach(a =>
+    a.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'))
+  );
 
+  // Back to top
+  window.addEventListener('scroll', () => {
+    document.getElementById('backTop').classList.toggle('visible', window.scrollY > 200);
+  });
+
+  // Scroll reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
 </html>

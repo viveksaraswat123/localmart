@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sellers | LocalMart Admin</title>
+  <title>Users | LocalMart Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--ink:#111;--ink2:#444;--ink3:#888;--line:#e5e5e5;--bg:#fafaf8;--paper:#fff;--accent:#c8622a;--sidebar-w:220px;--green-bg:#f0faf0;--green-b:#c3e6c3;--green:#2d7a2d;--orange-bg:#fff8f0;--orange-b:#f0d8b8;--orange:#8a5a20;--red-bg:#fff0f0;--red-b:#f5c2c2;--red:#c0392b;--blue-bg:#f0f4ff;--blue-b:#c0cefd;--blue:#3355cc}
-    html{font-size:16px}body{background:var(--bg);color:var(--ink);font-family:'Geist',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;display:flex;min-height:100vh}
+    html{font-size:16px}
+    body{background:var(--bg);color:var(--ink);font-family:'Geist',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;display:flex;min-height:100vh}
     .sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:50;transition:transform .25s ease}
     .sidebar-header{padding:24px 20px 20px;border-bottom:1px solid var(--line)}
     .sidebar-logo{font-family:'Instrument Serif',serif;font-size:1.15rem;text-decoration:none;color:var(--ink);display:block;letter-spacing:-.01em}
@@ -16,7 +17,7 @@
     .sidebar-role{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:3px}
     .sidebar-nav{flex:1;padding:16px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
     .nav-section-label{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);padding:10px 10px 6px}
-    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:.84rem;transition:background .15s,color .15s}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:.84rem;font-weight:400;transition:background .15s,color .15s}
     .nav-item svg{width:15px;height:15px;stroke-width:1.8;flex-shrink:0}
     .nav-item:hover{background:var(--bg);color:var(--ink)}
     .nav-item.active{background:var(--ink);color:var(--paper)}
@@ -36,7 +37,7 @@
     .topbar-title{font-family:'Instrument Serif',serif;font-size:1.1rem;font-weight:400;letter-spacing:-.01em}
     .topbar-right{display:flex;align-items:center;gap:16px}
     .admin-pill{display:flex;align-items:center;gap:9px;padding:6px 14px 6px 6px;border:1px solid var(--line);border-radius:100px}
-    .admin-avatar{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:500}
+    .admin-avatar{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:500;flex-shrink:0}
     .admin-name{font-size:.82rem;font-weight:500}
     .page-body{padding:32px;display:flex;flex-direction:column;gap:24px}
     .panel{background:var(--paper);border:1px solid var(--line)}
@@ -51,10 +52,12 @@
     tbody tr:last-child{border-bottom:none}
     tbody tr:hover{background:var(--bg)}
     td.bold{color:var(--ink);font-weight:400}
-    .badge{display:inline-block;font-size:.68rem;letter-spacing:.05em;padding:3px 10px;border-radius:100px;font-weight:400}
-    .badge.approved,.badge.active{background:var(--green-bg);border:1px solid var(--green-b);color:var(--green)}
-    .badge.pending{background:var(--orange-bg);border:1px solid var(--orange-b);color:var(--orange)}
-    .badge.rejected,.badge.banned{background:var(--red-bg);border:1px solid var(--red-b);color:var(--red)}
+    .badge{display:inline-block;font-size:.68rem;letter-spacing:.05em;padding:3px 10px;border-radius:100px;font-weight:400;text-transform:capitalize}
+    .badge.customer{background:var(--green-bg);border:1px solid var(--green-b);color:var(--green)}
+    .badge.seller{background:#f5f0ff;border:1px solid #d4b8fd;color:#6322cc}
+    .badge.admin{background:#1a1a1a;border:1px solid #333;color:#fff}
+    .badge.active{background:var(--green-bg);border:1px solid var(--green-b);color:var(--green)}
+    .badge.banned{background:var(--red-bg);border:1px solid var(--red-b);color:var(--red)}
     .bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .search-wrap{position:relative}
     .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:.85rem;pointer-events:none}
@@ -63,13 +66,15 @@
     .chip{font-size:.75rem;padding:6px 14px;border-radius:100px;border:1px solid var(--line);background:transparent;color:var(--ink2);cursor:pointer;font-family:'Geist',sans-serif;transition:all .15s}
     .chip:hover{border-color:var(--ink);color:var(--ink)}
     .chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+    .btn{display:inline-flex;align-items:center;gap:6px;font-family:'Geist',sans-serif;font-size:.78rem;font-weight:500;padding:7px 16px;border-radius:100px;border:none;cursor:pointer;transition:all .15s}
+    .btn-danger{background:transparent;color:var(--red);border:1px solid var(--red-b)}
+    .btn-danger:hover{background:var(--red-bg)}
+    .btn-warn{background:transparent;color:var(--orange);border:1px solid var(--orange-b);font-family:'Geist',sans-serif;font-size:.78rem;font-weight:500;padding:7px 16px;border-radius:100px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+    .btn-warn:hover{background:var(--orange-bg)}
     .count-chip{font-size:.75rem;color:var(--ink3);background:var(--bg);border:1px solid var(--line);padding:4px 12px;border-radius:100px}
-    .btn-sm{display:inline-flex;align-items:center;gap:5px;font-family:'Geist',sans-serif;font-size:.75rem;font-weight:500;padding:6px 13px;border-radius:100px;border:none;cursor:pointer;transition:all .15s}
-    .btn-approve{background:transparent;color:var(--green);border:1px solid var(--green-b)}.btn-approve:hover{background:var(--green-bg)}
-    .btn-reject{background:transparent;color:var(--red);border:1px solid var(--red-b)}.btn-reject:hover{background:var(--red-bg)}
     .empty-cell{text-align:center;color:var(--ink3);padding:48px;font-size:.85rem}
     @media(max-width:768px){.sidebar{transform:translateX(calc(-1 * var(--sidebar-w)))}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.menu-toggle{display:flex}.topbar{padding:0 20px}.page-body{padding:20px}}
-    @media(max-width:480px){.admin-name{display:none}}
+    @media(max-width:480px){.admin-name{display:none}.search-input{width:150px}}
   </style>
 </head>
 <body>
@@ -83,8 +88,8 @@
     <div class="nav-section-label">Overview</div>
     <a class="nav-item" href="/admin/dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
     <div class="nav-section-label">Manage</div>
-    <a class="nav-item" href="/admin/users"><i data-lucide="users"></i><span>Users</span></a>
-    <a class="nav-item active" href="/admin/sellers"><i data-lucide="store"></i><span>Sellers</span></a>
+    <a class="nav-item active" href="/admin/users"><i data-lucide="users"></i><span>Users</span></a>
+    <a class="nav-item" href="/admin/sellers"><i data-lucide="store"></i><span>Sellers</span></a>
     <a class="nav-item" href="/admin/products"><i data-lucide="package"></i><span>Products</span></a>
     <a class="nav-item" href="/admin/orders"><i data-lucide="shopping-bag"></i><span>Orders</span></a>
     <a class="nav-item" href="/admin/services"><i data-lucide="briefcase"></i><span>Services</span></a>
@@ -99,7 +104,7 @@
   <header class="topbar">
     <div class="topbar-left">
       <button class="menu-toggle" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
-      <span class="topbar-title">Sellers</span>
+      <span class="topbar-title">Users</span>
     </div>
     <div class="topbar-right">
       <div class="admin-pill"><div class="admin-avatar">VS</div><span class="admin-name">Vivek Saraswat</span></div>
@@ -110,24 +115,24 @@
     <div class="panel">
       <div class="panel-header">
         <div class="bar">
-          <span class="panel-title">All Sellers</span>
-          <span class="count-chip" id="sellerCount">— sellers</span>
+          <span class="panel-title">All Users</span>
+          <span class="count-chip" id="userCount">— users</span>
         </div>
         <div class="bar">
           <div class="search-wrap">
             <span class="search-icon">⌕</span>
-            <input class="search-input" id="searchInput" type="text" placeholder="Search sellers…"/>
+            <input class="search-input" id="searchInput" type="text" placeholder="Search users…"/>
           </div>
-          <button class="chip active" data-status="all" onclick="filterStatus(this)">All</button>
-          <button class="chip" data-status="approved" onclick="filterStatus(this)">Approved</button>
-          <button class="chip" data-status="pending" onclick="filterStatus(this)">Pending</button>
-          <button class="chip" data-status="rejected" onclick="filterStatus(this)">Rejected</button>
+          <button class="chip active" data-role="all" onclick="filterRole(this)">All</button>
+          <button class="chip" data-role="customer" onclick="filterRole(this)">Customers</button>
+          <button class="chip" data-role="seller" onclick="filterRole(this)">Sellers</button>
+          <button class="chip" data-role="admin" onclick="filterRole(this)">Admins</button>
         </div>
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>ID</th><th>Shop Name</th><th>Owner</th><th>Email</th><th>Products</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody id="sellersTable"></tbody>
+          <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="usersTable"></tbody>
         </table>
       </div>
     </div>
@@ -138,64 +143,67 @@
   function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('open')}
   function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
 
-  let allSellers = [];
-  let activeStatus = 'all';
+  let allUsers = [];
+  let activeRole = 'all';
 
-  async function loadSellers() {
+  async function loadUsers() {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('/seller/all', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch('/users/', { headers: { Authorization: `Bearer ${token}` } });
       if (!res.ok) throw new Error();
-      allSellers = await res.json();
+      allUsers = await res.json();
     } catch {
-      allSellers = [
-        {id:1,shop_name:'Gupta Kirana Store',name:'Ramesh Gupta',email:'ramesh@email.com',products:14,status:'approved'},
-        {id:2,shop_name:'Fresh Farms',name:'Sunita Patel',email:'sunita@email.com',products:8,status:'approved'},
-        {id:3,shop_name:'Tech Repairs',name:'Ankit Singh',email:'ankit@email.com',products:3,status:'pending'},
-        {id:4,shop_name:'Home Essentials',name:'Mohit Kumar',email:'mohit@email.com',products:0,status:'rejected'},
+      // fallback sample
+      allUsers = [
+        {id:1,name:'Priya Sharma',email:'priya@email.com',role:'customer',created_at:'2025-01-10',status:'active'},
+        {id:2,name:'Ramesh Gupta',email:'ramesh@email.com',role:'seller',created_at:'2025-01-15',status:'active'},
+        {id:3,name:'Anjali Verma',email:'anjali@email.com',role:'customer',created_at:'2025-02-01',status:'active'},
+        {id:4,name:'Mohit Kumar',email:'mohit@email.com',role:'seller',created_at:'2025-02-10',status:'banned'},
+        {id:5,name:'Admin User',email:'admin@localmart.in',role:'admin',created_at:'2025-01-01',status:'active'},
       ];
     }
     render();
   }
 
-  function filterStatus(el) {
-    document.querySelectorAll('[data-status]').forEach(b => b.classList.remove('active'));
+  function filterRole(el) {
+    document.querySelectorAll('[data-role]').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
-    activeStatus = el.dataset.status;
+    activeRole = el.dataset.role;
     render();
   }
 
   function render() {
     const q = document.getElementById('searchInput').value.toLowerCase();
-    let sellers = allSellers;
-    if (activeStatus !== 'all') sellers = sellers.filter(s => s.status === activeStatus);
-    if (q) sellers = sellers.filter(s => s.shop_name.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
-    document.getElementById('sellerCount').textContent = `${sellers.length} seller${sellers.length !== 1 ? 's' : ''}`;
-    const tbody = document.getElementById('sellersTable');
-    if (!sellers.length) { tbody.innerHTML = `<tr><td colspan="7" class="empty-cell">No sellers found</td></tr>`; return; }
-    tbody.innerHTML = sellers.map(s => `
+    let users = allUsers;
+    if (activeRole !== 'all') users = users.filter(u => u.role === activeRole);
+    if (q) users = users.filter(u => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q));
+    document.getElementById('userCount').textContent = `${users.length} user${users.length !== 1 ? 's' : ''}`;
+    const tbody = document.getElementById('usersTable');
+    if (!users.length) { tbody.innerHTML = `<tr><td colspan="7" class="empty-cell">No users found</td></tr>`; return; }
+    tbody.innerHTML = users.map(u => `
       <tr>
-        <td>#${s.id}</td>
-        <td class="bold">${s.shop_name}</td>
-        <td>${s.name}</td>
-        <td>${s.email}</td>
-        <td>${s.products}</td>
-        <td><span class="badge ${s.status}">${s.status}</span></td>
-        <td style="display:flex;gap:6px">
-          ${s.status !== 'approved' ? `<button class="btn-sm btn-approve" onclick="setStatus(${s.id},'approved')">Approve</button>` : ''}
-          ${s.status !== 'rejected' ? `<button class="btn-sm btn-reject" onclick="setStatus(${s.id},'rejected')">Reject</button>` : ''}
+        <td>#${u.id}</td>
+        <td class="bold">${u.name}</td>
+        <td>${u.email}</td>
+        <td><span class="badge ${u.role}">${u.role}</span></td>
+        <td>${u.created_at ? u.created_at.split('T')[0] : '—'}</td>
+        <td><span class="badge ${u.status || 'active'}">${u.status || 'active'}</span></td>
+        <td>
+          <button class="btn-warn" onclick="toggleBan(${u.id})">${u.status === 'banned' ? 'Unban' : 'Ban'}</button>
         </td>
       </tr>`).join('');
   }
 
-  function setStatus(id, status) {
-    const s = allSellers.find(x => x.id === id);
-    if (s) { s.status = status; render(); }
-    // TODO: PATCH /seller/{id}/status
+  async function toggleBan(id) {
+    const user = allUsers.find(u => u.id === id);
+    if (!user) return;
+    user.status = user.status === 'banned' ? 'active' : 'banned';
+    render();
+    // TODO: PATCH /users/{id}/status
   }
 
   document.getElementById('searchInput').addEventListener('input', render);
-  loadSellers();
+  loadUsers();
   lucide.createIcons();
 </script>
 </body>

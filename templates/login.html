@@ -1,75 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LocalMart | Login</title>
-  <link rel="stylesheet" href="/static/login.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | LocalMart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #111;
+      --ink2: #444;
+      --ink3: #888;
+      --line: #e5e5e5;
+      --bg: #fafaf8;
+      --paper: #fff;
+      --accent: #c8622a;
+      --error: #c0392b;
+    }
+
+    html { font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Geist', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* ─── LEFT PANEL ─── */
+    .left-panel {
+      background: var(--ink);
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 40px 48px;
+      position: relative; overflow: hidden;
+    }
+    .left-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 20%, rgba(200,98,42,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .panel-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.3rem; color: var(--paper);
+      text-decoration: none; letter-spacing: -0.01em;
+      position: relative; z-index: 1;
+    }
+    .panel-logo b { color: var(--accent); font-weight: 400; }
+
+    .panel-middle { position: relative; z-index: 1; }
+    .panel-middle h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 400; line-height: 1.2; letter-spacing: -0.02em;
+      color: var(--paper); margin-bottom: 18px;
+    }
+    .panel-middle h2 i { font-style: italic; color: var(--accent); }
+    .panel-middle p {
+      font-size: 0.9rem; color: rgba(255,255,255,0.45);
+      line-height: 1.75; font-weight: 300; max-width: 320px;
+    }
+
+    .panel-features { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; }
+    .feature-item { display: flex; align-items: center; gap: 12px; }
+    .feature-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .feature-item span { font-size: 0.82rem; color: rgba(255,255,255,0.45); font-weight: 300; }
+
+    /* ─── RIGHT PANEL ─── */
+    .right-panel {
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 5vw;
+      background: var(--paper);
+    }
+    .form-wrap { width: 100%; max-width: 380px; }
+
+    .form-header { margin-bottom: 36px; }
+    .form-tag {
+      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 10px;
+    }
+    .form-header h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem; font-weight: 400; letter-spacing: -0.02em;
+      line-height: 1.15; color: var(--ink); margin-bottom: 8px;
+    }
+    .form-header p { font-size: 0.88rem; color: var(--ink3); font-weight: 300; line-height: 1.6; }
+
+    /* ─── FORM ─── */
+    .form { border: 1px solid var(--line); }
+    .form-field { display: flex; flex-direction: column; border-bottom: 1px solid var(--line); }
+    .form-field:last-of-type { border-bottom: none; }
+    .form-field label {
+      font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink3); padding: 13px 18px 0;
+    }
+    .form-field input {
+      background: transparent; border: none; outline: none;
+      font-family: 'Geist', sans-serif; font-size: 0.92rem;
+      color: var(--ink); padding: 7px 18px 13px; font-weight: 300;
+      transition: background 0.15s;
+    }
+    .form-field input::placeholder { color: var(--line); }
+    .form-field:focus-within { background: var(--bg); }
+    .form-field.error-field { border-color: var(--error); }
+    .form-field.error-field label { color: var(--error); }
+
+    .form-actions {
+      padding: 16px 18px;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .forgot-link {
+      font-size: 0.78rem; color: var(--ink3); text-decoration: none;
+      border-bottom: 1px solid var(--line); transition: color 0.15s, border-color 0.15s;
+    }
+    .forgot-link:hover { color: var(--ink); border-color: var(--ink); }
+    .btn-login {
+      background: var(--ink); color: var(--paper);
+      font-family: 'Geist', sans-serif; font-size: 0.85rem; font-weight: 500;
+      padding: 11px 28px; border-radius: 100px; border: none;
+      cursor: pointer; transition: background 0.2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-login:hover { background: #333; }
+    .btn-login:disabled { background: var(--line); color: var(--ink3); cursor: not-allowed; }
+    .btn-login .spinner {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    .btn-login.loading .spinner { display: block; }
+    .btn-login.loading .btn-text { opacity: 0.6; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── ERROR MESSAGE ─── */
+    .error-msg {
+      display: none; margin-top: 14px;
+      padding: 11px 16px;
+      background: #fff0f0; border: 1px solid #f5c2c2;
+      font-size: 0.82rem; color: var(--error);
+      line-height: 1.5;
+    }
+    .error-msg.show { display: block; }
+
+    /* ─── SUCCESS STATE ─── */
+    .success-msg {
+      display: none; margin-top: 14px;
+      padding: 11px 16px;
+      background: #f0faf0; border: 1px solid #c3e6c3;
+      font-size: 0.82rem; color: #2d7a2d;
+    }
+    .success-msg.show { display: block; }
+
+    /* ─── FOOTER ─── */
+    .form-footer { margin-top: 24px; text-align: center; }
+    .form-footer p { font-size: 0.82rem; color: var(--ink3); font-weight: 300; }
+    .form-footer a {
+      color: var(--ink); text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      transition: border-color 0.15s;
+    }
+    .form-footer a:hover { border-color: var(--ink); }
+
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 20px 0;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--line);
+    }
+    .divider span { font-size: 0.72rem; color: var(--ink3); letter-spacing: 0.06em; }
+
+    /* ─── BACK LINK ─── */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; color: var(--ink3); text-decoration: none;
+      margin-bottom: 32px; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--ink); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      body { grid-template-columns: 1fr; }
+      .left-panel { display: none; }
+      .right-panel { min-height: 100svh; padding: 48px 6vw; align-items: flex-start; padding-top: 56px; }
+      .form-wrap { max-width: 100%; }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="form-box">
-      <h1>Welcome Back</h1>
-      <p>Login to your LocalMart account</p>
 
-      <form id="loginForm">
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <button type="submit">Login</button>
+  <!-- LEFT — brand panel -->
+  <div class="left-panel">
+    <a class="panel-logo" href="/">Local<b>Mart</b></a>
+    <div class="panel-middle">
+      <h2>Your neighbourhood,<br><i>online.</i></h2>
+      <p>Buy daily essentials, hire trusted professionals, and connect with local sellers — all in one place.</p>
+    </div>
+    <div class="panel-features">
+      <div class="feature-item"><div class="feature-dot"></div><span>Fresh groceries from nearby stores</span></div>
+      <div class="feature-item"><div class="feature-dot"></div><span>Verified local service professionals</span></div>
+      <div class="feature-item"><div class="feature-dot"></div><span>Buy & sell pre-owned items safely</span></div>
+    </div>
+  </div>
+
+  <!-- RIGHT — form panel -->
+  <div class="right-panel">
+    <div class="form-wrap">
+
+      <a class="back-link" href="/">← Back to home</a>
+
+      <div class="form-header">
+        <p class="form-tag">LocalMart</p>
+        <h1>Welcome back</h1>
+        <p>Sign in to your account to continue.</p>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="form">
+          <div class="form-field" id="field-email">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="you@email.com" autocomplete="email" required/>
+          </div>
+          <div class="form-field" id="field-password">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required/>
+          </div>
+          <div class="form-actions">
+            <a class="forgot-link" href="/forgot-password">Forgot password?</a>
+            <button type="submit" class="btn-login" id="loginBtn">
+              <div class="spinner"></div>
+              <span class="btn-text">Sign in →</span>
+            </button>
+          </div>
+        </div>
       </form>
 
-      <p class="switch">
-        Don’t have an account? <a href="/register">Register</a>
-      </p>
+      <div class="error-msg" id="errorMsg"></div>
+      <div class="success-msg" id="successMsg"></div>
+
+      <div class="divider"><span>or</span></div>
+
+      <div class="form-footer">
+        <p>Don't have an account? <a href="/register">Create one →</a></p>
+      </div>
+
     </div>
   </div>
 
   <script>
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    const form     = document.getElementById('loginForm');
+    const btn      = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    const successMsg = document.getElementById('successMsg');
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+    function setLoading(on) {
+      btn.disabled = on;
+      btn.classList.toggle('loading', on);
+    }
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.classList.add('show');
+      successMsg.classList.remove('show');
+    }
+
+    function showSuccess(msg) {
+      successMsg.textContent = msg;
+      successMsg.classList.add('show');
+      errorMsg.classList.remove('show');
+    }
+
+    function clearMessages() {
+      errorMsg.classList.remove('show');
+      successMsg.classList.remove('show');
+    }
+
+    function highlightField(id, on) {
+      document.getElementById('field-' + id).classList.toggle('error-field', on);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearMessages();
+
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      // Client-side validation
+      let valid = true;
+      highlightField('email', false);
+      highlightField('password', false);
+
+      if (!email) { highlightField('email', true); valid = false; }
+      if (!password) { highlightField('password', true); valid = false; }
+      if (!valid) { showError('Please fill in all fields.'); return; }
+
+      setLoading(true);
 
       const formData = new FormData();
-      formData.append("username", email);
-      formData.append("password", password);
+      formData.append('username', email);
+      formData.append('password', password);
 
       try {
-        const res = await fetch("http://127.0.0.1:8000/auth/login", {
-          method: "POST",
+        const res  = await fetch('http://127.0.0.1:8000/auth/login', {
+          method: 'POST',
           body: formData
         });
-
         const data = await res.json();
 
         if (!res.ok) {
-          alert(data.detail || "Login failed");
+          showError(data.detail || 'Invalid email or password.');
+          setLoading(false);
           return;
         }
 
-        // Save token
-        localStorage.setItem("token", data.access_token);
+        localStorage.setItem('token', data.access_token);
 
-        // Decode JWT role
-        const payload = JSON.parse(atob(data.access_token.split(".")[1]));
+        const payload  = JSON.parse(atob(data.access_token.split('.')[1]));
         const userRole = payload.role;
 
-        alert("Login successful!");
+        showSuccess('Login successful! Redirecting…');
 
-        // Redirect by role
-        if (userRole === "admin") {
-          window.location.href = "/admin/dashboard";
-        } else if (userRole === "seller") {
-          window.location.href = "/seller/dashboard";
-        } else {
-          window.location.href = "/";
-        }
+        setTimeout(() => {
+          if (userRole === 'admin')       window.location.href = '/admin/dashboard';
+          else if (userRole === 'seller') window.location.href = '/seller/dashboard';
+          else                            window.location.href = '/';
+        }, 800);
 
       } catch (err) {
         console.error(err);
-        alert("Something went wrong. Try again.");
+        showError('Could not connect to the server. Please try again.');
+        setLoading(false);
       }
+    });
+
+    // Clear field error on input
+    ['email', 'password'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        highlightField(id, false);
+        clearMessages();
+      });
     });
   </script>
 </body>

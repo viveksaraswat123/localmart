@@ -1,101 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LocalMart | Admin Dashboard</title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="/static/admin.css" />
-
-  <!-- Icons Library -->
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | LocalMart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/lucide@latest"></script>
-</head>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --ink: #111;
+      --ink2: #444;
+      --ink3: #888;
+      --line: #e5e5e5;
+      --bg: #fafaf8;
+      --paper: #fff;
+      --accent: #c8622a;
+      --sidebar-w: 220px;
+    }
+
+    html { font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Geist', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--paper);
+      border-right: 1px solid var(--line);
+      display: flex; flex-direction: column;
+      position: fixed; inset: 0 auto 0 0;
+      z-index: 50;
+      transition: transform 0.25s ease;
+    }
+    .sidebar-header {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .sidebar-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.15rem; text-decoration: none; color: var(--ink);
+      display: block; letter-spacing: -0.01em;
+    }
+    .sidebar-logo b { color: var(--accent); font-weight: 400; }
+    .sidebar-role {
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink3); margin-top: 3px;
+    }
+
+    .sidebar-nav { flex: 1; padding: 16px 10px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+    .nav-section-label {
+      font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink3); padding: 10px 10px 6px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 8px;
+      text-decoration: none; color: var(--ink2);
+      font-size: 0.84rem; font-weight: 400;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-item svg { width: 15px; height: 15px; stroke-width: 1.8; flex-shrink: 0; }
+    .nav-item:hover { background: var(--bg); color: var(--ink); }
+    .nav-item.active { background: var(--ink); color: var(--paper); }
+    .nav-item.active svg { stroke: var(--paper); }
+
+    .sidebar-footer { padding: 16px 10px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+    .sidebar-action {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 8px;
+      font-size: 0.84rem; color: var(--ink2);
+      background: none; border: none; cursor: pointer;
+      font-family: 'Geist', sans-serif; width: 100%;
+      transition: background 0.15s, color 0.15s; text-decoration: none;
+    }
+    .sidebar-action svg { width: 15px; height: 15px; stroke-width: 1.8; }
+    .sidebar-action:hover { background: var(--bg); color: var(--ink); }
+    .sidebar-action.danger:hover { background: #fff0f0; color: #c0392b; }
+
+    /* Mobile sidebar overlay */
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0; z-index: 49;
+      background: rgba(0,0,0,0.3);
+    }
+    .sidebar-overlay.open { display: block; }
+
+    /* ─── MAIN ─── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1; display: flex; flex-direction: column;
+      min-width: 0;
+    }
+
+    /* ─── TOPBAR ─── */
+    .topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(250,250,248,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 32px; height: 58px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
+    .menu-toggle {
+      display: none; background: none; border: none; cursor: pointer; padding: 4px;
+      flex-direction: column; gap: 5px;
+    }
+    .menu-toggle span { width: 20px; height: 1.5px; background: var(--ink); display: block; }
+    .topbar-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.1rem; font-weight: 400; letter-spacing: -0.01em;
+    }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .topbar-date { font-size: 0.78rem; color: var(--ink3); }
+    .admin-pill {
+      display: flex; align-items: center; gap: 9px;
+      padding: 6px 14px 6px 6px;
+      border: 1px solid var(--line); border-radius: 100px;
+    }
+    .admin-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--ink); color: var(--paper);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 500; flex-shrink: 0;
+    }
+    .admin-name { font-size: 0.82rem; font-weight: 500; }
+
+    /* ─── PAGE BODY ─── */
+    .page-body { padding: 32px; display: flex; flex-direction: column; gap: 32px; }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 16px;
+    }
+
+    /* ─── STAT CARDS ─── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line); background: var(--line); gap: 1px;
+    }
+    .stat-card {
+      background: var(--paper); padding: 24px 24px 22px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .stat-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 12px;
+    }
+    .stat-icon svg { width: 15px; height: 15px; stroke-width: 1.8; color: var(--ink2); }
+    .stat-label { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink3); }
+    .stat-val {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem; font-weight: 400; letter-spacing: -0.02em; color: var(--ink);
+    }
+    .stat-delta { font-size: 0.75rem; color: var(--ink3); font-weight: 300; margin-top: 2px; }
+    .stat-delta.up { color: #2d7a2d; }
+    .stat-delta.down { color: #c0392b; }
+
+    /* ─── TWO-COL ─── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* ─── PANEL ─── */
+    .panel { background: var(--paper); border: 1px solid var(--line); }
+    .panel-header {
+      padding: 18px 24px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .panel-title { font-size: 0.88rem; font-weight: 500; }
+    .panel-link { font-size: 0.75rem; color: var(--ink3); text-decoration: none; border-bottom: 1px solid var(--line); transition: color 0.15s, border-color 0.15s; }
+    .panel-link:hover { color: var(--ink); border-color: var(--ink); }
+    .panel-body { padding: 0; }
+
+    /* ─── TABLE ─── */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { border-bottom: 1px solid var(--line); }
+    th {
+      font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink3); font-weight: 500;
+      padding: 12px 20px; text-align: left; white-space: nowrap;
+    }
+    td { font-size: 0.84rem; color: var(--ink2); padding: 13px 20px; font-weight: 300; }
+    tbody tr { border-bottom: 1px solid var(--line); transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--bg); }
+    td.name { color: var(--ink); font-weight: 400; }
+
+    /* ─── STATUS BADGE ─── */
+    .badge {
+      display: inline-block; font-size: 0.68rem; letter-spacing: 0.05em;
+      padding: 3px 10px; border-radius: 100px; font-weight: 400;
+      text-transform: capitalize;
+    }
+    .badge.delivered { background: #f0faf0; border: 1px solid #c3e6c3; color: #2d7a2d; }
+    .badge.pending   { background: #fff8f0; border: 1px solid #f0d8b8; color: #8a5a20; }
+    .badge.cancelled { background: #fff0f0; border: 1px solid #f5c2c2; color: #c0392b; }
+    .badge.processing{ background: #f0f4ff; border: 1px solid #c0cefd; color: #3355cc; }
+
+    /* ─── ACTIVITY LIST ─── */
+    .activity-list { display: flex; flex-direction: column; }
+    .activity-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 20px; border-bottom: 1px solid var(--line);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--line); border: 1.5px solid var(--ink3);
+      flex-shrink: 0; margin-top: 5px;
+    }
+    .activity-dot.green { border-color: #2d7a2d; background: #c3e6c3; }
+    .activity-dot.orange { border-color: #8a5a20; background: #f0d8b8; }
+    .activity-dot.blue { border-color: #3355cc; background: #c0cefd; }
+    .activity-text { font-size: 0.83rem; color: var(--ink2); line-height: 1.5; font-weight: 300; }
+    .activity-text b { color: var(--ink); font-weight: 500; }
+    .activity-time { font-size: 0.72rem; color: var(--ink3); margin-top: 2px; }
+
+    /* ─── EMPTY ─── */
+    .empty-row td { text-align: center; color: var(--ink3); padding: 40px; font-size: 0.85rem; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(calc(-1 * var(--sidebar-w))); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .menu-toggle { display: flex; }
+      .topbar { padding: 0 20px; }
+      .page-body { padding: 20px; gap: 20px; }
+      .topbar-date { display: none; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .admin-name { display: none; }
+    }
+  </style>
+</head>
 <body>
 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h2 class="logo">LocalMart<br><span>Admin</span></h2>
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
-    <ul class="menu">
-      <li><a href="/admin/dashboard" class="active"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></li>
-      <li><a href="/admin/users"><i data-lucide="users"></i><span>Users</span></a></li>
-      <li><a href="/admin/sellers"><i data-lucide="store"></i><span>Sellers</span></a></li>
-      <li><a href="/admin/products"><i data-lucide="package"></i><span>Products</span></a></li>
-      <li><a href="/admin/orders"><i data-lucide="shopping-bag"></i><span>Orders</span></a></li>
-      <li><a href="/admin/services"><i data-lucide="briefcase"></i><span>Services</span></a></li>
-    </ul>
-
-    <button class="logout-btn" id="logoutBtn">
-      <i data-lucide="log-out"></i> Logout
-    </button>
-    <button class="logout-btn" id="homepageBtn">
-      <i data-lucide="log-out"></i> Homepage
-    </button>
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a class="sidebar-logo" href="/">Local<b>Mart</b></a>
+    <div class="sidebar-role">Admin Panel</div>
   </div>
 
-  <!-- Main Content -->
-  <div class="main-content">
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item active" href="/admin/dashboard">
+      <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
+    </a>
 
-    <!-- Topbar -->
-    <div class="topbar">
-      <h1>Admin Dashboard</h1>
+    <div class="nav-section-label">Manage</div>
+    <a class="nav-item" href="/admin/users">
+      <i data-lucide="users"></i><span>Users</span>
+    </a>
+    <a class="nav-item" href="/admin/sellers">
+      <i data-lucide="store"></i><span>Sellers</span>
+    </a>
+    <a class="nav-item" href="/admin/products">
+      <i data-lucide="package"></i><span>Products</span>
+    </a>
+    <a class="nav-item" href="/admin/orders">
+      <i data-lucide="shopping-bag"></i><span>Orders</span>
+    </a>
+    <a class="nav-item" href="/admin/services">
+      <i data-lucide="briefcase"></i><span>Services</span>
+    </a>
+  </nav>
 
-      <div class="admin-profile">
+  <div class="sidebar-footer">
+    <a class="sidebar-action" href="/">
+      <i data-lucide="home"></i><span>Homepage</span>
+    </a>
+    <button class="sidebar-action danger" id="logoutBtn">
+      <i data-lucide="log-out"></i><span>Logout</span>
+    </button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <span class="topbar-title">Dashboard</span>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-date" id="topbarDate"></span>
+      <div class="admin-pill">
+        <div class="admin-avatar">VS</div>
         <span class="admin-name">Vivek Saraswat</span>
-        <div class="avatar"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE BODY -->
+  <div class="page-body">
+
+    <!-- Stats -->
+    <div>
+      <p class="section-label">Overview</p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="users"></i></div>
+          <div class="stat-label">Total Users</div>
+          <div class="stat-val" id="totalUsers">—</div>
+          <div class="stat-delta up" id="deltaUsers"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="store"></i></div>
+          <div class="stat-label">Total Sellers</div>
+          <div class="stat-val" id="totalSellers">—</div>
+          <div class="stat-delta up" id="deltaSellers"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="package"></i></div>
+          <div class="stat-label">Total Products</div>
+          <div class="stat-val" id="totalProducts">—</div>
+          <div class="stat-delta" id="deltaProducts"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="shopping-bag"></i></div>
+          <div class="stat-label">Total Orders</div>
+          <div class="stat-val" id="totalOrders">—</div>
+          <div class="stat-delta up" id="deltaOrders"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Dashboard Cards -->
-    <div class="cards">
-      <div class="card">
-        <h3>Total Users</h3>
-        <p id="totalUsers">0</p>
+    <!-- Recent Orders + Activity -->
+    <div class="two-col">
+
+      <!-- Orders table -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Recent Orders</span>
+          <a class="panel-link" href="/admin/orders">View all →</a>
+        </div>
+        <div class="panel-body table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTable"></tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="card">
-        <h3>Total Sellers</h3>
-        <p id="totalSellers">0</p>
+      <!-- Activity feed -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Recent Activity</span>
+        </div>
+        <div class="panel-body activity-list" id="activityFeed"></div>
       </div>
 
-      <div class="card">
-        <h3>Total Products</h3>
-        <p id="totalProducts">0</p>
-      </div>
-
-      <div class="card">
-        <h3>Total Orders</h3>
-        <p id="totalOrders">0</p>
-      </div>
     </div>
 
-    <!-- Recent Orders Section -->
-    <h2 class="section-title">Recent Orders</h2>
+  </div><!-- /page-body -->
+</div><!-- /main -->
 
-    <div class="table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>User</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="ordersTable"></tbody>
-      </table>
-    </div>
+<script>
+  /* ─── Sidebar toggle (mobile) ─── */
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
 
-  </div>
+  /* ─── Date ─── */
+  document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('en-IN', {
+    weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
+  });
 
-  <!-- JS -->
-  <script src="/static/admin.js"></script>
+  /* ─── Logout ─── */
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    window.location.href = '/logout';
+  });
 
-  <!-- Initialize Icons -->
-  <script>lucide.createIcons();</script>
+  /* ─── Sample data — replace with fetch() calls to your API ─── */
+  const STATS = {
+    users:    { val: 1240, delta: '+12 this week',    dir: 'up'   },
+    sellers:  { val: 87,   delta: '+3 this week',     dir: 'up'   },
+    products: { val: 534,  delta: 'across all shops', dir: ''     },
+    orders:   { val: 318,  delta: '+27 today',        dir: 'up'   },
+  };
 
+  const ORDERS = [
+    { id:'#1084', user:'Priya S.',   product:'Tomatoes',     qty:2, status:'delivered'  },
+    { id:'#1083', user:'Ramesh G.',  product:'Ceiling Fan',  qty:1, status:'pending'    },
+    { id:'#1082', user:'Anjali V.',  product:'Electrician',  qty:1, status:'processing' },
+    { id:'#1081', user:'Mohit K.',   product:'Basmati Rice', qty:5, status:'delivered'  },
+    { id:'#1080', user:'Sunita P.',  product:'Bookshelf',    qty:1, status:'cancelled'  },
+  ];
+
+  const ACTIVITY = [
+    { text: '<b>Priya Sharma</b> placed a new order for Tomatoes', time: '2 min ago',  dot: 'green'  },
+    { text: '<b>New seller</b> Gupta Kirana Store registered',      time: '18 min ago', dot: 'blue'   },
+    { text: '<b>Order #1080</b> was cancelled by the user',         time: '34 min ago', dot: 'orange' },
+    { text: '<b>Anjali Verma</b> booked an Electrician service',    time: '1 hr ago',   dot: 'blue'   },
+    { text: '<b>Product</b> "Organic Spinach" listed by new seller', time: '2 hr ago',  dot: 'green'  },
+  ];
+
+  /* ─── Render stats ─── */
+  function renderStats() {
+    const s = STATS;
+    document.getElementById('totalUsers').textContent    = s.users.val.toLocaleString('en-IN');
+    document.getElementById('totalSellers').textContent  = s.sellers.val.toLocaleString('en-IN');
+    document.getElementById('totalProducts').textContent = s.products.val.toLocaleString('en-IN');
+    document.getElementById('totalOrders').textContent   = s.orders.val.toLocaleString('en-IN');
+    document.getElementById('deltaUsers').textContent    = s.users.delta;
+    document.getElementById('deltaSellers').textContent  = s.sellers.delta;
+    document.getElementById('deltaProducts').textContent = s.products.delta;
+    document.getElementById('deltaOrders').textContent   = s.orders.delta;
+  }
+
+  /* ─── Render orders table ─── */
+  function renderOrders() {
+    const tbody = document.getElementById('ordersTable');
+    if (!ORDERS.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="5">No orders yet</td></tr>';
+      return;
+    }
+    tbody.innerHTML = ORDERS.map(o => `
+      <tr>
+        <td>${o.id}</td>
+        <td class="name">${o.user}</td>
+        <td>${o.product}</td>
+        <td>${o.qty}</td>
+        <td><span class="badge ${o.status}">${o.status}</span></td>
+      </tr>
+    `).join('');
+  }
+
+  /* ─── Render activity feed ─── */
+  function renderActivity() {
+    const feed = document.getElementById('activityFeed');
+    feed.innerHTML = ACTIVITY.map(a => `
+      <div class="activity-item">
+        <div class="activity-dot ${a.dot}"></div>
+        <div>
+          <div class="activity-text">${a.text}</div>
+          <div class="activity-time">${a.time}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /* ─── Init ─── */
+  renderStats();
+  renderOrders();
+  renderActivity();
+  lucide.createIcons();
+</script>
 </body>
 </html>

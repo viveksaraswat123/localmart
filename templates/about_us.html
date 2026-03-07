@@ -1,224 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us - LocalMart</title>
-  <link rel="icon" href="static/logo.png" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us | LocalMart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-    /* Import consistent font */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
+    :root {
+      --ink: #111;
+      --ink2: #444;
+      --ink3: #888;
+      --line: #e5e5e5;
+      --bg: #fafaf8;
+      --paper: #fff;
+      --accent: #c8622a;
     }
 
+    html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
-      color: #f1f1f1;
-      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Geist', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Container (glass style) */
-    .container {
-      max-width: 1000px;
-      margin: 80px auto;
-      background: rgba(25, 25, 25, 0.7);
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 99;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 58px;
+      background: rgba(250,250,248,0.92);
       backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 10px 25px rgba(250, 204, 21, 0.1);
-      animation: fadeIn 1.2s ease;
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.25rem; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.01em;
+    }
+    .logo b { color: var(--accent); font-weight: 400; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; color: var(--ink2);
+      text-decoration: none; letter-spacing: 0.02em; transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 1px; }
+    .nav-cta {
+      font-size: 0.82rem !important; color: var(--ink) !important;
+      border: 1px solid var(--ink) !important; padding: 6px 18px;
+      border-radius: 100px; transition: background 0.15s, color 0.15s !important;
+    }
+    .nav-cta:hover { background: var(--ink) !important; color: var(--bg) !important; border-bottom: none !important; }
+    .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .burger span { width: 22px; height: 1.5px; background: var(--ink); display: block; }
+    .mobile-menu {
+      display: none; position: fixed; inset: 58px 0 0 0; z-index: 98;
+      background: var(--bg); padding: 32px 5vw;
+      border-top: 1px solid var(--line); flex-direction: column;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1.05rem; color: var(--ink); text-decoration: none;
+      padding: 18px 0; border-bottom: 1px solid var(--line);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* ─── HERO ─── */
+    .hero {
+      padding: calc(58px + 80px) 5vw 80px;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: end;
+    }
+    .hero-tag {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 400; line-height: 1.1; letter-spacing: -0.02em;
+      opacity: 0; animation: up 0.6s 0.15s ease forwards;
+    }
+    .hero h1 i { font-style: italic; color: var(--accent); }
+    .hero-right {
+      opacity: 0; animation: up 0.6s 0.25s ease forwards;
+    }
+    .hero-right p {
+      font-size: 1rem; color: var(--ink2);
+      line-height: 1.8; font-weight: 300;
     }
 
-    /* Headings */
-    h1 {
-      text-align: center;
-      color: #facc15;
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      text-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
-      animation: glowText 3s ease-in-out infinite alternate;
+    /* ─── BODY LAYOUT ─── */
+    .page-body { display: grid; grid-template-columns: 200px 1fr; align-items: start; }
+
+    /* ─── STICKY NAV INDEX ─── */
+    .side-index {
+      padding: 64px 0 64px 5vw;
+      position: sticky; top: 58px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .side-index-label {
+      font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 12px;
+    }
+    .side-link {
+      font-size: 0.78rem; color: var(--ink3); text-decoration: none;
+      padding: 5px 0; transition: color 0.15s;
+      border-left: 1px solid transparent;
+      padding-left: 12px;
+    }
+    .side-link:hover { color: var(--ink); }
+    .side-link.current { color: var(--ink); border-left-color: var(--ink); }
+
+    /* ─── CONTENT ─── */
+    .content {
+      border-left: 1px solid var(--line);
+      padding: 64px 5vw 80px;
     }
 
-    @keyframes glowText {
-      0% { text-shadow: 0 0 10px #facc15, 0 0 20px #facc15; }
-      100% { text-shadow: 0 0 20px #facc15, 0 0 40px #facc15; }
-    }
+    /* ─── SECTION BLOCKS ─── */
+    .about-section { margin-bottom: 72px; }
+    .about-section:last-child { margin-bottom: 0; }
 
-    h2 {
-      color: #facc15;
-      font-size: 1.6rem;
-      margin-top: 25px;
-      border-left: 4px solid #facc15;
-      padding-left: 10px;
-      text-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+    .section-tag {
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 14px;
     }
-
-    p {
-      line-height: 1.8;
-      color: #cfcfcf;
-      font-size: 1.05rem;
-      margin-top: 10px;
+    .about-section h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400; letter-spacing: -0.02em; line-height: 1.15;
+      margin-bottom: 20px;
     }
-
-    ul {
-      margin-top: 10px;
-      padding-left: 20px;
-      color: #dcdcdc;
-      list-style-type: none;
+    .about-section p {
+      font-size: 0.92rem; color: var(--ink2);
+      line-height: 1.85; font-weight: 300;
+      max-width: 640px;
     }
+    .about-section p + p { margin-top: 14px; }
 
-    li {
-      margin: 6px 0;
-      line-height: 1.7;
-      position: relative;
+    /* ─── FEATURE LIST ─── */
+    .feature-list {
+      margin-top: 28px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; border: 1px solid var(--line); background: var(--line);
     }
-
-    li::before {
-      content: "•";
-      color: #facc15;
-      margin-right: 8px;
+    .feature-item {
+      background: var(--paper); padding: 22px 24px;
+      transition: background 0.15s;
     }
+    .feature-item:hover { background: var(--bg); }
+    .feature-title { font-size: 0.88rem; font-weight: 500; margin-bottom: 5px; }
+    .feature-desc { font-size: 0.8rem; color: var(--ink3); line-height: 1.6; font-weight: 300; }
 
-    .highlight {
-      color: #facc15;
-      font-weight: 600;
+    /* ─── HOW IT WORKS LIST ─── */
+    .how-list { margin-top: 24px; display: flex; flex-direction: column; border: 1px solid var(--line); }
+    .how-item {
+      display: grid; grid-template-columns: 48px 1fr;
+      align-items: start; gap: 16px;
+      padding: 20px 24px; border-bottom: 1px solid var(--line);
+      transition: background 0.15s;
     }
-
-    /* Button */
-    .back-btn {
-      display: inline-block;
-      margin: 35px auto 0;
-      background: #facc15;
-      color: #111;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      text-align: center;
+    .how-item:last-child { border-bottom: none; }
+    .how-item:hover { background: var(--bg); }
+    .how-num {
+      font-size: 0.68rem; letter-spacing: 0.08em; color: var(--ink3);
+      padding-top: 2px; font-weight: 400;
     }
+    .how-text { font-size: 0.88rem; color: var(--ink2); line-height: 1.65; font-weight: 300; }
 
-    .back-btn:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 20px #facc15;
+    /* ─── DIVIDER ─── */
+    .section-divider { border: none; border-top: 1px solid var(--line); margin-bottom: 72px; }
+
+    /* ─── CTA STRIP ─── */
+    .cta-strip {
+      margin-top: 64px; padding: 40px;
+      border: 1px solid var(--line); background: var(--paper);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
     }
+    .cta-strip p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.3rem; font-weight: 400; letter-spacing: -0.01em;
+      color: var(--ink); max-width: 440px; line-height: 1.4;
+    }
+    .cta-strip p i { font-style: italic; color: var(--accent); }
+    .btn-back {
+      display: inline-block; text-decoration: none;
+      font-size: 0.85rem; font-weight: 500;
+      padding: 12px 28px; border-radius: 100px;
+      background: var(--ink); color: var(--paper);
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-back:hover { background: #333; }
 
-    /* Footer */
+    /* ─── FOOTER ─── */
     footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #aaa;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding-top: 20px;
-      letter-spacing: 0.5px;
+      padding: 24px 5vw; border-top: 1px solid var(--line);
+      background: var(--paper);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      font-size: 0.78rem; color: var(--ink3);
     }
 
-    /* Section animation (same as homepage) */
-    section {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.in { opacity: 1; transform: none; }
 
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    @keyframes up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
 
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .page-body { grid-template-columns: 1fr; }
+      .side-index { display: none; }
+      .content { border-left: none; padding: 48px 5vw 72px; }
+      .feature-list { grid-template-columns: 1fr; }
+    }
     @media (max-width: 768px) {
-      .container {
-        padding: 30px 25px;
-        margin: 40px 15px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .hero { grid-template-columns: 1fr; gap: 28px; padding-top: calc(58px + 52px); }
+      .cta-strip { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>About LocalMart</h1>
 
-    <section id="mission">
-      <h2>Our Mission</h2>
-      <p>
-        <span class="highlight">LocalMart</span> is built with a simple vision — to bridge the gap between local sellers, wholesalers, and buyers through a digital marketplace that empowers communities.
-        We strive to make local shopping <strong>smart, fast, and sustainable</strong> by enabling small businesses to grow with technology.
-      </p>
-    </section>
+<!-- NAV -->
+<nav>
+  <a class="logo" href="/">Local<b>Mart</b></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/products_page/">Products</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/about_us" class="active">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="/register" class="nav-cta">Get started</a></li>
+  </ul>
+  <button class="burger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-    <section id="how-it-works">
-      <h2>How LocalMart Works</h2>
-      <p>
-        LocalMart connects <span class="highlight">sellers, vendors, professionals, and customers</span> on one easy-to-use platform:
-      </p>
-      <ul>
-        <li>Sellers and vendors register their stores and list products with images, prices, and expiry dates.</li>
-        <li>Customers explore items, place orders, and get home delivery from nearby stores.</li>
-        <li>The system automatically manages inventory, billing, and expiry tracking.</li>
-        <li>Professionals (like plumbers, electricians, carpenters) can list services and accept nearby bookings.</li>
-      </ul>
-    </section>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Home</a>
+  <a href="/products_page/">Products</a>
+  <a href="/services">Services</a>
+  <a href="/about_us">About</a>
+  <a href="/contact">Contact</a>
+  <a href="/register">Get started →</a>
+</div>
 
-    <section id="features">
-      <h2>Key Features</h2>
-      <ul>
-        <li><strong>Multi-User Login:</strong> Dedicated logins for sellers, customers, and vendors.</li>
-        <li><strong>Smart Recommendations:</strong> Suggests trending or seasonal items based on sales and time.</li>
-        <li><strong>Product Expiry Alerts:</strong> Notifies sellers when items are nearing expiry.</li>
-        <li><strong>Integrated Billing System:</strong> Handles debit, credit, and stock automatically.</li>
-        <li><strong>Vendor Connection:</strong> Sellers can reorder products from trusted wholesalers.</li>
-        <li><strong>Service Providers Hub:</strong> Local professionals can offer affordable services nearby.</li>
-        <li><strong>Delivery Management:</strong> Buyers get timely home delivery options.</li>
-        <li><strong>Interactive Dashboard:</strong> Clean, intuitive interface for all users.</li>
-        <li><strong>Local Economy Focus:</strong> Promotes local businesses over large e-commerce platforms.</li>
-      </ul>
-    </section>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Who we are</p>
+    <h1>Built for the<br><i>neighbourhood.</i></h1>
+  </div>
+  <div class="hero-right">
+    <p>LocalMart is a platform built to bridge the gap between local sellers, wholesalers, and buyers — giving small businesses the tools to compete, grow, and stay rooted in their community.</p>
+  </div>
+</section>
 
-    <section id="vision">
-      <h2>Our Vision</h2>
-      <p>
-        We believe the future of commerce lies in empowering <span class="highlight">local communities</span>.
-        LocalMart is designed to preserve the charm of local markets while giving them the speed and power of digital transformation.
-      </p>
-    </section>
+<!-- PAGE BODY -->
+<div class="page-body">
 
-    <div style="text-align:center;">
-      <a href="/" class="back-btn">← Back to Home</a>
+  <!-- STICKY INDEX -->
+  <aside class="side-index" id="sideIndex">
+    <div class="side-index-label">On this page</div>
+    <a class="side-link" href="#mission" data-section="mission">Mission</a>
+    <a class="side-link" href="#how-it-works" data-section="how-it-works">How it works</a>
+    <a class="side-link" href="#features" data-section="features">Key features</a>
+    <a class="side-link" href="#vision" data-section="vision">Vision</a>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- MISSION -->
+    <div class="about-section reveal" id="mission">
+      <p class="section-tag">Mission</p>
+      <h2>Why LocalMart exists</h2>
+      <p>We started with a simple observation — local shops have something large e-commerce platforms never will: a real relationship with their community. But they were losing ground because they lacked digital tools.</p>
+      <p>LocalMart was built to change that. We give small businesses a storefront, a delivery network, a customer base, and the analytics to understand it all — without requiring technical knowledge or large upfront investment.</p>
     </div>
 
-    <footer>
-      © 2025 LocalMart | Empowering Local Businesses, Digitally.
-    </footer>
-  </div>
+    <hr class="section-divider"/>
 
-  <script>
-    // Fade-in effect on scroll
-    const sections = document.querySelectorAll("section");
-    const reveal = () => {
-      const triggerBottom = window.innerHeight * 0.85;
-      sections.forEach(sec => {
-        const top = sec.getBoundingClientRect().top;
-        if (top < triggerBottom) sec.classList.add("visible");
-      });
-    };
-    window.addEventListener("scroll", reveal);
-    reveal();
-  </script>
+    <!-- HOW IT WORKS -->
+    <div class="about-section reveal" id="how-it-works">
+      <p class="section-tag">How it works</p>
+      <h2>One platform, every role</h2>
+      <p>LocalMart connects sellers, vendors, professionals, and customers on a single system that handles the complexity for everyone involved.</p>
+      <div class="how-list">
+        <div class="how-item">
+          <span class="how-num">01</span>
+          <span class="how-text">Sellers and vendors register their stores and list products with images, prices, and expiry dates.</span>
+        </div>
+        <div class="how-item">
+          <span class="how-num">02</span>
+          <span class="how-text">Customers explore nearby items, place orders, and receive home delivery from local stores.</span>
+        </div>
+        <div class="how-item">
+          <span class="how-num">03</span>
+          <span class="how-text">The platform automatically manages inventory, billing, and expiry tracking in the background.</span>
+        </div>
+        <div class="how-item">
+          <span class="how-num">04</span>
+          <span class="how-text">Local professionals — plumbers, electricians, carpenters — list services and accept nearby bookings.</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider"/>
+
+    <!-- FEATURES -->
+    <div class="about-section reveal" id="features">
+      <p class="section-tag">Key features</p>
+      <h2>What the platform includes</h2>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-title">Multi-user login</div>
+          <div class="feature-desc">Separate access for sellers, customers, and vendors with role-specific dashboards.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Smart recommendations</div>
+          <div class="feature-desc">Surfaces trending or seasonal items based on local sales patterns and time of year.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Expiry alerts</div>
+          <div class="feature-desc">Notifies sellers automatically when products are approaching their expiry date.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Integrated billing</div>
+          <div class="feature-desc">Handles debit, credit, and stock adjustments automatically on every transaction.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Vendor connection</div>
+          <div class="feature-desc">Sellers can reorder stock directly from trusted local wholesalers within the platform.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Service providers hub</div>
+          <div class="feature-desc">Local professionals offer affordable on-demand services bookable from a single interface.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Delivery management</div>
+          <div class="feature-desc">Buyers get real-time tracked home delivery from verified local agents.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Business analytics</div>
+          <div class="feature-desc">Clean dashboards surface sales trends, top products, and customer patterns in real time.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider"/>
+
+    <!-- VISION -->
+    <div class="about-section reveal" id="vision">
+      <p class="section-tag">Vision</p>
+      <h2>Where we're headed</h2>
+      <p>We believe the future of commerce doesn't have to mean the erasure of local markets. The corner store, the neighbourhood vendor, the trusted local electrician — these are worth preserving.</p>
+      <p>LocalMart is designed to give them the speed and reach of digital commerce while keeping what makes them valuable: proximity, trust, and community.</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-strip reveal">
+      <p>Ready to bring your shop <i>online?</i></p>
+      <a href="/" class="btn-back">← Back to home</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 LocalMart. All Rights Reserved.</span>
+  <span>Made for local communities</span>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  document.querySelectorAll('#mobileMenu a').forEach(a =>
+    a.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'))
+  );
+
+  // Scroll reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Sticky side index highlight
+  const sections = ['mission','how-it-works','features','vision'];
+  const links = document.querySelectorAll('.side-link');
+  window.addEventListener('scroll', () => {
+    let current = sections[0];
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 120) current = id;
+    });
+    links.forEach(l => l.classList.toggle('current', l.dataset.section === current));
+  });
+</script>
 </body>
 </html>

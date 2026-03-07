@@ -1,235 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Us - LocalMart</title>
-  <link rel="icon" href="static/logo.png" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact | LocalMart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-    /* Font and base */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
+    :root {
+      --ink: #111;
+      --ink2: #444;
+      --ink3: #888;
+      --line: #e5e5e5;
+      --bg: #fafaf8;
+      --paper: #fff;
+      --accent: #c8622a;
+      --error: #c0392b;
+      --success: #2d7a2d;
     }
 
+    html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
-      color: #f1f1f1;
-      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Geist', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100svh;
+      display: flex; flex-direction: column;
     }
 
-    .container {
-      max-width: 900px;
-      margin: 80px auto;
-      background: rgba(25, 25, 25, 0.7);
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 99;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 58px;
+      background: rgba(250,250,248,0.92);
       backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 10px 25px rgba(250, 204, 21, 0.1);
-      animation: fadeIn 1.2s ease;
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.25rem; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.01em;
+    }
+    .logo b { color: var(--accent); font-weight: 400; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; color: var(--ink2);
+      text-decoration: none; letter-spacing: 0.02em; transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 1px; }
+    .nav-cta {
+      font-size: 0.82rem !important; color: var(--ink) !important;
+      border: 1px solid var(--ink) !important; padding: 6px 18px;
+      border-radius: 100px; transition: background 0.15s, color 0.15s !important;
+    }
+    .nav-cta:hover { background: var(--ink) !important; color: var(--bg) !important; border-bottom: none !important; }
+    .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .burger span { width: 22px; height: 1.5px; background: var(--ink); display: block; }
+    .mobile-menu {
+      display: none; position: fixed; inset: 58px 0 0 0; z-index: 98;
+      background: var(--bg); padding: 32px 5vw;
+      border-top: 1px solid var(--line); flex-direction: column;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1.05rem; color: var(--ink); text-decoration: none;
+      padding: 18px 0; border-bottom: 1px solid var(--line);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* ─── HERO ─── */
+    .hero {
+      padding: calc(58px + 80px) 5vw 80px;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: end;
+    }
+    .hero-tag {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 400; line-height: 1.1; letter-spacing: -0.02em;
+      opacity: 0; animation: up 0.6s 0.15s ease forwards;
+    }
+    .hero h1 i { font-style: italic; color: var(--accent); }
+    .hero-right {
+      opacity: 0; animation: up 0.6s 0.25s ease forwards;
+    }
+    .hero-right p {
+      font-size: 1rem; color: var(--ink2);
+      line-height: 1.8; font-weight: 300;
     }
 
-    h1 {
-      text-align: center;
-      color: #facc15;
-      font-size: 2.5rem;
-      text-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
-      animation: glowText 3s ease-in-out infinite alternate;
+    /* ─── MAIN ─── */
+    main {
+      flex: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--line);
     }
 
-    @keyframes glowText {
-      0% { text-shadow: 0 0 10px #facc15, 0 0 20px #facc15; }
-      100% { text-shadow: 0 0 20px #facc15, 0 0 40px #facc15; }
+    /* ─── LEFT — form ─── */
+    .form-col {
+      padding: 64px 5vw 72px;
+      border-right: 1px solid var(--line);
+    }
+    .col-tag {
+      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 14px;
+    }
+    .col-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 400; letter-spacing: -0.02em; line-height: 1.2;
+      margin-bottom: 36px;
     }
 
-    p.intro {
-      text-align: center;
-      font-size: 1.1rem;
-      color: #dcdcdc;
-      margin-top: 10px;
-      margin-bottom: 30px;
-      line-height: 1.6;
+    /* form box */
+    .form-box { border: 1px solid var(--line); }
+    .form-row2 { display: grid; grid-template-columns: 1fr 1fr; }
+    .form-row2 .field:first-child { border-right: 1px solid var(--line); }
+    .field {
+      display: flex; flex-direction: column;
+      border-bottom: 1px solid var(--line);
     }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    .field:last-of-type { border-bottom: none; }
+    .field label {
+      font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink3); padding: 13px 18px 0;
     }
-
-    input, textarea {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 12px 15px;
-      color: #fff;
-      font-size: 1rem;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      resize: none;
+    .field input, .field textarea, .field select {
+      background: transparent; border: none; outline: none;
+      font-family: 'Geist', sans-serif; font-size: 0.92rem;
+      color: var(--ink); padding: 7px 18px 13px; font-weight: 300;
     }
+    .field input::placeholder, .field textarea::placeholder { color: var(--line); }
+    .field textarea { resize: none; min-height: 120px; }
+    .field:focus-within { background: var(--bg); }
+    .field.err { border-color: var(--error) !important; }
+    .field.err label { color: var(--error); }
 
-    input::placeholder, textarea::placeholder {
-      color: #aaa;
+    .form-footer-row {
+      padding: 14px 18px; border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 10px;
     }
-
-    input:focus, textarea:focus {
-      border-color: #facc15;
-      box-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
-      outline: none;
+    .form-note { font-size: 0.72rem; color: var(--ink3); }
+    .btn-send {
+      background: var(--accent); color: var(--paper);
+      font-family: 'Geist', sans-serif; font-size: 0.85rem; font-weight: 500;
+      padding: 11px 26px; border-radius: 100px; border: none;
+      cursor: pointer; transition: background 0.2s;
+      display: flex; align-items: center; gap: 8px;
     }
-
-    button {
-      background: #facc15;
-      color: #111;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease-in-out;
-      width: fit-content;
-      margin: 0 auto;
+    .btn-send:hover { background: #a84e20; }
+    .btn-send:disabled { background: var(--line); color: var(--ink3); cursor: not-allowed; }
+    .spinner {
+      width: 13px; height: 13px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+      animation: spin 0.6s linear infinite; display: none;
     }
+    .btn-send.loading .spinner { display: block; }
+    .btn-send.loading .btn-label { opacity: 0.6; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    button:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 20px #facc15;
+    /* messages */
+    .msg {
+      display: none; margin-top: 14px; padding: 11px 16px;
+      font-size: 0.82rem; line-height: 1.5;
     }
+    .msg.show { display: block; }
+    .msg.error   { background: #fff0f0; border: 1px solid #f5c2c2; color: var(--error); }
+    .msg.success { background: #f0faf0; border: 1px solid #c3e6c3; color: var(--success); }
 
-    /* Contact Info Section */
-    .info {
-      margin-top: 40px;
-      text-align: center;
+    /* ─── RIGHT — info ─── */
+    .info-col {
+      padding: 64px 5vw 72px;
+      display: flex; flex-direction: column; gap: 0;
     }
+    .info-col .col-title { margin-bottom: 40px; }
 
-    .info h2 {
-      color: #facc15;
-      margin-bottom: 10px;
+    .info-block {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
     }
-
-    .info p {
-      color: #cfcfcf;
-      line-height: 1.7;
+    .info-block:last-child { border-bottom: none; }
+    .info-label {
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 6px;
     }
+    .info-val { font-size: 0.92rem; color: var(--ink2); font-weight: 300; line-height: 1.6; }
+    .info-val a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); transition: border-color 0.15s; }
+    .info-val a:hover { border-color: var(--ink); }
 
-    /* Back Button */
-    .back-btn {
-      display: inline-block;
-      margin: 35px auto 0;
-      background: #facc15;
-      color: #111;
-      padding: 12px 30px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      text-align: center;
+    .info-note {
+      margin-top: 40px; padding: 24px;
+      border: 1px solid var(--line); background: var(--paper);
     }
-
-    .back-btn:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 20px #facc15;
+    .info-note p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.05rem; font-weight: 400; line-height: 1.55;
+      color: var(--ink2);
     }
+    .info-note p i { font-style: italic; color: var(--accent); }
 
+    /* ─── FOOTER ─── */
     footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #aaa;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding-top: 20px;
-      letter-spacing: 0.5px;
+      padding: 24px 5vw; border-top: 1px solid var(--line);
+      background: var(--paper);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      font-size: 0.78rem; color: var(--ink3);
     }
 
-    /* Fade-in on scroll (same as homepage) */
-    section {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    @keyframes up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
 
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+      .form-col { border-right: none; border-bottom: 1px solid var(--line); padding-bottom: 56px; }
     }
-
     @media (max-width: 768px) {
-      .container {
-        padding: 30px 25px;
-        margin: 40px 15px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .hero { grid-template-columns: 1fr; gap: 28px; padding-top: calc(58px + 52px); }
+      .form-row2 { grid-template-columns: 1fr; }
+      .form-row2 .field:first-child { border-right: none; border-bottom: 1px solid var(--line); }
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>Contact Us</h1>
-    <p class="intro">
-      Have questions, feedback, or partnership inquiries?  
-      We'd love to hear from you. Our team at <span style="color:#facc15;font-weight:600;">LocalMart</span> is always ready to help.
-    </p>
 
-    <section id="contact-form">
-      <form id="contactForm">
-        <input type="text" id="name" placeholder="Your Name" required />
-        <input type="email" id="email" placeholder="Your Email" required />
-        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-      </form>
-    </section>
+<!-- NAV -->
+<nav>
+  <a class="logo" href="/">Local<b>Mart</b></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/products_page/">Products</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/about_us">About</a></li>
+    <li><a href="/contact" class="active">Contact</a></li>
+    <li><a href="/register" class="nav-cta">Get started</a></li>
+  </ul>
+  <button class="burger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-    <section class="info">
-      <h2>Get in Touch</h2>
-      <p>
-        📍 <strong>Address:</strong> LocalMart HQ, Ghaziabad, India<br>
-        📞 <strong>Phone:</strong> +91 98765 43210<br>
-        📧 <strong>Email:</strong> support@localmart.in
-      </p>
-    </section>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Home</a>
+  <a href="/products_page/">Products</a>
+  <a href="/services">Services</a>
+  <a href="/about_us">About</a>
+  <a href="/contact">Contact</a>
+  <a href="/register">Get started →</a>
+</div>
 
-    <div style="text-align:center;">
-      <a href="/homepage" class="back-btn">← Back to Home</a>
-    </div>
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <p class="hero-tag">Get in touch</p>
+    <h1>We'd love to<br><i>hear from you.</i></h1>
+  </div>
+  <div class="hero-right">
+    <p>Questions, feedback, or partnership inquiries — our team is ready to help. Drop us a message and we'll get back to you within 24 hours.</p>
+  </div>
+</section>
 
-    <footer>
-      © 2025 LocalMart | Empowering Local Businesses, Digitally.
-    </footer>
+<!-- MAIN -->
+<main>
+
+  <!-- FORM -->
+  <div class="form-col reveal">
+    <p class="col-tag">Send a message</p>
+    <h2 class="col-title">Write to us</h2>
+
+    <form id="contactForm" novalidate>
+      <div class="form-box">
+        <div class="form-row2">
+          <div class="field" id="field-name">
+            <label for="name">Your name</label>
+            <input type="text" id="name" placeholder="Ravi Kumar" autocomplete="name" required/>
+          </div>
+          <div class="field" id="field-email">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="ravi@email.com" autocomplete="email" required/>
+          </div>
+        </div>
+        <div class="field" id="field-subject" style="border-bottom:1px solid var(--line)">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" placeholder="How can we help?"/>
+        </div>
+        <div class="field" id="field-message">
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="Tell us more…" required></textarea>
+        </div>
+        <div class="form-footer-row">
+          <span class="form-note">We reply within 24 hours</span>
+          <button type="submit" class="btn-send" id="sendBtn">
+            <div class="spinner"></div>
+            <span class="btn-label">Send message →</span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="msg error"   id="errorMsg"></div>
+    <div class="msg success" id="successMsg"></div>
   </div>
 
-  <script>
-    // Fade-in animation on scroll
-    const sections = document.querySelectorAll("section");
-    const reveal = () => {
-      const triggerBottom = window.innerHeight * 0.85;
-      sections.forEach(sec => {
-        const top = sec.getBoundingClientRect().top;
-        if (top < triggerBottom) sec.classList.add("visible");
-      });
-    };
-    window.addEventListener("scroll", reveal);
-    reveal();
+  <!-- INFO -->
+  <div class="info-col reveal" style="transition-delay:.1s">
+    <p class="col-tag">Contact details</p>
+    <h2 class="col-title">Find us</h2>
 
-    // Mock form submission
-    document.getElementById("contactForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      alert("Thank you for contacting LocalMart! We’ll get back to you soon.");
-      e.target.reset();
+    <div class="info-block">
+      <div class="info-label">Address</div>
+      <div class="info-val">LocalMart HQ, Ghaziabad, Uttar Pradesh, India</div>
+    </div>
+    <div class="info-block">
+      <div class="info-label">Phone</div>
+      <div class="info-val"><a href="tel:+919876543210">+91 98765 43210</a></div>
+    </div>
+    <div class="info-block">
+      <div class="info-label">Email</div>
+      <div class="info-val"><a href="mailto:support@localmart.in">support@localmart.in</a></div>
+    </div>
+    <div class="info-block">
+      <div class="info-label">Hours</div>
+      <div class="info-val">Monday – Saturday, 9 am – 7 pm IST</div>
+    </div>
+
+    <div class="info-note">
+      <p>For partnership or seller inquiries, email us at<br><i>hello@localmart.in</i> and we'll respond within one business day.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 LocalMart. All Rights Reserved.</span>
+  <span>Made for local communities</span>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  document.querySelectorAll('#mobileMenu a').forEach(a =>
+    a.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'))
+  );
+
+  // Reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Form
+  const btn      = document.getElementById('sendBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const successMsg = document.getElementById('successMsg');
+
+  function markField(id, on) {
+    const el = document.getElementById('field-' + id);
+    if (el) el.classList.toggle('err', on);
+  }
+  function clearMessages() {
+    errorMsg.classList.remove('show'); successMsg.classList.remove('show');
+  }
+
+  ['name','email','message'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      markField(id, false); clearMessages();
     });
-  </script>
+  });
+
+  document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearMessages();
+
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    let valid = true;
+    ['name','email','message'].forEach(id => markField(id, false));
+    if (!name)    { markField('name', true);    valid = false; }
+    if (!email)   { markField('email', true);   valid = false; }
+    if (!message) { markField('message', true); valid = false; }
+    if (!valid) {
+      errorMsg.textContent = 'Please fill in all required fields.';
+      errorMsg.classList.add('show'); return;
+    }
+
+    btn.disabled = true; btn.classList.add('loading');
+
+    try {
+      // Replace with your real endpoint
+      await new Promise(r => setTimeout(r, 900)); // mock delay
+      successMsg.textContent = 'Message sent — we\'ll get back to you within 24 hours.';
+      successMsg.classList.add('show');
+      document.getElementById('contactForm').reset();
+    } catch {
+      errorMsg.textContent = 'Something went wrong. Please try again.';
+      errorMsg.classList.add('show');
+    } finally {
+      btn.disabled = false; btn.classList.remove('loading');
+    }
+  });
+</script>
 </body>
 </html>
