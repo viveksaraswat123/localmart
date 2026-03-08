@@ -2,13 +2,32 @@ version: "3.9"
 
 services:
 
+  db:
+    image: postgres:16-alpine
+    container_name: localmart_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   fastapi:
     build: .
     container_name: localmart_fastapi
     ports:
       - "8000:8000"
     volumes:
-      - .:/app        # live reload when code changes
-      - ./uploads:/app/uploads   # persist uploaded files
-      - ./localmart.db:/app/localmart.db  # persist sqlite database
+      - .:/app
+      - ./uploads:/app/uploads
     restart: always
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+volumes:
+  pgdata:

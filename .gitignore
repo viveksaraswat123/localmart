@@ -2,3 +2,9 @@
 /env
 
 .env
+venv/
+__pycache__/
+uploads/
+*.pyc
+.env
+.env.docker

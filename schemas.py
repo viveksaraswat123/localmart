@@ -1,18 +1,19 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr
 from typing import Optional
-from datetime import date
+from datetime import date, datetime
 
 class UserBase(BaseModel):
     name: str
-    email: str
+    email: EmailStr
 
 class UserCreate(UserBase):
     password: str
-    role: str  # "customer" / "seller" / "admin"
+    role: str
 
 class User(UserBase):
     id: int
     role: str
+    created_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -29,8 +30,6 @@ class CustomerProfile(CustomerProfileBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-
-
 class SellerProfileBase(BaseModel):
     shop_name: str
 
@@ -43,39 +42,31 @@ class SellerProfile(SellerProfileBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-
-#product
 class ProductBase(BaseModel):
     name: str
     description: str
     price: float
     quantity: int
-    category: str  
+    category: str
     expiry_date: Optional[date] = None
     image_url: Optional[str] = None
 
-
 class ProductCreate(ProductBase):
-    """
-    seller_id NOT taken from request body.
-    It will come from JWT (current_user.id).
-    """
     pass
 
-
 class ProductUpdate(BaseModel):
-    category: Optional[str] = None  # NEW
     name: Optional[str] = None
     description: Optional[str] = None
     price: Optional[float] = None
     quantity: Optional[int] = None
+    category: Optional[str] = None
     expiry_date: Optional[date] = None
     image_url: Optional[str] = None
-
 
 class Product(ProductBase):
     id: int
     seller_id: int
+    created_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -84,7 +75,6 @@ class OrderBase(BaseModel):
     quantity: int
 
 class OrderCreate(OrderBase):
-    
     pass
 
 class OrderUpdate(BaseModel):
@@ -96,7 +86,9 @@ class Order(OrderBase):
     user_id: int
     total_price: float
     status: str
+    created_at: datetime
     model_config = ConfigDict(from_attributes=True)
+
 
 class ServiceBase(BaseModel):
     type: str

@@ -1,51 +1,67 @@
 from sqlalchemy.orm import Session
-import models, schemas
 from fastapi import HTTPException
+import models
+import schemas
 
-# USER CRUD
-def get_user_by_email(db: Session, email: str):
+#user crud
+def get_user_by_email(db: Session, email: str) -> models.User | None:
     return db.query(models.User).filter(models.User.email == email).first()
 
-
-def get_user_by_id(db: Session, user_id: int):
+def get_user_by_id(db: Session, user_id: int) -> models.User | None:
     return db.query(models.User).filter(models.User.id == user_id).first()
 
+def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[models.User]:
+    return db.query(models.User).offset(skip).limit(limit).all()
 
+#customer crud
+def get_customer_profile(db: Session, user_id: int) -> models.CustomerProfile | None:
+    return (
+        db.query(models.CustomerProfile)
+        .filter(models.CustomerProfile.user_id == user_id)
+        .first()
+    )
 
-#CUSTOMER PROFILE CRUD
-def get_customer_profile(db: Session, user_id: int):
-    return db.query(models.CustomerProfile).filter(models.CustomerProfile.user_id == user_id).first()
-
-
-def update_customer_profile(db: Session, user_id: int, profile_in: schemas.CustomerProfileCreate):
+def update_customer_profile(
+    db: Session,
+    user_id: int,
+    profile_in: schemas.CustomerProfileCreate,
+) -> models.CustomerProfile:
     profile = get_customer_profile(db, user_id)
 
     if not profile:
         profile = models.CustomerProfile(
             user_id=user_id,
-            address=profile_in.address
+            name=profile_in.name,
+            address=profile_in.address,
         )
         db.add(profile)
     else:
+        profile.name    = profile_in.name
         profile.address = profile_in.address
 
     db.commit()
     db.refresh(profile)
     return profile
 
-
 #seller crud
-def get_seller_profile(db: Session, user_id: int):
-    return db.query(models.SellerProfile).filter(models.SellerProfile.user_id == user_id).first()
+def get_seller_profile(db: Session, user_id: int) -> models.SellerProfile | None:
+    return (
+        db.query(models.SellerProfile)
+        .filter(models.SellerProfile.user_id == user_id)
+        .first()
+    )
 
-
-def update_seller_profile(db: Session, user_id: int, profile_in: schemas.SellerProfileCreate):
+def update_seller_profile(
+    db: Session,
+    user_id: int,
+    profile_in: schemas.SellerProfileCreate,
+) -> models.SellerProfile:
     profile = get_seller_profile(db, user_id)
 
     if not profile:
         profile = models.SellerProfile(
             user_id=user_id,
-            shop_name=profile_in.shop_name
+            shop_name=profile_in.shop_name,
         )
         db.add(profile)
     else:
@@ -55,67 +71,104 @@ def update_seller_profile(db: Session, user_id: int, profile_in: schemas.SellerP
     db.refresh(profile)
     return profile
 
-#product crud
-def create_product(db: Session, product: models.Product):
+#products crud
+def create_product(db: Session, product: models.Product) -> models.Product:
     db.add(product)
     db.commit()
     db.refresh(product)
     return product
 
 
-def get_products(db: Session):
-    return db.query(models.Product).all()
+def get_products(
+    db: Session,
+    skip: int = 0,
+    limit: int = 100,
+    category: str | None = None,
+) -> list[models.Product]:
+    q = db.query(models.Product)
+    if category:
+        q = q.filter(models.Product.category.ilike(f"%{category}%"))
+    return q.order_by(models.Product.id.desc()).offset(skip).limit(limit).all()
 
 
-def get_product_by_id(db: Session, id: int):
-    return db.query(models.Product).filter(models.Product.id == id).first()
+def get_product_by_id(db: Session, product_id: int) -> models.Product:
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
 
 
-def get_products_by_seller(db: Session, seller_id: int):
-    return db.query(models.Product).filter(models.Product.seller_id == seller_id).all()
+def get_products_by_seller(
+    db: Session,
+    seller_id: int,
+    skip: int = 0,
+    limit: int = 100,
+) -> list[models.Product]:
+    return (
+        db.query(models.Product)
+        .filter(models.Product.seller_id == seller_id)
+        .order_by(models.Product.id.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
-def update_product(db: Session, db_product: models.Product, update: schemas.ProductUpdate):
+def update_product(
+    db: Session,
+    db_product: models.Product,
+    update: schemas.ProductUpdate,
+) -> models.Product:
     for key, value in update.dict(exclude_unset=True).items():
         setattr(db_product, key, value)
 
-    # NEW: if category becomes grocery, expiry must exist
-    if db_product.category and "grocery" in db_product.category.lower() and not db_product.expiry_date:
-        raise HTTPException(400, "Grocery items must have expiry date")
+    if (
+        db_product.category
+        and "grocery" in db_product.category.lower()
+        and not db_product.expiry_date
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Expiry date is required for Grocery items",
+        )
 
     db.commit()
     db.refresh(db_product)
     return db_product
 
 
-def delete_product(db: Session, product: models.Product):
+def delete_product(db: Session, product: models.Product) -> None:
     db.delete(product)
     db.commit()
 
-
-#SERVICE CRUD
-def create_service(db: Session, service_in: schemas.ServiceCreate):
+#services crud
+def create_service(db: Session, service_in: schemas.ServiceCreate) -> models.Service:
     service = models.Service(
         type=service_in.type,
         name=service_in.name,
         cost=service_in.cost,
-        location=service_in.location
+        location=service_in.location,
     )
     db.add(service)
     db.commit()
     db.refresh(service)
     return service
 
-
-def get_services(db: Session):
-    return db.query(models.Service).all()
-
-
-def get_service_by_id(db: Session, id: int):
-    return db.query(models.Service).filter(models.Service.id == id).first()
+def get_services(db: Session, skip: int = 0, limit: int = 100) -> list[models.Service]:
+    return db.query(models.Service).offset(skip).limit(limit).all()
 
 
-def update_service(db: Session, db_service: models.Service, update: schemas.ServiceUpdate):
+def get_service_by_id(db: Session, service_id: int) -> models.Service:
+    service = db.query(models.Service).filter(models.Service.id == service_id).first()
+    if not service:
+        raise HTTPException(status_code=404, detail="Service not found")
+    return service
+
+def update_service(
+    db: Session,
+    db_service: models.Service,
+    update: schemas.ServiceUpdate,
+) -> models.Service:
     for key, value in update.dict(exclude_unset=True).items():
         setattr(db_service, key, value)
 
@@ -123,39 +176,73 @@ def update_service(db: Session, db_service: models.Service, update: schemas.Serv
     db.refresh(db_service)
     return db_service
 
-
-def delete_service(db: Session, service: models.Service):
+def delete_service(db: Session, service: models.Service) -> None:
     db.delete(service)
     db.commit()
 
-
-
-#ORDER CRUD
-def create_order(db: Session, order: models.Order):
+#orders
+def create_order(db: Session, order: models.Order) -> models.Order:
     db.add(order)
     db.commit()
     db.refresh(order)
     return order
 
 
-def get_orders(db: Session):
-    return db.query(models.Order).all()
-
-
-def get_orders_by_user(db: Session, user_id: int):
-    return db.query(models.Order).filter(models.Order.user_id == user_id).all()
-
-
-def get_orders_by_seller(db: Session, seller_id: int):
+def get_orders(db: Session, skip: int = 0, limit: int = 100) -> list[models.Order]:
     return (
         db.query(models.Order)
-        .join(models.Product, models.Order.product_id == models.Product.id)
-        .filter(models.Product.seller_id == seller_id)
+        .order_by(models.Order.id.desc())
+        .offset(skip)
+        .limit(limit)
         .all()
     )
 
 
-def update_order(db: Session, db_order: models.Order, update: schemas.OrderUpdate):
+def get_order_by_id(db: Session, order_id: int) -> models.Order:
+    order = db.query(models.Order).filter(models.Order.id == order_id).first()
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    return order
+
+
+def get_orders_by_user(
+    db: Session,
+    user_id: int,
+    skip: int = 0,
+    limit: int = 100,
+) -> list[models.Order]:
+    return (
+        db.query(models.Order)
+        .filter(models.Order.user_id == user_id)
+        .order_by(models.Order.id.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+
+
+def get_orders_by_seller(
+    db: Session,
+    seller_id: int,
+    skip: int = 0,
+    limit: int = 100,
+) -> list[models.Order]:
+    return (
+        db.query(models.Order)
+        .join(models.Product, models.Order.product_id == models.Product.id)
+        .filter(models.Product.seller_id == seller_id)
+        .order_by(models.Order.id.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+
+
+def update_order(
+    db: Session,
+    db_order: models.Order,
+    update: schemas.OrderUpdate,
+) -> models.Order:
     for key, value in update.dict(exclude_unset=True).items():
         setattr(db_order, key, value)
 
@@ -164,6 +251,6 @@ def update_order(db: Session, db_order: models.Order, update: schemas.OrderUpdat
     return db_order
 
 
-def delete_order(db: Session, db_order: models.Order):
+def delete_order(db: Session, db_order: models.Order) -> None:
     db.delete(db_order)
     db.commit()
