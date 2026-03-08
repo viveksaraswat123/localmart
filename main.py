@@ -22,6 +22,8 @@ import os
 import hashlib
 import hmac
 import base64
+import uvicorn
+
 
 from database import Base, engine, get_db
 import models
@@ -563,3 +565,6 @@ def delete_order(
     db.delete(order)
     db.commit()
     return {"message": "Order deleted successfully"}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)

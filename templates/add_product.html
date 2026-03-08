@@ -181,6 +181,9 @@
 </footer>
 
 <script>
+  const API_URL = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+              ? 'http://127.0.0.1:8000'
+              : 'https://localmart-c4c49ugxi-viveksaraswat123s-projects.vercel.app';
   function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
   document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open')));
 
@@ -238,7 +241,7 @@
     Array.from(fileInput.files).forEach(f => formData.append('image', f));
 
     try {
-      const res = await fetch('/products/', {
+      const res = await fetch(`${API_URL}/products/`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

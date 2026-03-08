@@ -323,6 +323,9 @@
   </div>
 
   <script>
+    const API_URL = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+                  ? 'http://127.0.0.1:8000'
+                  : 'https://localmart-c4c49ugxi-viveksaraswat123s-projects.vercel.app';
     /* ─── Role selection ─── */
     function selectRole(el) {
       document.querySelectorAll('.role-opt').forEach(b => b.classList.remove('selected'));
@@ -399,26 +402,28 @@
       setLoading(true);
 
       try {
-        const res  = await fetch('http://127.0.0.1:8000/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password, role })
-        });
-        const data = await res.json();
+  const res = await fetch(`${API_URL}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password, role })
+  });
 
-        if (!res.ok) {
-          showError(data.detail || 'Registration failed. Please try again.');
-          setLoading(false); return;
-        }
+  const data = await res.json();
 
-        showSuccess('Account created! Redirecting to login…');
-        setTimeout(() => { window.location.href = '/login'; }, 1000);
+  if (!res.ok) {
+    showError(data.detail || 'Registration failed.');
+    setLoading(false);
+    return;
+  }
 
-      } catch (err) {
-        console.error(err);
-        showError('Could not connect to the server. Please try again.');
-        setLoading(false);
-      }
+  showSuccess('Registration successful! Redirecting…');
+  setTimeout(() => window.location.href = '/login', 800);
+
+} catch (err) {
+  console.error(err);
+  showError('Could not connect to the server. Please try again.');
+  setLoading(false);
+}
     });
   </script>
 </body>

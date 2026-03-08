@@ -259,6 +259,9 @@
   </div>
 
   <script>
+    const API_URL = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+                  ? 'http://127.0.0.1:8000'
+                  : 'https://localmart-c4c49ugxi-viveksaraswat123s-projects.vercel.app';
     const form     = document.getElementById('loginForm');
     const btn      = document.getElementById('loginBtn');
     const errorMsg = document.getElementById('errorMsg');
@@ -313,10 +316,10 @@
       formData.append('password', password);
 
       try {
-        const res  = await fetch('http://127.0.0.1:8000/auth/login', {
-          method: 'POST',
-          body: formData
-        });
+        const res  = await fetch(`${API_URL}/auth/login`, {
+  method: 'POST',
+  body: formData
+});
         const data = await res.json();
 
         if (!res.ok) {
@@ -352,6 +355,7 @@
         clearMessages();
       });
     });
+    
   </script>
 </body>
 </html>

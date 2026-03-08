@@ -177,6 +177,10 @@
 </footer>
 
 <script>
+
+  const API_URL = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+              ? 'http://127.0.0.1:8000'
+              : 'https://localmart-c4c49ugxi-viveksaraswat123s-projects.vercel.app';
   function toggleMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
   }
@@ -205,7 +209,7 @@
   async function fetchProducts() {
     showSkeletons();
     try {
-      const res = await fetch('/products/');
+      const res = await fetch(`${API_URL}/products/`);
       if (!res.ok) throw new Error(`Server responded with ${res.status}`);
       allProducts = await res.json();
       render();
