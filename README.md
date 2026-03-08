@@ -1,155 +1,115 @@
-# LocalMart - A Smart Local Marketplace Platform
+# LocalMart
 
-**LocalMart** is a FastAPI-based local marketplace web application designed to digitally connect **local shopkeepers, service providers, and customers** on a single platform.  
-It empowers small businesses to go online while enabling customers to easily browse products, place orders, and book nearby professionals such as plumbers, electricians, and carpenters.
-
-> 🎯 **Objective:** Strengthen the local economy by providing a simple, scalable, and secure digital marketplace for local vendors and customers.
+A neighbourhood marketplace built with FastAPI. Connects local shopkeepers, service providers, and customers — no middlemen, no big platforms.
 
 ---
 
-## 🚀 Features
+## What it does
 
-### 🧑‍🤝‍🧑 User Management
-- Customer Registration & Login  
-- Seller / Vendor Registration & Login  
-- Secure authentication using **JWT**  
-- Role-based access (Customer & Seller)
+Customers can browse products, place orders, and book local professionals like plumbers and electricians. Sellers get their own dashboard to manage listings and track orders. Admins oversee everything from a single panel.
 
 ---
 
-### 🛒 Product Management
-- Add, update, and delete products  
-- View available stock in real time  
-- Track product expiry dates  
-- Product recommendations based on **season, time, and festivals**  
-- Integrated billing system with credit/debit management  
+## Stack
+
+- **Backend** — FastAPI, SQLAlchemy, PostgreSQL
+- **Auth** — JWT with role-based access (customer / seller / admin)
+- **Frontend** — HTML, CSS, Vanilla JS, Jinja2 templates
+- **Infra** — Docker, Docker Compose, deployable on Railway / Render
 
 ---
 
-### 🧰 Service Management
-- Book local professionals (electricians, plumbers, carpenters, etc.)  
-- Search services by **type and location**  
-- Easy booking and scheduling interface  
+## Project structure
 
----
-
-### 🚚 Delivery Management
-- Order placement and delivery scheduling  
-- Delivery tracking for customers  
-- Flexible delivery options based on requirements  
-
----
-
-### 📄 Static Pages
-- **About Us** page explaining platform vision  
-- **Contact Us** page for user support and queries  
-
----
-
-## 🏗️ Tech Stack
-
-| Component | Technology |
-|---------|------------|
-| Backend Framework | **FastAPI** |
-| Database | **SQLite (Development)** / SQLAlchemy ORM |
-| Authentication | **JWT (JSON Web Tokens)** |
-| Frontend | **HTML, CSS, JavaScript, Jinja2 Templates** |
-| API Schema & Validation | **Pydantic** |
-| Deployment Ready | ✅ Render / Railway / Heroku compatible |
-
-
-## 📂 Project Structure
 ```
-LocalMart/
-├── app/
-│ ├── main.py
-│ ├── core/
-│ │ ├── config.py
-│ │ └── security.py
-│ │
-│ ├── database/
-│ │ ├── session.py
-│ │ └── base.py
-│ │
-│ ├── models/
-│ │ ├── user.py
-│ │ ├── product.py
-│ │ └── service.py
-│ │
-│ ├── schemas/
-│ │ ├── user.py
-│ │ ├── product.py
-│ │ └── service.py
-│ │
-│ ├── crud/
-│ │ ├── user.py
-│ │ ├── product.py
-│ │ └── service.py
-│ │
-│ ├── api/
-│ │ └── v1/
-│ │ ├── auth.py
-│ │ ├── users.py
-│ │ ├── products.py
-│ │ └── services.py
-│ │
-│ ├── templates/
-│ │ ├── index.html
-│ │ ├── products.html
-│ │ ├── services.html
-│ │ ├── about.html
-│ │ └── contact.html
-│ │
-│ └── static/
-│ ├── css/
-│ ├── js/
-│ └── images/
-│
-├── tests/
+localmart/
+├── main.py
+├── models.py
+├── schemas.py
+├── database.py
+├── templates/
+│   ├── homepage.html
+│   ├── products.html
+│   ├── services.html
+│   ├── login.html
+│   ├── register.html
+│   ├── admin_dashboard.html
+│   └── seller_dashboard.html
+├── static/
+├── uploads/
+├── Dockerfile
+├── docker-compose.yml
 ├── requirements.txt
-├── .env
-└── README.md
+└── .env
 ```
 
 ---
 
-## 🔐 Authentication
-- JWT-based authentication implemented  
-- Secure login & protected routes  
-- Role-based authorization implemented  
+## Running locally
+
+**Without Docker:**
+```bash
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+**With Docker:**
+```bash
+docker compose up --build
+```
+
+The API will be at `http://localhost:8000` and the interactive docs at `http://localhost:8000/docs`.
 
 ---
 
-## 📈 Future Enhancements
-- Advanced product search and filtering  
-- Online payment gateway integration  
-- Migration to **PostgreSQL** for production  
-- Admin dashboard for monitoring users, orders, and services  
-- Notification system (Email / SMS)  
-- Cloud deployment with CI/CD pipeline  
+## Environment variables
+
+Create a `.env` file in the root:
+
+```
+DATABASE_URL=postgresql://postgres:password@localhost:5432/localmart
+SECRET_KEY=your-secret-key
+SECRET_HASH_KEY=your-hash-key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=60
+ALLOWED_ORIGINS=http://localhost:3000
+```
 
 ---
 
-## 🆕 Current Updates
-- ✅ JWT-based authentication added  
-- ✅ Login & registration implemented  
-- ✅ About Us and Contact Us pages created  
-- ✅ Improved project structure and documentation  
+## API overview
+
+| Method | Endpoint | Access |
+|--------|----------|--------|
+| POST | `/auth/register` | Public |
+| POST | `/auth/login` | Public |
+| GET | `/products/` | Public |
+| POST | `/products/` | Seller, Admin |
+| PUT | `/products/{id}` | Seller, Admin |
+| DELETE | `/products/{id}` | Seller, Admin |
+| GET | `/orders/` | Admin |
+| POST | `/orders/` | Customer |
+| PUT | `/orders/{id}` | Seller, Admin |
+| GET | `/services/` | Public |
+| POST | `/services/` | Admin |
 
 ---
 
-## 💡 Why LocalMart?
-## Why LocalMart?
+## Roles
 
-- Helps local shops and service providers go online easily  
-- Simple, fast, and secure platform built with FastAPI  
-- JWT-based authentication for safe user access  
-- Clean and modular code structure for easy maintenance  
-- Supports products, services, and delivery in one system  
-- Suitable for real-world use as well as learning projects  
-- Easy to scale and deploy for future growth  
-
+- **Customer** — browse products, place orders, manage profile
+- **Seller** — add and manage their own products, view orders
+- **Admin** — full access to users, sellers, products, orders, services
 
 ---
 
-⭐ *If you find this project useful, consider giving it a star on GitHub!*
+## Deployment
+
+Deployed on Railway with a managed PostgreSQL instance. Frontend on Vercel.
+
+To deploy your own copy:
+1. Push to GitHub
+2. Create a new project on [Railway](https://railway.app)
+3. Add a PostgreSQL plugin
+4. Set the environment variables from the table above
+5. Railway picks up the `Dockerfile` and builds automatically
