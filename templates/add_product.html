@@ -35,7 +35,6 @@
     main{flex:1;padding:40px 5vw 80px;display:flex;justify-content:center}
 
     .form-shell{width:100%;max-width:720px;display:flex;flex-direction:column;gap:0;border:1px solid var(--line);background:var(--paper)}
-
     .form-section-label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);padding:20px 28px 12px;border-bottom:1px solid var(--line);background:var(--bg)}
 
     .field-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--line)}
@@ -162,7 +161,7 @@
         <strong>Click to upload images</strong>
         <p>PNG, JPG, WebP — up to 5 MB each</p>
       </div>
-      <input type="file" id="fileInput" multiple accept="image/jpeg,image/png,image/webp" class="hidden" style="display:none"/>
+      <input type="file" id="fileInput" multiple accept="image/jpeg,image/png,image/webp" style="display:none"/>
       <div class="upload-count">Selected: <span id="fileCount">0</span> / min. 3 required</div>
       <div id="preview"></div>
     </div>
@@ -181,36 +180,62 @@
 </footer>
 
 <script>
-  const API_URL = ""; 
-  function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
-  document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open')));
+  const API_URL = "https://localmart-at7a.onrender.com";
 
-  const categorySelect = document.getElementById('categorySelect');
-  const expiryRow      = document.getElementById('expiryRow');
-  const fileInput      = document.getElementById('fileInput');
-  const dropTarget     = document.getElementById('dropTarget');
-  const preview        = document.getElementById('preview');
-  const fileCount      = document.getElementById('fileCount');
-  const banner         = document.getElementById('banner');
-  const submitBtn      = document.getElementById('submitBtn');
+  const categorySelect = document.getElementById("categorySelect");
+  const expiryRow      = document.getElementById("expiryRow");
+  const expiryInput    = document.querySelector("#expiryRow input");
+  const fileInput      = document.getElementById("fileInput");
+  const dropTarget     = document.getElementById("dropTarget");
+  const preview        = document.getElementById("preview");
+  const fileCount      = document.getElementById("fileCount");
+  const banner         = document.getElementById("banner");
+  const submitBtn      = document.getElementById("submitBtn");
 
-  categorySelect.addEventListener('change', () => {
-    expiryRow.style.display = categorySelect.value === 'grocery' ? 'grid' : 'none';
-    document.querySelector('#expiryRow input').required = categorySelect.value === 'grocery';
+  function toggleMenu() {
+    document.getElementById("mobileMenu").classList.toggle("open");
+  }
+
+  document.querySelectorAll("#mobileMenu a").forEach(a =>
+    a.addEventListener("click", () =>
+      document.getElementById("mobileMenu").classList.remove("open")
+    )
+  );
+
+  categorySelect.addEventListener("change", () => {
+    const isGrocery = categorySelect.value === "grocery";
+    expiryRow.style.display = isGrocery ? "grid" : "none";
+    expiryInput.required = isGrocery;
   });
 
-  ['dragover','dragenter'].forEach(e => dropTarget.addEventListener(e, ev => { ev.preventDefault(); dropTarget.classList.add('drag-over'); }));
-  ['dragleave','drop'].forEach(e => dropTarget.addEventListener(e, ev => { ev.preventDefault(); dropTarget.classList.remove('drag-over'); }));
-  dropTarget.addEventListener('drop', ev => { fileInput.files = ev.dataTransfer.files; renderPreviews(); });
-  fileInput.addEventListener('change', renderPreviews);
+  ["dragover", "dragenter"].forEach(ev =>
+    dropTarget.addEventListener(ev, e => {
+      e.preventDefault();
+      dropTarget.classList.add("drag-over");
+    })
+  );
+
+  ["dragleave", "drop"].forEach(ev =>
+    dropTarget.addEventListener(ev, e => {
+      e.preventDefault();
+      dropTarget.classList.remove("drag-over");
+    })
+  );
+
+  dropTarget.addEventListener("drop", e => {
+    fileInput.files = e.dataTransfer.files;
+    renderPreviews();
+  });
+
+  fileInput.addEventListener("change", renderPreviews);
 
   function renderPreviews() {
-    preview.innerHTML = '';
+    preview.innerHTML = "";
     fileCount.textContent = fileInput.files.length;
     Array.from(fileInput.files).forEach(f => {
-      const img = document.createElement('img');
+      const img = document.createElement("img");
       img.src = URL.createObjectURL(f);
-      img.className = 'preview-img';
+      img.className = "preview-img";
       preview.appendChild(img);
     });
   }
@@ -220,42 +245,49 @@
     banner.className = `banner ${type}`;
   }
 
-  document.getElementById('productForm').addEventListener('submit', async e => {
+  document.getElementById("productForm").addEventListener("submit", async e => {
     e.preventDefault();
-    banner.className = 'banner';
+    banner.className = "banner";
 
-    const token = localStorage.getItem('token');
-    if (!token) { window.location.href = '/login'; return; }
+    const token = localStorage.getItem("token");
+    if (!token) { window.location.href = "/login"; return; }
 
     if (fileInput.files.length < 3) {
-      showBanner('Upload at least 3 images.', 'error');
+      showBanner("Upload at least 3 images.", "error");
       return;
     }
 
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Publishing…';
+    submitBtn.textContent = "Publishing…";
 
     const formData = new FormData(e.target);
-    Array.from(fileInput.files).forEach(f => formData.append('image', f));
+    Array.from(fileInput.files).forEach(f => formData.append("image", f));
 
     try {
       const res = await fetch(`${API_URL}/products/`, {
-        method: 'POST',
+        method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
+
       const data = await res.json();
-      if (!res.ok) { showBanner(data.detail || 'Something went wrong.', 'error'); return; }
-      showBanner('Product published successfully.', 'success');
+
+      if (!res.ok) {
+        showBanner(data.detail || "Something went wrong.", "error");
+        return;
+      }
+
+      showBanner("Product published successfully.", "success");
       e.target.reset();
-      preview.innerHTML = '';
-      fileCount.textContent = '0';
-      expiryRow.style.display = 'none';
+      preview.innerHTML = "";
+      fileCount.textContent = "0";
+      expiryRow.style.display = "none";
+
     } catch {
-      showBanner('Could not reach the server. Try again.', 'error');
+      showBanner("Could not reach the server. Try again.", "error");
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Publish listing';
+      submitBtn.textContent = "Publish listing";
     }
   });
 </script>
