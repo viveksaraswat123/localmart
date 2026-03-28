@@ -6,26 +6,12 @@
   <title>Products | LocalMart</title>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
+    /* --- Keep your original CSS --- */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --ink: #111; --ink2: #444; --ink3: #888;
-      --line: #e5e5e5; --bg: #fafaf8; --paper: #fff; --accent: #c8622a;
-    }
+    :root { --ink: #111; --ink2: #444; --ink3: #888; --line: #e5e5e5; --bg: #fafaf8; --paper: #fff; --accent: #c8622a; }
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font-family: 'Geist', sans-serif; font-weight: 400;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh; display: flex; flex-direction: column;
-    }
-
-    nav {
-      position: fixed; inset: 0 0 auto 0; z-index: 99;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5vw; height: 58px;
-      background: rgba(250,250,248,0.92); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line);
-    }
+    body { background: var(--bg); color: var(--ink); font-family: 'Geist', sans-serif; font-weight: 400; -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column; }
+    nav { position: fixed; inset: 0 0 auto 0; z-index: 99; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 58px; background: rgba(250,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
     .logo { font-family: 'Instrument Serif', serif; font-size: 1.25rem; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
     .logo b { color: var(--accent); font-weight: 400; }
     .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
@@ -39,18 +25,12 @@
     .mobile-menu { display: none; position: fixed; inset: 58px 0 0 0; z-index: 98; background: var(--bg); padding: 32px 5vw; border-top: 1px solid var(--line); flex-direction: column; }
     .mobile-menu.open { display: flex; }
     .mobile-menu a { font-size: 1.05rem; color: var(--ink); text-decoration: none; padding: 18px 0; border-bottom: 1px solid var(--line); }
-
     .page-header { padding: calc(58px + 56px) 5vw 0; border-bottom: 1px solid var(--line); background: var(--paper); }
     .page-header-inner { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 24px; padding-bottom: 28px; }
     .page-tag { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink3); margin-bottom: 10px; }
     .page-header h1 { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
     .product-count { font-size: 0.82rem; color: var(--ink3); align-self: flex-end; padding-bottom: 4px; }
-
-    .filter-bar {
-      background: var(--paper); border-bottom: 1px solid var(--line);
-      padding: 14px 5vw; display: flex; align-items: center; gap: 12px;
-      flex-wrap: wrap; position: sticky; top: 58px; z-index: 10;
-    }
+    .filter-bar { background: var(--paper); border-bottom: 1px solid var(--line); padding: 14px 5vw; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; position: sticky; top: 58px; z-index: 10; }
     .search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 360px; }
     .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink3); font-size: 0.85rem; pointer-events: none; }
     #searchBar { width: 100%; padding: 10px 14px 10px 36px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; font-family: 'Geist', sans-serif; font-size: 0.85rem; color: var(--ink); outline: none; transition: border-color 0.2s; }
@@ -61,19 +41,13 @@
     .chip:hover { border-color: var(--ink); color: var(--ink); }
     .chip.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
     .sort-select { margin-left: auto; font-size: 0.78rem; color: var(--ink2); background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; font-family: 'Geist', sans-serif; cursor: pointer; outline: none; }
-
     main { flex: 1; padding: 36px 5vw 72px; }
-
     #productGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--line); background: var(--line); }
-
     .product-card { background: var(--paper); display: flex; flex-direction: column; cursor: pointer; transition: background 0.18s; position: relative; animation: fadeIn 0.4s ease both; }
     .product-card:hover { background: var(--bg); }
-    .product-card:hover .card-action { opacity: 1; transform: translateY(0); }
-
     .card-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
     .card-img-placeholder { width: 100%; aspect-ratio: 1/1; background: var(--bg); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--line); }
     .card-img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
-
     .card-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
     .card-cat { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 6px; }
     .card-name { font-family: 'Instrument Serif', serif; font-size: 1.05rem; font-weight: 400; line-height: 1.3; margin-bottom: 6px; color: var(--ink); }
@@ -84,38 +58,30 @@
     .card-badge.grocery { background: #f0faf0; border-color: #c3e6c3; color: #2d7a2d; }
     .card-badge.service { background: #f0f4ff; border-color: #c0cefd; color: #3355cc; }
     .card-badge.used    { background: #fff8f0; border-color: #f0d8b8; color: #8a5a20; }
-
     .card-action { position: absolute; bottom: 20px; right: 20px; opacity: 0; transform: translateY(6px); transition: opacity 0.2s, transform 0.2s; background: var(--ink); color: var(--bg); font-size: 0.75rem; font-weight: 500; padding: 8px 16px; border-radius: 100px; border: none; cursor: pointer; font-family: 'Geist', sans-serif; }
-
     .skeleton { background: var(--paper); display: flex; flex-direction: column; }
     .skel-img  { width: 100%; aspect-ratio: 1/1; background: var(--line); animation: pulse 1.4s ease infinite; }
     .skel-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 10px; }
     .skel-line { height: 12px; background: var(--line); border-radius: 4px; animation: pulse 1.4s ease infinite; }
     .skel-line.short { width: 45%; }
     .skel-line.long  { width: 85%; }
-
     .empty-state  { grid-column: 1/-1; background: var(--paper); padding: 80px 40px; text-align: center; }
     .empty-state h3 { font-family: 'Instrument Serif', serif; font-size: 1.5rem; font-weight: 400; color: var(--ink2); }
     .empty-state p  { font-size: 0.9rem; color: var(--ink3); margin-top: 10px; }
-
     .error-banner { grid-column: 1/-1; background: var(--paper); padding: 60px 40px; text-align: center; }
     .error-banner h3 { font-family: 'Instrument Serif', serif; font-size: 1.3rem; font-weight: 400; color: var(--ink2); }
     .error-banner p  { font-size: 0.85rem; color: #c0392b; margin-top: 8px; }
     .retry-btn { margin-top: 18px; display: inline-block; font-size: 0.8rem; padding: 8px 22px; border: 1px solid var(--line); border-radius: 100px; cursor: pointer; background: none; font-family: 'Geist', sans-serif; color: var(--ink2); transition: all 0.15s; }
     .retry-btn:hover { border-color: var(--ink); color: var(--ink); }
-
     footer { border-top: 1px solid var(--line); padding: 24px 5vw; background: var(--paper); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 0.78rem; color: var(--ink3); }
-
     @media (max-width: 1100px) { #productGrid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 768px)  { .nav-links { display: none; } .burger { display: flex; } #productGrid { grid-template-columns: repeat(2, 1fr); } .sort-select { margin-left: 0; } }
     @media (max-width: 480px)  { #productGrid { grid-template-columns: 1fr; } .page-header-inner { flex-direction: column; align-items: flex-start; gap: 8px; } }
-
     @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
     @keyframes pulse  { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
   </style>
 </head>
 <body>
-
 <nav>
   <a class="logo" href="/">Local<b>Mart</b></a>
   <ul class="nav-links">
@@ -125,9 +91,7 @@
     <li><a href="/services">Services</a></li>
     <li><a href="/login" class="nav-login">Login</a></li>
   </ul>
-  <button class="burger" onclick="toggleMenu()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="burger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
@@ -177,11 +141,14 @@
 </footer>
 
 <script>
-  const API_URL = ""; 
+  // 🔹 Set your backend Render URL here
+  const API_URL = "https://localmart-at7a.onrender.com" || "http://127.0.0.1:8000/";
+
+
   function toggleMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
   }
-  document.querySelectorAll('#mobileMenu a').forEach(a =>
+  document.querySelectorAll('#mobileMenu a').forEach(a => 
     a.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'))
   );
 
@@ -209,6 +176,13 @@
       const res = await fetch(`${API_URL}/products/`);
       if (!res.ok) throw new Error(`Server responded with ${res.status}`);
       allProducts = await res.json();
+
+      // Ensure image_url is absolute
+      allProducts = allProducts.map(p => ({
+        ...p,
+        image_url: p.image_url.startsWith('http') ? p.image_url : `${API_URL}/uploads/${p.image_url}`
+      }));
+
       render();
     } catch (err) {
       document.getElementById('productGrid').innerHTML = `
