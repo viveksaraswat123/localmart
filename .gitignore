@@ -8,3 +8,4 @@ __pycache__/
 .gitignore
 node_modules/
 .env.docker
+uploads

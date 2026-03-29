@@ -12,10 +12,10 @@ Customers can browse products, place orders, and book local professionals like p
 
 ## Stack
 
-- **Backend** — FastAPI, SQLAlchemy, PostgreSQL
-- **Auth** — JWT with role-based access (customer / seller / admin)
-- **Frontend** — HTML, CSS, Vanilla JS, Jinja2 templates
-- **Infra** — Docker, Docker Compose, deployable on Railway / Render
+- **Backend** - FastAPI, SQLAlchemy, PostgreSQL
+- **Auth** - JWT with role-based access (customer / seller / admin)
+- **Frontend** - HTML, CSS, Vanilla JS, Jinja2 templates
+- **Infra** - Docker, Docker Compose, deployable on Railway / Render
 
 ---
 
@@ -113,3 +113,4 @@ To deploy your own copy:
 3. Add a PostgreSQL plugin
 4. Set the environment variables from the table above
 5. Railway picks up the `Dockerfile` and builds automatically
+

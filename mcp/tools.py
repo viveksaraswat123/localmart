@@ -1,14 +1,12 @@
 import requests
 from .config import BASE_URL
 
-
-# TOOL 1 – List Products
+#TOOL 1: List Products
 def list_products():
     response = requests.get(f"{BASE_URL}/products/")
     return response.json()
 
-
-# TOOL 2 – Check Stock
+#TOOL 2: Check Stock
 def check_stock(product_id: int):
     response = requests.get(f"{BASE_URL}/products/{product_id}")
 
@@ -23,7 +21,7 @@ def check_stock(product_id: int):
     }
 
 
-# TOOL 3 – Expiring Products
+#TOOL 3: Expiring Products
 def expiring_products():
     response = requests.get(f"{BASE_URL}/products/")
 
@@ -41,7 +39,7 @@ def expiring_products():
     return expiring
 
 
-# TOOL 4 – Create Order
+# TOOL 4: Create Order
 def create_order(token: str, product_id: int, quantity: int):
 
     headers = {
@@ -61,8 +59,7 @@ def create_order(token: str, product_id: int, quantity: int):
 
     return response.json()
 
-
-# TOOL 5 – My Orders
+# TOOL 5: My Orders
 def my_orders(token: str):
 
     headers = {
@@ -73,5 +70,4 @@ def my_orders(token: str):
         f"{BASE_URL}/orders/my",
         headers=headers
     )
-
     return response.json()

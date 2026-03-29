@@ -21,10 +21,9 @@ if DATABASE_URL.startswith("postgres://"):
 #database engine
 engine = create_engine(
     DATABASE_URL,
-    pool_size=5,
-    max_overflow=10,
     pool_pre_ping=True,
     pool_recycle=300,
+    connect_args={"sslmode": "require"},
 )
 
 #session factory
