@@ -1,21 +1,39 @@
 # LocalMart
 
-A neighbourhood marketplace built with FastAPI. Connects local shopkeepers, service providers, and customers — no middlemen, no big platforms.
+A neighbourhood marketplace API - shopkeepers list products and services, customers order directly, no commission-taking middleman platform in between.
+
+**Live:** https://localmart-at7a.onrender.com 
+**Docs:** https://localmart-at7a.onrender.com/docs
 
 ---
 
 ## What it does
 
-Customers can browse products, place orders, and book local professionals like plumbers and electricians. Sellers get their own dashboard to manage listings and track orders. Admins oversee everything from a single panel.
+- Customers browse products and local services (plumbers, electricians, etc.) and place orders
+- Sellers get a dashboard to list products, manage stock, and track incoming orders
+- Admins have a full panel over users, sellers, products, orders, and services
+- Product images go through Cloudinary instead of being stored on the server
+- Role is set at signup and drives everything downstream - registering as a `seller` auto-creates a seller profile row, `customer` gets a customer profile, both tied 1:1 to the user via SQLAlchemy relationships with cascade delete
+
+---
+
+## The MCP layer
+
+`mcp/` wraps the core API as a small set of tools an AI agent can call directly - `list_products`, `check_stock`, `expiring_products`, `create_order`, `my_orders` - instead of the agent having to know REST conventions or auth headers by hand. It's a thin FastAPI app that proxies to the main API (see `mcp/tools.py`), which made it easy to bolt on without touching the core marketplace logic. Right now it's mostly a way to explore how an agent would actually operate a store — check stock, act on expiring inventory, place an order — through tool calls instead of a UI.
 
 ---
 
 ## Stack
 
-- **Backend** - FastAPI, SQLAlchemy, PostgreSQL
-- **Auth** - JWT with role-based access (customer / seller / admin)
-- **Frontend** - HTML, CSS, Vanilla JS, Jinja2 templates
-- **Infra** - Docker, Docker Compose, deployable on Railway / Render
+| Layer | Choice | Why |
+|---|---|---|
+| Backend | FastAPI + SQLAlchemy | typed models, async-ready, good OpenAPI docs for free |
+| DB | PostgreSQL (Supabase) | free managed Postgres, no server to babysit |
+| Auth | JWT + OAuth2PasswordBearer | role (`customer` / `seller` / `admin`) baked into the token |
+| Images | Cloudinary | didn't want to manage file storage/CDN myself |
+| Frontend | Jinja2 templates + vanilla JS | server-rendered, no build step |
+| Deployment | Render (API) + Vercel (static frontend) | both have workable free tiers |
+| Migrations | Alembic | schema changes tracked instead of `create_all()` drift |
 
 ---
 
@@ -23,24 +41,21 @@ Customers can browse products, place orders, and book local professionals like p
 
 ```
 localmart/
-├── main.py
-├── models.py
-├── schemas.py
-├── database.py
-├── templates/
-│   ├── homepage.html
-│   ├── products.html
-│   ├── services.html
-│   ├── login.html
-│   ├── register.html
-│   ├── admin_dashboard.html
-│   └── seller_dashboard.html
+├── main.py            # routes
+├── models.py           # SQLAlchemy models (User, Product, Order, Service, profiles)
+├── schemas.py          # Pydantic request/response schemas
+├── database.py         # engine + session
+├── alembic/             # migrations
+├── mcp/
+│   ├── mcp_server.py    # MCP FastAPI app, tool registry
+│   ├── tools.py         # tool implementations (proxy calls to main API)
+│   └── config.py
+├── templates/            # Jinja2 pages (homepage, dashboards, auth)
 ├── static/
 ├── uploads/
 ├── Dockerfile
 ├── docker-compose.yml
-├── requirements.txt
-└── .env
+└── requirements.txt
 ```
 
 ---
@@ -58,13 +73,9 @@ uvicorn main:app --reload
 docker compose up --build
 ```
 
-The API will be at `http://localhost:8000` and the interactive docs at `http://localhost:8000/docs`.
+API at `http://localhost:8000`, interactive docs at `/docs`.
 
----
-
-## Environment variables
-
-Create a `.env` file in the root:
+### Environment variables
 
 ```
 DATABASE_URL=postgresql://postgres:password@localhost:5432/localmart
@@ -73,6 +84,9 @@ SECRET_HASH_KEY=your-hash-key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=60
 ALLOWED_ORIGINS=http://localhost:3000
+CLOUDINARY_CLOUD_NAME=...
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
 ```
 
 ---
@@ -80,37 +94,41 @@ ALLOWED_ORIGINS=http://localhost:3000
 ## API overview
 
 | Method | Endpoint | Access |
-|--------|----------|--------|
+|---|---|---|
 | POST | `/auth/register` | Public |
 | POST | `/auth/login` | Public |
 | GET | `/products/` | Public |
-| POST | `/products/` | Seller, Admin |
-| PUT | `/products/{id}` | Seller, Admin |
-| DELETE | `/products/{id}` | Seller, Admin |
-| GET | `/orders/` | Admin |
-| POST | `/orders/` | Customer |
-| PUT | `/orders/{id}` | Seller, Admin |
+| POST / PUT / DELETE | `/products/` | Seller, Admin |
 | GET | `/services/` | Public |
-| POST | `/services/` | Admin |
+| POST / PUT / DELETE | `/services/` | Admin |
+| POST | `/orders/` | Customer |
+| GET | `/orders/my` | Customer |
+| GET | `/orders/seller/my` | Seller |
+| GET | `/orders/` | Admin |
+
+Full schema and try-it-out console at `/docs`.
 
 ---
 
-## Roles
+## Deployment notes
 
-- **Customer** — browse products, place orders, manage profile
-- **Seller** — add and manage their own products, view orders
-- **Admin** — full access to users, sellers, products, orders, services
+Running split: API on Render, Postgres on Supabase. A couple of things that weren't obvious the first time:
+
+- Render needs `sslmode=require` on the Supabase connection string or the engine refuses to connect
+- `ALLOWED_ORIGINS` has to explicitly list every frontend origin (Vercel preview URLs included) — wildcard CORS doesn't play well with credentialed requests here
+- Product images are uploaded straight to Cloudinary from the request handler, so `uploads/` is only used as a local dev fallback, not in production
 
 ---
 
-## Deployment
+## Known limitations
 
-Deployed on Railway with a managed PostgreSQL instance. Frontend on Vercel.
+- No payment integration yet - orders are recorded, not paid for
+- No test suite
+- MCP tools call the REST API over HTTP rather than hitting the DB directly, so they inherit the same auth/rate limits as a normal client - fine for now, adds latency if this grows
 
-To deploy your own copy:
-1. Push to GitHub
-2. Create a new project on [Railway](https://railway.app)
-3. Add a PostgreSQL plugin
-4. Set the environment variables from the table above
-5. Railway picks up the `Dockerfile` and builds automatically
+---
 
+## Author
+
+**Vivek Saraswat**
+[LinkedIn](https://www.linkedin.com/in/saraswat-vivek) · [GitHub](https://github.com/viveksaraswat123)
